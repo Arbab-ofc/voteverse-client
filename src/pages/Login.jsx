@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import { useAuth } from '../context/AuthContext';
@@ -9,6 +10,8 @@ const Login = () => {
   const { fetchUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ email: '', password: '' });
+
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -39,11 +42,12 @@ const Login = () => {
       if (message === 'Invalid credentials') return toast.error('Invalid credentials');
       if (message === 'Token generation failed') return toast.error('Token generation failed');
 
-      toast.success('Login successful');
       await fetchUser();
+      toast.success('Login successful');
+      
 
       setTimeout(() => {
-        window.location.href = '/dashboard';
+        navigate('/');
       }, 1000);
     } catch (error) {
       toast.error('Server error');
