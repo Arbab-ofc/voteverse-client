@@ -24,7 +24,7 @@ const Footer = () => {
 
         <div className="flex gap-6 text-2xl">
           <a
-            href="https://github.com/your-github"
+            href="https://github.com/Arbab-ofc"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-400 transition-colors duration-300"
@@ -32,13 +32,13 @@ const Footer = () => {
             <FaGithub className="hover:text-purple-500" />
           </a>
           <a
-            href="mailto:yourmail@example.com"
+            href="arbababby111@gmail.com"
             className="hover:text-gray-400 transition-colors duration-300"
           >
             <MdEmail className="hover:text-red-500" />
           </a>
           <a
-            href="https://linkedin.com/in/your-linkedin"
+            href="https://www.linkedin.com/in/arbab-arshad-0b2961326/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-gray-400 transition-colors duration-300"
