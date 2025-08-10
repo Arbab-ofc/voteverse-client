@@ -44,7 +44,7 @@ const Login = () => {
 
       setTimeout(() => {
         window.location.href = '/dashboard';
-      }, 2000);
+      }, 1000);
     } catch (error) {
       toast.error('Server error');
     }
