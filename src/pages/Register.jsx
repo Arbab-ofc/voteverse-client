@@ -27,7 +27,7 @@ const Register = () => {
 
     try {
       await axios.post(
-        'http://localhost:3000/api/users/register',
+        'https://voteverse-server.onrender.com/api/users/register',
         { name, email, password },
         { withCredentials: true }
       );

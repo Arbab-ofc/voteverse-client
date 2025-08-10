@@ -27,7 +27,7 @@ const OtpVerification = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:3000/api/users/verify-otp',
+        'https://voteverse-server.onrender.com/api/users/verify-otp',
         { email, otp },
         { withCredentials: true }
       );

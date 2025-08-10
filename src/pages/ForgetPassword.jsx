@@ -15,7 +15,7 @@ const ForgetPassword = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/forget",
+        "https://voteverse-server.onrender.com/api/users/forget",
         { email }
       );
 

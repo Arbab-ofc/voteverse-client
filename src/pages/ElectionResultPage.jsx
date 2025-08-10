@@ -45,7 +45,7 @@ const ElectionResultPage = () => {
   const fetchResult = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/elections/result/${electionId}`,
+        `https://voteverse-server.onrender.com/api/elections/result/${electionId}`,
         { withCredentials: true }
       );
 

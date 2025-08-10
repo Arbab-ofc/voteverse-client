@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get('http://localhost:3000/api/users/profile', {
+      const { data } = await axios.get('https://voteverse-server.onrender.com/api/users/profile', {
         withCredentials: true, 
       });
 

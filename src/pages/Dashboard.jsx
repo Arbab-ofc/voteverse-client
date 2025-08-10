@@ -15,8 +15,8 @@ const Dashboard = () => {
     const fetchElections = async () => {
       try {
         const [myRes, allRes] = await Promise.all([
-          axios.get('http://localhost:3000/api/elections/my', { withCredentials: true }),
-          axios.get('http://localhost:3000/api/elections/all', { withCredentials: true }),
+          axios.get('https://voteverse-server.onrender.com/api/elections/my', { withCredentials: true }),
+          axios.get('https://voteverse-server.onrender.com/api/elections/all', { withCredentials: true }),
         ]);
         console.log('My Elections:', myRes.data);
         console.log('All Elections:', allRes.data);

@@ -21,7 +21,7 @@ export default function AddCandidatePage() {
     setIsSubmitting(true);
     try {
       const res = await axios.post(
-        'http://localhost:3000/api/candidates/add-candidate',
+        'https://voteverse-server.onrender.com/api/candidates/add-candidate',
         { ...formData, electionId },
         { withCredentials: true }
       );

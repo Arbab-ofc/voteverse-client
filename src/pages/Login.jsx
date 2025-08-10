@@ -26,7 +26,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        'http://localhost:3000/api/users/login',
+        'https://voteverse-server.onrender.com/api/users/login',
         { email, password },
         { withCredentials: true }
       );

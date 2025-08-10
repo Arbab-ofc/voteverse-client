@@ -18,7 +18,7 @@ const ElectionDetailedCard = () => {
     }
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/api/elections/id/${electionId}`, { withCredentials: true });
+        const res = await axios.get(`https://voteverse-server.onrender.com/api/elections/id/${electionId}`, { withCredentials: true });
         if (res.data.success) {
           setElection(res.data.election);
         } else {

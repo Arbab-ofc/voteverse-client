@@ -32,7 +32,7 @@ const ElectionEndPage = () => {
     const fetchElection = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/elections/id/${electionId}`,
+          `https://voteverse-server.onrender.com/api/elections/id/${electionId}`,
           { withCredentials: true }
         );
         setElection(res.data.election);
@@ -53,7 +53,7 @@ const ElectionEndPage = () => {
     setEnding(true);
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/elections/end/${electionId}`,
+        `https://voteverse-server.onrender.com/api/elections/end/${electionId}`,
         {},
         { withCredentials: true }
       );

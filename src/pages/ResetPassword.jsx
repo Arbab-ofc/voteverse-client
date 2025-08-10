@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/users/reset-password",
+        "https://voteverse-server.onrender.com/api/users/reset-password",
         {
           email,
           otp: formData.otp,
