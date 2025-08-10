@@ -1,0 +1,29 @@
+@keyframes floatUpDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.auto-scroll > * {
+  animation: floatUpDown 3s ease-in-out infinite;
+}
+
+
+@media (max-width: 1024px) {
+  .election-stack {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 1rem;
+  }
+
+  .election-stack > * {
+    min-width: 250px;
+    scroll-snap-align: start;
+    margin-right: 1rem;
+    animation: none; 
+  }
+}
