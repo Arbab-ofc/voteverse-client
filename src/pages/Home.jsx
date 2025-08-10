@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCheckCircle } from 'react-icons/fa';
 import TestimonialsSlider from '../components/TestimonialsSlider';
+import { useNavigate } from 'react-router-dom';
 
 const features = [
   'Secure & Transparent Voting',
@@ -34,6 +35,10 @@ const faqs = [
 ];
 
 const Home = () => {
+  const navigate = useNavigate();
+  const handleGetStarted = () => {
+    navigate('/register');
+  };
   return (
     <div className="overflow-x-hidden">
 
@@ -56,7 +61,7 @@ const Home = () => {
           Revolutionizing digital voting with security, transparency, and ease.
         </motion.p>
         <motion.a
-          href="/register"
+          onClick={handleGetStarted}
           whileHover={{ scale: 1.05 }}
           className="inline-block bg-yellow-400 text-black font-semibold py-3 px-6 rounded-md shadow-md"
         >
