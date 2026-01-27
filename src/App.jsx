@@ -11,12 +11,9 @@ import NotFound from './pages/NotFound';
 import OtpVerification from './pages/OtpVerification';
 import { useAuth } from './context/AuthContext';
 import CreateElection from './pages/CreateElection';
-import AddCandidatePage from './pages/AddCandidatePage';
 import CandidateList from './pages/CandidateList';
-import DeleteElectionCard from './pages/DeleteElectionCard';
 import UpdateElection from './pages/UpdateElection';
-import CandidateRemovePage from './pages/CandidateRemovePage';
-import ElectionEndPage from './pages/ElectionEndPage';
+import ManageElection from './pages/ManageElection';
 import ElectionResultPage from './pages/ElectionResultPage';
 import MyProfile from './pages/MyProfile';
 import ChangePassword from './pages/ChangePassword';
@@ -42,12 +39,9 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
             <Route path="/create-election" element={<CreateElection />} />
-            <Route path="/add-candidate" element={<AddCandidatePage />} />
             <Route path="/candidates" element={<CandidateList />} />
-            <Route path="/delete-election" element={<DeleteElectionCard />} />
             <Route path="/update-election" element={<UpdateElection />} />
-            <Route path="/remove-candidate" element={<CandidateRemovePage />} />
-            <Route path="/end-election" element={<ElectionEndPage />} />
+            <Route path="/manage-election" element={<ManageElection />} />
             <Route path="/election-result" element={<ElectionResultPage />} />
             <Route path="/my-profile" element={<MyProfile />} />
             <Route path="/change-password" element={<ChangePassword />} />
