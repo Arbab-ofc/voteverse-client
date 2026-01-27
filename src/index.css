@@ -49,11 +49,20 @@ body {
   padding: 14px 16px;
 }
 
+.Toastify__toast-theme--colored {
+  background: #ffffff !important;
+  color: var(--vv-ink) !important;
+}
+
 .Toastify__toast-body {
   font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   font-size: 0.95rem;
   line-height: 1.3;
   margin: 0;
+}
+
+.Toastify__toast-theme--colored .Toastify__toast-body {
+  color: var(--vv-ink);
 }
 
 .Toastify__close-button {
