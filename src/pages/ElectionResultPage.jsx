@@ -248,7 +248,7 @@ const ElectionResultPage = () => {
         fontFamily: "Instrument Sans, sans-serif",
         sparkline: { enabled: false },
       },
-      legend: { show: true },
+      legend: { show: false },
       dataLabels: { enabled: false },
       stroke: { curve: "smooth", width: 3 },
       markers: { size: 2 },
