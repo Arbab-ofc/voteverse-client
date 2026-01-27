@@ -3,16 +3,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { FaCalendarAlt, FaIdBadge, FaTrophy } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid,
-  Cell,
-} from "recharts";
+import Chart from "react-apexcharts";
 import "react-toastify/dist/ReactToastify.css";
 
 const ElectionResultPage = () => {
@@ -67,14 +58,57 @@ const ElectionResultPage = () => {
     });
   };
 
-  const chartData = useMemo(
-    () =>
-      result.map((item) => ({
-        name: item.candidate.name,
-        votes: item.votes,
-        id: item.candidate._id,
-      })),
-    [result]
+  const chartData = useMemo(() => {
+    const labels = result.map((item) => item.candidate.name);
+    const data = result.map((item) => item.votes);
+    const winnerId = winner?.candidate?._id;
+    const colors = result.map((item) =>
+      item.candidate._id === winnerId ? "#F3C969" : "#101826"
+    );
+
+    return { labels, data, colors };
+  }, [result, winner]);
+
+  const chartOptions = useMemo(
+    () => ({
+      chart: {
+        type: "bar",
+        toolbar: { show: false },
+        fontFamily: "Instrument Sans, sans-serif",
+      },
+      plotOptions: {
+        bar: {
+          horizontal: true,
+          borderRadius: 10,
+          barHeight: "70%",
+        },
+      },
+      dataLabels: {
+        enabled: true,
+        style: { colors: ["#111827"], fontWeight: 600 },
+      },
+      xaxis: {
+        categories: chartData.labels,
+        labels: { style: { colors: "#6B7280" } },
+      },
+      yaxis: {
+        labels: { style: { colors: "#111827" } },
+      },
+      grid: { borderColor: "#E5E7EB" },
+      tooltip: { theme: "light" },
+      colors: chartData.colors,
+    }),
+    [chartData]
+  );
+
+  const chartSeries = useMemo(
+    () => [
+      {
+        name: "Votes",
+        data: chartData.data,
+      },
+    ],
+    [chartData]
   );
 
   if (loading) {
@@ -148,34 +182,7 @@ const ElectionResultPage = () => {
               </span>
             </div>
             <div className="mt-6 h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 30 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                  <XAxis type="number" tick={{ fill: "#6B7280", fontSize: 12 }} />
-                  <YAxis
-                    type="category"
-                    dataKey="name"
-                    tick={{ fill: "#111827", fontSize: 12 }}
-                    width={120}
-                  />
-                  <Tooltip
-                    cursor={{ fill: "rgba(17,24,39,0.06)" }}
-                    contentStyle={{ borderRadius: 12, borderColor: "#E5E7EB" }}
-                  />
-                  <Bar dataKey="votes" radius={[12, 12, 12, 12]}>
-                    {chartData.map((entry) => (
-                      <Cell
-                        key={entry.id}
-                        fill={
-                          winner && entry.id === winner.candidate._id
-                            ? "#F3C969"
-                            : "#101826"
-                        }
-                      />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+              <Chart options={chartOptions} series={chartSeries} type="bar" height="100%" />
             </div>
           </div>
 
