@@ -210,16 +210,6 @@ const ElectionResultPage = () => {
     return sortedResult.reduce((max, item) => Math.max(max, item.votes), 1);
   }, [sortedResult]);
 
-  const trendSeries = useMemo(
-    () => [
-      {
-        name: "Total votes",
-        data: trend,
-      },
-    ],
-    [trend]
-  );
-
   const candidateTrendSeries = useMemo(() => {
     const ids = Object.keys(candidateTrends);
     if (!ids.length) {
@@ -262,32 +252,11 @@ const ElectionResultPage = () => {
         opacity: 0.25,
         color: "#101826",
       },
-      colors: ["#101826"],
+      colors: ["#101826", "#F3C969", "#7BD5C2", "#FF6B3D", "#6B7280", "#7C5CFF"],
       xaxis: { type: "datetime", labels: { show: true } },
       yaxis: { labels: { show: true }, min: 0 },
       grid: { show: true },
       tooltip: { enabled: true },
-    }),
-    []
-  );
-
-  const candidateTrendOptions = useMemo(
-    () => ({
-      chart: {
-        type: "line",
-        toolbar: { show: false },
-        sparkline: { enabled: true },
-        fontFamily: "Instrument Sans, sans-serif",
-      },
-      legend: { show: false },
-      dataLabels: { enabled: false },
-      stroke: { curve: "smooth", width: 2 },
-      markers: { size: 0 },
-      grid: { show: false },
-      tooltip: { enabled: false },
-      xaxis: { type: "datetime", labels: { show: false } },
-      yaxis: { labels: { show: false } },
-      colors: ["#101826", "#F3C969", "#7BD5C2", "#FF6B3D", "#6B7280"],
     }),
     []
   );
@@ -455,16 +424,7 @@ const ElectionResultPage = () => {
               </span>
             </div>
             <div className="mt-6 h-80">
-              <Chart options={trendOptions} series={trendSeries} type="line" height="100%" />
-            </div>
-            <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
-              <p className="font-semibold text-[var(--vv-ink)]">Candidate activity lines</p>
-              <p className="mt-1 text-xs text-[var(--vv-ink-2)]/70">
-                Lines show relative activity only. No vote counts are revealed during live elections.
-              </p>
-              <div className="mt-4 h-28">
-                <Chart options={candidateTrendOptions} series={candidateTrendSeries} type="line" height="100%" />
-              </div>
+              <Chart options={trendOptions} series={candidateTrendSeries} type="line" height="100%" />
             </div>
             <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
               <p className="font-semibold text-[var(--vv-ink)]">Winner spotlight</p>
