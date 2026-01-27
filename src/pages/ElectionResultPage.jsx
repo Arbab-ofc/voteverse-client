@@ -247,7 +247,7 @@ const ElectionResultPage = () => {
         stacked: true,
         toolbar: { show: false },
         fontFamily: "Instrument Sans, sans-serif",
-        sparkline: { enabled: true },
+        sparkline: { enabled: false },
       },
       legend: { show: false },
       dataLabels: { enabled: false },
@@ -263,10 +263,10 @@ const ElectionResultPage = () => {
         color: "#101826",
       },
       colors: ["#101826"],
-      xaxis: { type: "datetime", labels: { show: false } },
-      yaxis: { labels: { show: false }, min: 0 },
-      grid: { show: false },
-      tooltip: { enabled: false },
+      xaxis: { type: "datetime", labels: { show: true } },
+      yaxis: { labels: { show: true }, min: 0 },
+      grid: { show: true },
+      tooltip: { enabled: true },
     }),
     []
   );
