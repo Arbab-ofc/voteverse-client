@@ -11,8 +11,23 @@ const AdminPortal = () => {
   const [users, setUsers] = useState([]);
   const [elections, setElections] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [loadingData, setLoadingData] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [loadingElections, setLoadingElections] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(true);
   const [actionKey, setActionKey] = useState("");
+  const [userSearch, setUserSearch] = useState("");
+  const [userPage, setUserPage] = useState(1);
+  const [userPages, setUserPages] = useState(1);
+  const [userTotal, setUserTotal] = useState(0);
+  const [electionSearch, setElectionSearch] = useState("");
+  const [electionPage, setElectionPage] = useState(1);
+  const [electionPages, setElectionPages] = useState(1);
+  const [electionTotal, setElectionTotal] = useState(0);
+  const [messageSearch, setMessageSearch] = useState("");
+  const [messagePage, setMessagePage] = useState(1);
+  const [messagePages, setMessagePages] = useState(1);
+  const [messageTotal, setMessageTotal] = useState(0);
+  const pageSize = 6;
 
   if (loading) {
     return (
@@ -47,26 +62,69 @@ const AdminPortal = () => {
 
   useEffect(() => {
     if (!user?.isAdmin) return;
-    const loadAdminData = async () => {
+    const loadUsers = async () => {
       try {
-        setLoadingData(true);
-        const [userRes, electionRes, messageRes] = await Promise.all([
-          axios.get("/api/admin/users", { withCredentials: true }),
-          axios.get("/api/admin/elections", { withCredentials: true }),
-          axios.get("/api/admin/contact-messages", { withCredentials: true }),
-        ]);
-        setUsers(userRes.data.users || []);
-        setElections(electionRes.data.elections || []);
-        setMessages(messageRes.data.messages || []);
+        setLoadingUsers(true);
+        const res = await axios.get("/api/admin/users", {
+          withCredentials: true,
+          params: { page: userPage, limit: pageSize, search: userSearch || undefined },
+        });
+        setUsers(res.data.users || []);
+        setUserPages(res.data.pages || 1);
+        setUserTotal(res.data.total || 0);
       } catch (error) {
-        toast.error(error.response?.data?.message || "Failed to load admin data");
+        toast.error(error.response?.data?.message || "Failed to load users");
       } finally {
-        setLoadingData(false);
+        setLoadingUsers(false);
       }
     };
 
-    loadAdminData();
-  }, [user]);
+    loadUsers();
+  }, [user, userPage, userSearch]);
+
+  useEffect(() => {
+    if (!user?.isAdmin) return;
+    const loadElections = async () => {
+      try {
+        setLoadingElections(true);
+        const res = await axios.get("/api/admin/elections", {
+          withCredentials: true,
+          params: { page: electionPage, limit: pageSize, search: electionSearch || undefined },
+        });
+        setElections(res.data.elections || []);
+        setElectionPages(res.data.pages || 1);
+        setElectionTotal(res.data.total || 0);
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Failed to load elections");
+      } finally {
+        setLoadingElections(false);
+      }
+    };
+
+    loadElections();
+  }, [user, electionPage, electionSearch]);
+
+  useEffect(() => {
+    if (!user?.isAdmin) return;
+    const loadMessages = async () => {
+      try {
+        setLoadingMessages(true);
+        const res = await axios.get("/api/admin/contact-messages", {
+          withCredentials: true,
+          params: { page: messagePage, limit: pageSize, search: messageSearch || undefined },
+        });
+        setMessages(res.data.messages || []);
+        setMessagePages(res.data.pages || 1);
+        setMessageTotal(res.data.total || 0);
+      } catch (error) {
+        toast.error(error.response?.data?.message || "Failed to load messages");
+      } finally {
+        setLoadingMessages(false);
+      }
+    };
+
+    loadMessages();
+  }, [user, messagePage, messageSearch]);
 
   const handleVerify = async (userId) => {
     try {
@@ -99,9 +157,40 @@ const AdminPortal = () => {
       setActionKey(`delete-${electionId}`);
       await axios.delete(`/api/admin/elections/${electionId}`, { withCredentials: true });
       setElections((prev) => prev.filter((item) => item._id !== electionId));
+      setElectionTotal((prev) => Math.max(prev - 1, 0));
       toast.success("Election deleted");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to delete election");
+    } finally {
+      setActionKey("");
+    }
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (!window.confirm("Delete this user? This cannot be undone.")) return;
+    try {
+      setActionKey(`delete-user-${userId}`);
+      await axios.delete(`/api/admin/users/${userId}`, { withCredentials: true });
+      setUsers((prev) => prev.filter((item) => item._id !== userId));
+      setUserTotal((prev) => Math.max(prev - 1, 0));
+      toast.success("User deleted");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete user");
+    } finally {
+      setActionKey("");
+    }
+  };
+
+  const handleDeleteMessage = async (messageId) => {
+    if (!window.confirm("Delete this message?")) return;
+    try {
+      setActionKey(`delete-message-${messageId}`);
+      await axios.delete(`/api/admin/contact-messages/${messageId}`, { withCredentials: true });
+      setMessages((prev) => prev.filter((item) => item._id !== messageId));
+      setMessageTotal((prev) => Math.max(prev - 1, 0));
+      toast.success("Message deleted");
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Failed to delete message");
     } finally {
       setActionKey("");
     }
@@ -140,17 +229,51 @@ const AdminPortal = () => {
                 </div>
               </div>
               <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70">
-                {users.length} users
+                {userTotal} users
               </span>
             </div>
 
+            <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <input
+                type="text"
+                value={userSearch}
+                onChange={(e) => {
+                  setUserSearch(e.target.value);
+                  setUserPage(1);
+                }}
+                placeholder="Search users by name or email"
+                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+              />
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setUserPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={userPage <= 1}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Prev
+                </button>
+                <span className="text-xs font-semibold text-[var(--vv-ink-2)]/70">
+                  Page {userPage} of {userPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setUserPage((prev) => Math.min(prev + 1, userPages))}
+                  disabled={userPage >= userPages}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
             <div className="mt-6 grid gap-4">
-              {loadingData && (
+              {loadingUsers && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   Loading users...
                 </div>
               )}
-              {!loadingData && users.length === 0 && (
+              {!loadingUsers && users.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   No users found.
                 </div>
@@ -191,6 +314,15 @@ const AdminPortal = () => {
                       <Crown className="h-4 w-4" />
                       Promote
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteUser(item._id)}
+                      disabled={actionKey === `delete-user-${item._id}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))}
@@ -218,18 +350,52 @@ const AdminPortal = () => {
                   Add election
                 </Link>
                 <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-2 text-xs font-semibold text-[var(--vv-ink-2)]/70">
-                  {elections.length} elections
+                  {electionTotal} elections
                 </span>
               </div>
             </div>
 
+            <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <input
+                type="text"
+                value={electionSearch}
+                onChange={(e) => {
+                  setElectionSearch(e.target.value);
+                  setElectionPage(1);
+                }}
+                placeholder="Search elections by title"
+                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+              />
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setElectionPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={electionPage <= 1}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Prev
+                </button>
+                <span className="text-xs font-semibold text-[var(--vv-ink-2)]/70">
+                  Page {electionPage} of {electionPages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setElectionPage((prev) => Math.min(prev + 1, electionPages))}
+                  disabled={electionPage >= electionPages}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
             <div className="mt-6 grid gap-4">
-              {loadingData && (
+              {loadingElections && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   Loading elections...
                 </div>
               )}
-              {!loadingData && elections.length === 0 && (
+              {!loadingElections && elections.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   No elections found.
                 </div>
@@ -273,17 +439,51 @@ const AdminPortal = () => {
                 </div>
               </div>
               <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70">
-                {messages.length} messages
+                {messageTotal} messages
               </span>
             </div>
 
+            <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <input
+                type="text"
+                value={messageSearch}
+                onChange={(e) => {
+                  setMessageSearch(e.target.value);
+                  setMessagePage(1);
+                }}
+                placeholder="Search messages"
+                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+              />
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setMessagePage((prev) => Math.max(prev - 1, 1))}
+                  disabled={messagePage <= 1}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Prev
+                </button>
+                <span className="text-xs font-semibold text-[var(--vv-ink-2)]/70">
+                  Page {messagePage} of {messagePages}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setMessagePage((prev) => Math.min(prev + 1, messagePages))}
+                  disabled={messagePage >= messagePages}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+
             <div className="mt-6 grid gap-4">
-              {loadingData && (
+              {loadingMessages && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   Loading messages...
                 </div>
               )}
-              {!loadingData && messages.length === 0 && (
+              {!loadingMessages && messages.length === 0 && (
                 <div className="rounded-2xl border border-dashed border-black/10 p-4 text-sm text-[var(--vv-ink-2)]/70">
                   No contact messages.
                 </div>
@@ -295,9 +495,20 @@ const AdminPortal = () => {
                       <p className="text-sm font-semibold text-[var(--vv-ink)]">{item.name}</p>
                       <p className="text-xs text-[var(--vv-ink-2)]/70">{item.email}</p>
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/60">
-                      {new Date(item.createdAt).toLocaleDateString()}
-                    </span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/60">
+                        {new Date(item.createdAt).toLocaleDateString()}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteMessage(item._id)}
+                        disabled={actionKey === `delete-message-${item._id}`}
+                        className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        Delete
+                      </button>
+                    </div>
                   </div>
                   <p className="mt-3 text-sm text-[var(--vv-ink-2)]/80">{item.message}</p>
                 </div>
