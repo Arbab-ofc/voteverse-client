@@ -51,15 +51,15 @@ const ElectionResultPage = () => {
           });
           const now = new Date();
           const seed = [
-            { x: now.toISOString(), y: 0 },
-            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
+            { x: now.toISOString(), y: 0.05 },
+            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0.1 },
           ];
           const initialCandidateTrends = {};
           const candidatesSource = (res.data.election?.candidates || []).map((c) => ({ candidate: c }));
           const trendSource = (res.data.result || []).length ? res.data.result : candidatesSource;
           trendSource.forEach((item, idx) => {
             if (item?.candidate?._id) {
-              const offset = (idx + 1) * 0.1;
+              const offset = (idx + 1) * 0.15;
               initialCandidateTrends[item.candidate._id] = seed.map((point) => ({
                 ...point,
                 y: point.y + offset,
@@ -99,13 +99,13 @@ const ElectionResultPage = () => {
                 ];
               });
               const seed = [
-                { x: new Date().toISOString(), y: 0 },
-                { x: new Date(Date.now() + 60 * 1000).toISOString(), y: 0 },
+                { x: new Date().toISOString(), y: 0.05 },
+                { x: new Date(Date.now() + 60 * 1000).toISOString(), y: 0.1 },
               ];
               const fallbackTrends = {};
               fallbackCandidates.forEach((candidate, idx) => {
                 if (candidate?._id) {
-                  const offset = (idx + 1) * 0.1;
+                  const offset = (idx + 1) * 0.15;
                   fallbackTrends[candidate._id] = seed.map((point) => ({
                     ...point,
                     y: point.y + offset,
@@ -175,10 +175,13 @@ const ElectionResultPage = () => {
         setCandidateTrends((prev) => {
           const next = { ...prev };
           const existing = next[payload.candidateId] || [];
-          const offset = ((candidateIndexMap[payload.candidateId] ?? 0) + 1) * 0.1;
+          const offset = ((candidateIndexMap[payload.candidateId] ?? 0) + 1) * 0.15;
           next[payload.candidateId] = [
             ...existing,
-            { x: payload.votedAt || new Date().toISOString(), y: payload.voteCount + offset },
+            {
+              x: payload.votedAt || new Date().toISOString(),
+              y: Math.log1p(payload.voteCount) + offset,
+            },
           ];
           return next;
         });
@@ -225,8 +228,8 @@ const ElectionResultPage = () => {
         {
           name: "Candidate",
           data: [
-            { x: now.toISOString(), y: 0.1 },
-            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0.1 },
+            { x: now.toISOString(), y: 0.2 },
+            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0.25 },
           ],
         },
       ];
@@ -264,7 +267,7 @@ const ElectionResultPage = () => {
         sparkline: { enabled: true },
         fontFamily: "Instrument Sans, sans-serif",
       },
-      stroke: { curve: "straight", width: 2 },
+      stroke: { curve: "smooth", width: 2 },
       markers: { size: 0 },
       grid: { show: false },
       tooltip: { enabled: false },
