@@ -3,6 +3,7 @@ import axios from 'axios';
 import MyElectionCard from '../components/MyElectionCard';
 import ElectionCard from '../components/ElectionCard';
 import { useNavigate } from 'react-router-dom';
+import socket from '../lib/socket';
 
 const Dashboard = () => {
   const [myElections, setMyElections] = useState([]);
@@ -16,8 +17,13 @@ const Dashboard = () => {
           axios.get('/api/elections/my', { withCredentials: true }),
           axios.get('/api/elections/all', { withCredentials: true }),
         ]);
-        setMyElections(myRes.data.elections || []);
-        setAllElections(allRes.data.elections || []);
+        const withVotes = (elections) =>
+          (elections || []).map((election) => ({
+            ...election,
+            liveVotes: election.voters?.length ?? 0,
+          }));
+        setMyElections(withVotes(myRes.data.elections));
+        setAllElections(withVotes(allRes.data.elections));
       } catch (error) {
         console.error('❌ Error fetching elections:', error);
       }
@@ -26,10 +32,46 @@ const Dashboard = () => {
     fetchElections();
   }, []);
 
+  useEffect(() => {
+    const ids = new Set([
+      ...myElections.map((election) => election._id),
+      ...allElections.map((election) => election._id),
+    ]);
+    ids.forEach((id) => socket.emit('join-election', id));
+
+    const handleVoteUpdate = (payload) => {
+      const { electionId, totalVotes } = payload;
+      setMyElections((prev) =>
+        prev.map((election) =>
+          election._id === electionId
+            ? { ...election, liveVotes: totalVotes }
+            : election
+        )
+      );
+      setAllElections((prev) =>
+        prev.map((election) =>
+          election._id === electionId
+            ? { ...election, liveVotes: totalVotes }
+            : election
+        )
+      );
+    };
+
+    socket.on('vote-updated', handleVoteUpdate);
+    return () => {
+      socket.off('vote-updated', handleVoteUpdate);
+    };
+  }, [myElections, allElections]);
+
+  const totalLiveVotes = allElections.reduce(
+    (sum, election) => sum + (election.liveVotes ?? 0),
+    0
+  );
+
   const stats = [
     { label: 'My elections', value: myElections.length },
     { label: 'All elections', value: allElections.length },
-    { label: 'Ready to launch', value: myElections.length > 0 ? 'Yes' : 'Create' },
+    { label: 'Live votes', value: totalLiveVotes },
   ];
 
   return (

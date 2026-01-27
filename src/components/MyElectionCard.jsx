@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 
 const MyElectionCard = ({ election }) => {
   const { title, startDate, endDate, createdBy, isActive } = election;
+  const liveVotes = election.liveVotes ?? election.voters?.length ?? 0;
   const navigate = useNavigate();
 
   const formatDate = (date) =>
@@ -48,7 +49,7 @@ const MyElectionCard = ({ election }) => {
         </button>
       </div>
 
-      <div className="mt-4 flex items-center gap-2 text-xs font-semibold">
+      <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold">
         <span
           className={`inline-flex items-center gap-2 rounded-full px-3 py-1 ${
             isActive
@@ -58,6 +59,9 @@ const MyElectionCard = ({ election }) => {
         >
           {isActive ? <FaCheckCircle /> : <FaTimesCircle />}
           {isActive ? 'Active' : 'Ended'}
+        </span>
+        <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-[var(--vv-ink)]">
+          Live votes: {liveVotes}
         </span>
       </div>
 

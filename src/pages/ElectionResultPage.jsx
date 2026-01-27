@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { FaCalendarAlt, FaIdBadge, FaTrophy, FaCrown } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import Chart from "react-apexcharts";
+import socket from "../lib/socket";
 import "react-toastify/dist/ReactToastify.css";
 
 const ElectionResultPage = () => {
@@ -45,6 +46,31 @@ const ElectionResultPage = () => {
     };
 
     fetchResult();
+  }, [electionId]);
+
+  useEffect(() => {
+    if (!electionId) return;
+
+    socket.emit("join-election", electionId);
+
+    const handleVoteUpdate = (payload) => {
+      if (payload.electionId !== electionId) return;
+      setResult((prev) => {
+        const next = prev.map((item) =>
+          item.candidate._id === payload.candidateId
+            ? { ...item, votes: payload.voteCount }
+            : item
+        );
+        const sorted = [...next].sort((a, b) => b.votes - a.votes);
+        setWinner(sorted[0] || null);
+        return next;
+      });
+    };
+
+    socket.on("vote-updated", handleVoteUpdate);
+    return () => {
+      socket.off("vote-updated", handleVoteUpdate);
+    };
   }, [electionId]);
 
   const formatDate = (dateStr) => {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ElectionCard = ({ election }) => {
   const { title, startDate, endDate, createdBy } = election;
+  const liveVotes = election.liveVotes ?? election.voters?.length ?? 0;
   const navigate = useNavigate();
 
   const formatDate = (date) =>
@@ -46,16 +47,21 @@ const ElectionCard = ({ election }) => {
             Created by <span className="font-semibold">{createdBy?.name || 'Unknown'}</span>
           </p>
         </div>
-        <span
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
-            isActive
-              ? 'bg-[var(--vv-sage)]/30 text-[var(--vv-ink)]'
-              : 'bg-black/10 text-[var(--vv-ink-2)]/70'
-          }`}
-        >
-          {isActive ? <FaCheckCircle /> : <FaTimesCircle />}
-          {isActive ? 'Active' : 'Closed'}
-        </span>
+        <div className="flex flex-col items-end gap-2 text-xs font-semibold">
+          <span
+            className={`inline-flex items-center gap-2 rounded-full px-3 py-1 ${
+              isActive
+                ? 'bg-[var(--vv-sage)]/30 text-[var(--vv-ink)]'
+                : 'bg-black/10 text-[var(--vv-ink-2)]/70'
+            }`}
+          >
+            {isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+            {isActive ? 'Active' : 'Closed'}
+          </span>
+          <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-[var(--vv-ink)]">
+            Live votes: {liveVotes}
+          </span>
+        </div>
       </div>
 
       <div className="mt-4 grid gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-xs text-[var(--vv-ink-2)]/70">
