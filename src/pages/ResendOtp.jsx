@@ -19,7 +19,7 @@ const ResendOtp = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        'https://voteverse-server.onrender.com/api/users/resend-otp',
+        '/api/users/resend-otp',
         { email },
         { withCredentials: true }
       );

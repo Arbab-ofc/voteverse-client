@@ -32,7 +32,7 @@ const UpdateElection = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`https://voteverse-server.onrender.com/api/elections/id/${electionId}`, {
+        const res = await axios.get(`/api/elections/id/${electionId}`, {
           withCredentials: true,
         });
         const election = res.data.election;
@@ -80,7 +80,7 @@ const UpdateElection = () => {
       if (form.endDate) payload.endDate = form.endDate;
       if (form.candidates.length) payload.candidates = form.candidates;
 
-      await axios.put(`https://voteverse-server.onrender.com/api/elections/${electionId}`, payload, {
+      await axios.put(`/api/elections/${electionId}`, payload, {
         withCredentials: true,
       });
 

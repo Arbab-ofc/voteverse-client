@@ -22,7 +22,7 @@ const CandidateList = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`https://voteverse-server.onrender.com/api/elections/id/${electionId}`, {
+        const res = await axios.get(`/api/elections/id/${electionId}`, {
           withCredentials: true,
         });
         setElection(res.data.election);
@@ -46,7 +46,7 @@ const CandidateList = () => {
 
     try {
       const res = await axios.post(
-        "https://voteverse-server.onrender.com/api/votes/vote-candidate",
+        "/api/votes/vote-candidate",
         { electionId, candidateId },
         { withCredentials: true }
       );

@@ -29,7 +29,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        'https://voteverse-server.onrender.com/api/users/login',
+        '/api/users/login',
         { email, password },
         { withCredentials: true }
       );

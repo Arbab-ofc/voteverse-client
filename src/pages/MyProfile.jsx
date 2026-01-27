@@ -14,7 +14,7 @@ const MyProfile = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("https://voteverse-server.onrender.com/api/users/profile", {
+        const res = await axios.get("/api/users/profile", {
           withCredentials: true,
         });
         setUser(res.data);

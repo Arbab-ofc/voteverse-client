@@ -15,7 +15,7 @@ const ChangePassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "https://voteverse-server.onrender.com/api/users/change-password",
+        "/api/users/change-password",
         { oldPassword, newPassword, confirmPassword },
         { withCredentials: true }
       );

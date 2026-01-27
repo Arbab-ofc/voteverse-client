@@ -35,7 +35,7 @@ const CreateElection = () => {
 
     try {
       const { data } = await axios.post(
-        'https://voteverse-server.onrender.com/api/elections/create-election',
+        '/api/elections/create-election',
         formData,
         { withCredentials: true } 
       );

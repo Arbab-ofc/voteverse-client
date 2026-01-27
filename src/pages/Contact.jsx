@@ -25,7 +25,7 @@ const Contact = () => {
 
     try {
       const { data } = await axios.post(
-        "https://voteverse-server.onrender.com/api/contact",
+        "/api/contact",
         formData
       );
       if (data?.success) {

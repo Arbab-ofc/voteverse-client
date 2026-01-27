@@ -36,7 +36,7 @@ const CandidateRemovePage = () => {
     const fetchElection = async () => {
       try {
         const res = await axios.get(
-          `https://voteverse-server.onrender.com/api/elections/id/${electionId}`,
+          `/api/elections/id/${electionId}`,
           { withCredentials: true }
         );
         const election = res.data.election;
@@ -71,7 +71,7 @@ const CandidateRemovePage = () => {
 
     try {
       const res = await axios.delete(
-  `https://voteverse-server.onrender.com/api/elections/${electionId}/candidates/${candidateToRemove._id}`,
+  `/api/elections/${electionId}/candidates/${candidateToRemove._id}`,
   {
     data: { candidateId: candidateToRemove._id , electionId: electionId },
     withCredentials: true,

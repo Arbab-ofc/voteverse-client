@@ -22,7 +22,7 @@ const Header = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("https://voteverse-server.onrender.com/api/users/logout", {}, { withCredentials: true });
+      await axios.post("/api/users/logout", {}, { withCredentials: true });
       setUser(null);
       toast.success("Logged out successfully");
       navigate("/login");
