@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa';
-import { toast, ToastContainer } from 'react-toastify';
-import { useAuth } from '../context/AuthContext';
-import axios from 'axios';
-import 'react-toastify/dist/ReactToastify.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash, FaEnvelope, FaLock } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const { fetchUser } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({ email: "", password: "" });
 
   const navigate = useNavigate();
 
@@ -25,82 +25,78 @@ const Login = () => {
     e.preventDefault();
     const { email, password } = formData;
 
-    if (!email || !password) return toast.error('Email and password are required');
+    if (!email || !password) return toast.error("Email and password are required");
 
     try {
       const res = await axios.post(
-        '/api/users/login',
+        "/api/users/login",
         { email, password },
         { withCredentials: true }
       );
 
       const message = res?.data?.message;
-      console.log('Login response:', res.data.message);
 
-      if (message === 'User not found') return toast.error('User not found');
-      if (message === 'Email not verified') return toast.error('Please verify your email before logging in');
-      if (message === 'Invalid credentials') return toast.error('Invalid credentials');
-      if (message === 'Token generation failed') return toast.error('Token generation failed');
+      if (message === "User not found") return toast.error("User not found");
+      if (message === "Email not verified") return toast.error("Please verify your email before logging in");
+      if (message === "Invalid credentials") return toast.error("Invalid credentials");
+      if (message === "Token generation failed") return toast.error("Token generation failed");
 
       await fetchUser();
-      toast.success('Login successful');
-      
+      toast.success("Login successful");
 
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 1000);
     } catch (error) {
-      toast.error('Server error');
+      toast.error("Server error");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-r from-white via-gray-200 to-gray-100 text-white-800">
+    <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-20 pt-28 text-[var(--vv-ink)]">
+      <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Welcome back</p>
+          <h1 className="font-display mt-3 text-4xl font-semibold">Sign in to VoteVerse</h1>
+          <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
+            Continue to your elections dashboard and manage voting in seconds.
+          </p>
+          <div className="mt-8 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm text-[var(--vv-ink-2)]/70">
+            Tip: Keep your account secure and avoid sharing your credentials.
+          </div>
+        </div>
 
-      
-      <div className="hidden md:flex w-full md:w-1/2 flex-col items-center justify-center text-white p-8 space-y-6 bg-gradient-to-r from-black via-gray-900 to-black">
-        <h1 className="text-4xl font-bold tracking-wider text-white">Welcome Back</h1>
-        <p className="text-lg text-center max-w-md text-white-800">
-          Login to continue your journey with VoteVerse.
-        </p>
-      </div>
-
-      
-      <div className="w-full md:w-1/2 flex flex-1 items-center justify-center px-4 py-12 bg-gradient-to-r from-black via-gray-900 to-black">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-xl p-6">
-          <h2 className="text-3xl font-bold text-gray-800 text-center mb-6 tracking-wide">
-            Login to Account
-          </h2>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <h2 className="font-display text-2xl font-semibold">Login</h2>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div className="relative">
+              <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--vv-ink-2)]/60" />
               <input
                 type="email"
                 name="email"
-                placeholder="Email Address"
+                placeholder="Email address"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full px-4 py-2 pl-10 border border-gray-300 rounded-md bg-gray-100 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-700 hover:border-black"
+                className="w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] py-3 pl-11 pr-4 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
                 required
               />
-              <FaEnvelope className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-600" />
             </div>
 
             <div className="relative">
+              <FaLock className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--vv-ink-2)]/60" />
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2 pl-10 pr-10 border border-gray-300 rounded-md bg-gray-100 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-700 hover:border-black"
+                className="w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] py-3 pl-11 pr-12 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
                 required
               />
-              <FaLock className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-600" />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className="absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-600 hover:text-black"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--vv-ink-2)]/60"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -108,32 +104,26 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition-all"
+              className="w-full rounded-full bg-[var(--vv-ink)] py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
             >
               Login
             </button>
           </form>
 
-          <p className="mt-4 text-center text-gray-700 text-sm">
-            Don’t have an account?{' '}
-            <a
-              href="/register"
-              className="text-black font-semibold hover:underline transition-all"
-            >
-              Register here
-            </a>
-          </p>
-
-          
-          <p className="mt-2 text-center text-gray-700 text-sm">
-            Forgot your password?{' '}
-            <a
-              href="/forgot-password"
-              className="text-black font-semibold hover:underline transition-all"
-            >
-              Reset here
-            </a>
-          </p>
+          <div className="mt-6 text-sm text-[var(--vv-ink-2)]/70">
+            <p>
+              Don’t have an account?{" "}
+              <a href="/register" className="font-semibold text-[var(--vv-ink)] hover:underline">
+                Register here
+              </a>
+            </p>
+            <p className="mt-2">
+              Forgot your password?{" "}
+              <a href="/forgot-password" className="font-semibold text-[var(--vv-ink)] hover:underline">
+                Reset here
+              </a>
+            </p>
+          </div>
         </div>
       </div>
 
