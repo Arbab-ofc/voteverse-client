@@ -165,12 +165,19 @@ const ElectionResultPage = () => {
   const stripApexForeignObject = useCallback((chartContext) => {
     const root = chartContext?.el;
     if (!root) return;
-    root.querySelectorAll("foreignObject").forEach((node) => {
-      if (node.querySelector("style")) {
-        node.remove();
-      }
-    });
-    root.querySelectorAll(".apexcharts-legend").forEach((node) => node.remove());
+    const cleanup = () => {
+      root.querySelectorAll("foreignObject").forEach((node) => {
+        if (node.querySelector("style")) {
+          node.remove();
+        }
+      });
+      root.querySelectorAll(".apexcharts-legend").forEach((node) => node.remove());
+    };
+    cleanup();
+    if (root.dataset.apexCleaned === "1") return;
+    root.dataset.apexCleaned = "1";
+    const observer = new MutationObserver(() => cleanup());
+    observer.observe(root, { childList: true, subtree: true });
   }, []);
 
   useEffect(() => {
