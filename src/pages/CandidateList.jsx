@@ -139,38 +139,66 @@ const CandidateList = () => {
         )}
 
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {candidates.map((candidate) => (
+          {candidates.map((candidate, index) => {
+            const initial = candidate.name?.trim()?.[0]?.toUpperCase() || "C";
+            return (
             <div
               key={candidate._id}
-              className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5"
+              className="group relative overflow-hidden rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5"
             >
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Candidate</p>
-                  <h3 className="font-display mt-2 text-lg font-semibold text-[var(--vv-ink)]">
-                    {candidate.name}
-                  </h3>
-                </div>
-                <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] p-2 text-[var(--vv-ink)]">
-                  <FaUser />
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-[var(--vv-ember)]/10 blur-2xl" />
+              <div className="absolute -bottom-16 -left-6 h-28 w-28 rounded-full bg-[var(--vv-ink)]/5 blur-2xl" />
+
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[10px] uppercase tracking-[0.25em] text-[var(--vv-ember)]">
+                  Candidate {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-[10px] font-semibold text-[var(--vv-ink-2)]/70">
+                  {isBeforeStart ? "Upcoming" : "Live"}
                 </span>
               </div>
-              <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
+
+              <div className="mt-4 flex items-center gap-4">
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--vv-ink)] text-xl font-semibold text-white shadow-lg shadow-black/15">
+                  {initial}
+                </div>
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-[var(--vv-ink)]">
+                    {candidate.name}
+                  </h3>
+                  <p className="text-xs uppercase tracking-[0.22em] text-[var(--vv-ink-2)]/70">
+                    Civic leader
+                  </p>
+                </div>
+              </div>
+
+              <p className="mt-4 text-sm text-[var(--vv-ink-2)]/80">
                 {candidate.bio || "No bio provided."}
               </p>
+
+              <div className="mt-6 flex items-center justify-between text-xs text-[var(--vv-ink-2)]/70">
+                <span className="inline-flex items-center gap-2">
+                  <FaUser className="text-[var(--vv-ember)]" />
+                  Ready for votes
+                </span>
+                <span className="rounded-full border border-black/10 bg-white px-3 py-1 font-semibold text-[var(--vv-ink)]">
+                  #{String(index + 1).padStart(2, "0")}
+                </span>
+              </div>
               <button
                 onClick={() => handleVote(electionId, candidate._id)}
                 disabled={isBeforeStart || (election?.isPasswordProtected && !votePassword)}
                 className={`mt-6 flex w-full items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
                   isBeforeStart || (election?.isPasswordProtected && !votePassword)
                     ? "cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50"
-                    : "bg-[var(--vv-ink)] text-white shadow-lg shadow-black/20 hover:-translate-y-0.5"
+                    : "bg-[var(--vv-ink)] text-white shadow-lg shadow-black/20 hover:-translate-y-0.5 group-hover:shadow-black/30"
                 }`}
               >
                 <FaVoteYea /> {isBeforeStart ? "Voting not started" : "Cast vote"}
               </button>
             </div>
-          ))}
+          );
+          })}
         </div>
       </div>
 
