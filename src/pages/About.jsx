@@ -3,53 +3,71 @@ import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 const About = () => {
-  const coreValues = [
-    "Transparency",
-    "Security",
-    "Empowerment",
-    "Integrity",
-    "Innovation",
+  const values = [
+    { title: "Transparency", body: "Every action is tracked with auditable proof." },
+    { title: "Security", body: "Encryption-first workflows keep ballots safe." },
+    { title: "Empowerment", body: "Voters stay informed at every stage." },
+    { title: "Integrity", body: "Clear outcomes with verifiable trails." },
+    { title: "Innovation", body: "Modern UX for serious civic work." },
   ];
 
-  const techStack = [
-    "React",
-    "Node.js",
-    "Express",
-    "MongoDB",
-    "Tailwind CSS",
+  const milestones = [
+    { year: "2023", label: "Idea to prototype with verified vote flows." },
+    { year: "2024", label: "Scaled to pilot programs and audit tooling." },
+    { year: "2025", label: "Public launch with real-time reporting." },
+    { year: "2026", label: "Trusted by growing communities worldwide." },
   ];
 
-  const stats = [
-    { label: "Launch Year", value: "2025" },
-    { label: "Votes Cast", value: "+10K" },
-    { label: "Uptime", value: "99.9%" },
-    { label: "Organizations", value: "50+" },
-  ];
+  const techStack = ["React", "Node.js", "Express", "MongoDB", "Tailwind CSS"];
 
   const sectionVariants = {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 30 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
     <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
       <section className="mx-auto max-w-6xl">
-        <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">About VoteVerse</p>
-        <h1 className="font-display mt-3 text-4xl font-semibold md:text-5xl">
-          The modern standard for transparent elections.
-        </h1>
-        <p className="mt-5 max-w-3xl text-base text-[var(--vv-ink-2)]/75">
-          VoteVerse is built to make every election feel calm, secure, and easy to trust. We combine strong verification,
-          real-time results, and accessible interfaces for teams and communities that want confidence over chaos.
-        </p>
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="rounded-3xl border border-black/10 bg-white px-6 py-5 shadow-xl shadow-black/5">
-              <div className="font-display text-2xl font-semibold">{stat.value}</div>
-              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">{stat.label}</p>
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">About VoteVerse</p>
+            <h1 className="font-display mt-3 text-4xl font-semibold md:text-5xl">
+              Built for elections that feel calm, clear, and trusted.
+            </h1>
+            <p className="mt-5 text-base text-[var(--vv-ink-2)]/75">
+              VoteVerse exists to remove uncertainty from digital voting. We combine verified identity, real-time results,
+              and thoughtful UX so organizers can run transparent elections without friction.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
-          ))}
+          </div>
+
+          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10">
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Impact snapshot</p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {[
+                { label: "Votes Cast", value: "+10K" },
+                { label: "Uptime", value: "99.9%" },
+                { label: "Org Partners", value: "50+" },
+                { label: "Avg Vote Time", value: "38s" },
+              ].map((stat) => (
+                <div key={stat.label} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4">
+                  <p className="font-display text-xl font-semibold">{stat.value}</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -60,37 +78,16 @@ const About = () => {
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10">
-            <h2 className="font-display text-3xl font-semibold">Our mission</h2>
-            <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
-              We empower every voter to participate confidently from anywhere. Our platform prioritizes transparency
-              without sacrificing usability, so elections stay credible and human.
-            </p>
-            <div className="mt-6 grid gap-4 sm:grid-cols-2">
-              {[
-                "End-to-end encrypted voting",
-                "Real-time results with audit trails",
-                "Inclusive design for every device",
-                "Instant communication with voters",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm">
-                  {item}
-                </div>
-              ))}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {values.map((value) => (
+            <div
+              key={value.title}
+              className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl shadow-black/5"
+            >
+              <h3 className="font-display text-xl font-semibold">{value.title}</h3>
+              <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">{value.body}</p>
             </div>
-          </div>
-
-          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
-            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Our principles</p>
-            <div className="mt-6 grid gap-3">
-              {coreValues.map((value) => (
-                <div key={value} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
-                  {value}
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </motion.section>
 
@@ -101,24 +98,15 @@ const About = () => {
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Technology</p>
-              <h2 className="font-display mt-3 text-3xl font-semibold">Built on a trusted stack</h2>
-            </div>
-            <p className="max-w-lg text-sm text-[var(--vv-ink-2)]/75">
-              We rely on proven tools to keep VoteVerse fast, reliable, and secure while scaling for large elections.
-            </p>
-          </div>
-          <div className="mt-6 flex flex-wrap gap-3">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold text-[var(--vv-ink)]"
-              >
-                {tech}
-              </span>
+        <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Our journey</p>
+          <h2 className="font-display mt-3 text-3xl font-semibold">From concept to trusted platform.</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {milestones.map((milestone) => (
+              <div key={milestone.year} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+                <p className="text-sm font-semibold text-[var(--vv-gold)]">{milestone.year}</p>
+                <p className="mt-2 text-sm text-white/70">{milestone.label}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -131,31 +119,31 @@ const About = () => {
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <div className="grid gap-8 md:grid-cols-[1fr_0.9fr]">
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
           <div className="rounded-3xl border border-black/10 bg-white p-8">
             <h2 className="font-display text-3xl font-semibold">A note from the founder</h2>
             <blockquote className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
               “We believe voting should be as secure as your bank and as easy as your favorite app.”
             </blockquote>
-            <p className="mt-4 text-sm font-semibold text-[var(--vv-ink)]">— Arbab Arshad</p>
+            <p className="mt-4 text-sm font-semibold">— Arbab Arshad</p>
           </div>
-          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+          <div className="rounded-3xl border border-black/10 bg-white p-8">
             <h3 className="font-display text-2xl font-semibold">Join the community</h3>
-            <p className="mt-3 text-sm text-white/70">
+            <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">
               Follow the journey, contribute ideas, and help us keep democracy transparent.
             </p>
-            <div className="mt-6 flex items-center gap-4 text-2xl">
+            <div className="mt-6 flex items-center gap-4 text-2xl text-[var(--vv-ink)]">
               <a
                 href="https://github.com/Arbab-ofc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
               >
                 <FaGithub />
               </a>
               <a
                 href="mailto:arbababby111@gmail.com"
-                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
               >
                 <FaEnvelope />
               </a>
@@ -163,7 +151,7 @@ const About = () => {
                 href="https://www.linkedin.com/in/arbab-arshad-0b2961326/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
               >
                 <FaLinkedin />
               </a>

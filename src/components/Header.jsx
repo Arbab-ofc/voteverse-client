@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, Home, Mail, Info, LogIn, UserPlus, LayoutDashboard, LogOut, User } from "lucide-react";
+import { Menu, X, Mail, Info, LogIn, UserPlus, LayoutDashboard, LogOut, User } from "lucide-react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -31,7 +31,6 @@ const Header = ({ isAuthenticated }) => {
   };
 
   const navItems = [
-    { name: "Home", path: "/", icon: <Home className="h-4 w-4" /> },
     { name: "Contact", path: "/contact", icon: <Mail className="h-4 w-4" /> },
     { name: "About", path: "/about", icon: <Info className="h-4 w-4" /> },
     isAuthenticated
