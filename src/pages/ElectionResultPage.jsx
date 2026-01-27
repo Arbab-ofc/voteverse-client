@@ -41,16 +41,14 @@ const ElectionResultPage = () => {
           setIsFinal(Boolean(res.data.isFinal));
           const initialTotal = res.data.totalVotes || 0;
           setTotalVotes(initialTotal);
-          setTrend((prev) =>
-            prev.length
-              ? prev
-              : [
-                  {
-                    x: new Date().toISOString(),
-                    y: initialTotal,
-                  },
-                ]
-          );
+          setTrend((prev) => {
+            if (prev.length) return prev;
+            const now = new Date();
+            return [
+              { x: now.toISOString(), y: initialTotal },
+              { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: initialTotal },
+            ];
+          });
           const initialCandidateTrends = {};
           (res.data.result || []).forEach((item, index) => {
             if (item?.candidate?._id) {
@@ -82,16 +80,14 @@ const ElectionResultPage = () => {
               setWinner(null);
               setIsFinal(false);
               setTotalVotes(0);
-              setTrend((prev) =>
-                prev.length
-                  ? prev
-                  : [
-                      {
-                        x: new Date().toISOString(),
-                        y: 0,
-                      },
-                    ]
-              );
+              setTrend((prev) => {
+                if (prev.length) return prev;
+                const now = new Date();
+                return [
+                  { x: now.toISOString(), y: 0 },
+                  { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
+                ];
+              });
             }
           } catch (fallbackError) {
             console.error(fallbackError);
