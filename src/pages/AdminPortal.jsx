@@ -29,37 +29,6 @@ const AdminPortal = () => {
   const [messageTotal, setMessageTotal] = useState(0);
   const pageSize = 6;
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--vv-sand)] text-[var(--vv-ink)]">
-        Loading...
-      </div>
-    );
-  }
-
-  if (!user?.isAdmin) {
-    return (
-      <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
-        <div className="mx-auto max-w-3xl rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
-          <div className="flex items-center gap-3 text-[var(--vv-ember)]">
-            <Shield className="h-6 w-6" />
-            <p className="text-xs uppercase tracking-[0.2em]">Admin only</p>
-          </div>
-          <h1 className="font-display mt-4 text-3xl font-semibold">Access denied</h1>
-          <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">
-            This portal is available to admin accounts only.
-          </p>
-          <Link
-            to="/dashboard"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-[var(--vv-ink)] px-5 py-2 text-xs font-semibold text-white"
-          >
-            Back to dashboard
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
   useEffect(() => {
     if (!user?.isAdmin) return;
     const loadUsers = async () => {
@@ -195,6 +164,37 @@ const AdminPortal = () => {
       setActionKey("");
     }
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[var(--vv-sand)] text-[var(--vv-ink)]">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!user?.isAdmin) {
+    return (
+      <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <div className="flex items-center gap-3 text-[var(--vv-ember)]">
+            <Shield className="h-6 w-6" />
+            <p className="text-xs uppercase tracking-[0.2em]">Admin only</p>
+          </div>
+          <h1 className="font-display mt-4 text-3xl font-semibold">Access denied</h1>
+          <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">
+            This portal is available to admin accounts only.
+          </p>
+          <Link
+            to="/dashboard"
+            className="mt-6 inline-flex items-center justify-center rounded-full bg-[var(--vv-ink)] px-5 py-2 text-xs font-semibold text-white"
+          >
+            Back to dashboard
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
