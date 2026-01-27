@@ -264,7 +264,7 @@ const ElectionResultPage = () => {
         sparkline: { enabled: true },
         fontFamily: "Instrument Sans, sans-serif",
       },
-      stroke: { curve: "smooth", width: 2 },
+      stroke: { curve: "straight", width: 2 },
       markers: { size: 0 },
       grid: { show: false },
       tooltip: { enabled: false },
