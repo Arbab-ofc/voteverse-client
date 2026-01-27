@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaPoll } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { QRCodeCanvas } from 'qrcode.react';
 
 const ElectionCard = ({ election }) => {
   const { title, startDate, endDate, createdBy } = election;
@@ -20,11 +21,7 @@ const ElectionCard = ({ election }) => {
   const isActive = hasStarted && !hasEnded;
 
   const handleViewCandidates = () => {
-    navigate('/candidates', {
-      state: {
-        electionId: election._id,
-      },
-    });
+    navigate(`/vote/${election._id}`);
   };
 
   const handleViewResult = () => {
@@ -34,6 +31,11 @@ const ElectionCard = ({ election }) => {
       },
     });
   };
+
+  const qrValue = useMemo(() => {
+    if (typeof window === 'undefined') return '';
+    return `${window.location.origin}/vote/${election._id}`;
+  }, [election._id]);
 
   return (
     <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5 transition hover:-translate-y-1">
@@ -63,6 +65,20 @@ const ElectionCard = ({ election }) => {
           </span>
         </div>
       </div>
+
+      {qrValue && (
+        <div className="mt-4 flex items-center justify-between rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">QR vote link</p>
+            <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+              Scan to open voting page
+            </p>
+          </div>
+          <div className="rounded-2xl bg-white p-2 shadow-lg shadow-black/10">
+            <QRCodeCanvas value={qrValue} size={72} bgColor="#ffffff" fgColor="#0b0f17" />
+          </div>
+        </div>
+      )}
 
       <div className="mt-4 grid gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-xs text-[var(--vv-ink-2)]/70">
         <div className="flex items-center justify-between">

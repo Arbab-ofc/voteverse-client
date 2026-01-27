@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { FaUser, FaVoteYea, FaLock } from "react-icons/fa";
@@ -9,7 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 const CandidateList = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const electionId = state?.electionId;
+  const { electionId: paramElectionId } = useParams();
+  const electionId = paramElectionId || state?.electionId;
 
   const [candidates, setCandidates] = useState([]);
   const [election, setElection] = useState(null);
