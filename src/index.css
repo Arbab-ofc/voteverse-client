@@ -1,9 +1,36 @@
 @import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap");
+
+:root {
+  --vv-ink: #0b0f17;
+  --vv-ink-2: #101826;
+  --vv-sand: #f5f1e8;
+  --vv-ember: #ff6b3d;
+  --vv-sage: #7bd5c2;
+  --vv-gold: #f3c969;
+}
+
+body {
+  font-family: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: var(--vv-ink);
+  background: var(--vv-sand);
+}
+
+.font-display {
+  font-family: "Space Grotesk", "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
 
 .animate-slideIn {
-   animation: slideIn 0.3s ease forwards;
- }
- @keyframes slideIn {
-   0% { transform: translateY(-10%); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-10%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
