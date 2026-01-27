@@ -116,12 +116,7 @@ const MyElectionCard = ({ election }) => {
 
         <button
           onClick={() => navigate('/election-result', { state: { electionId: election._id } })}
-          disabled={isActive}
-          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
-            !isActive
-              ? 'bg-[var(--vv-ink)] text-white hover:-translate-y-0.5'
-              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
-          }`}
+          className="flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition bg-[var(--vv-ink)] text-white hover:-translate-y-0.5"
         >
           <FaChartBar /> Results
         </button>

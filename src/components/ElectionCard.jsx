@@ -94,13 +94,8 @@ const ElectionCard = ({ election }) => {
           Vote now
         </button>
         <button
-          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
-            hasEnded
-              ? 'bg-white border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
-              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
-          }`}
+          className="flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition bg-white border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5"
           onClick={handleViewResult}
-          disabled={!hasEnded}
         >
           <FaPoll />
           Results
