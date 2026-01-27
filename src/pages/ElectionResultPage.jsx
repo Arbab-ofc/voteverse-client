@@ -57,9 +57,13 @@ const ElectionResultPage = () => {
           const initialCandidateTrends = {};
           const candidatesSource = (res.data.election?.candidates || []).map((c) => ({ candidate: c }));
           const trendSource = (res.data.result || []).length ? res.data.result : candidatesSource;
-          trendSource.forEach((item) => {
+          trendSource.forEach((item, idx) => {
             if (item?.candidate?._id) {
-              initialCandidateTrends[item.candidate._id] = seed;
+              const offset = (idx + 1) * 0.1;
+              initialCandidateTrends[item.candidate._id] = seed.map((point) => ({
+                ...point,
+                y: point.y + offset,
+              }));
             }
           });
           setCandidateTrends(initialCandidateTrends);
@@ -99,8 +103,14 @@ const ElectionResultPage = () => {
                 { x: new Date(Date.now() + 60 * 1000).toISOString(), y: 0 },
               ];
               const fallbackTrends = {};
-              fallbackCandidates.forEach((candidate) => {
-                if (candidate?._id) fallbackTrends[candidate._id] = seed;
+              fallbackCandidates.forEach((candidate, idx) => {
+                if (candidate?._id) {
+                  const offset = (idx + 1) * 0.1;
+                  fallbackTrends[candidate._id] = seed.map((point) => ({
+                    ...point,
+                    y: point.y + offset,
+                  }));
+                }
               });
               setCandidateTrends(fallbackTrends);
             }
@@ -115,7 +125,7 @@ const ElectionResultPage = () => {
     };
 
     fetchResult();
-  }, [electionId]);
+  }, [electionId, candidateIndexMap]);
 
   useEffect(() => {
     if (!electionId) return;
@@ -140,9 +150,10 @@ const ElectionResultPage = () => {
         setCandidateTrends((prev) => {
           const next = { ...prev };
           const existing = next[payload.candidateId] || [];
+          const offset = ((candidateIndexMap[payload.candidateId] ?? 0) + 1) * 0.1;
           next[payload.candidateId] = [
             ...existing,
-            { x: payload.votedAt || new Date().toISOString(), y: payload.voteCount },
+            { x: payload.votedAt || new Date().toISOString(), y: payload.voteCount + offset },
           ];
           return next;
         });
@@ -182,6 +193,16 @@ const ElectionResultPage = () => {
     return [...result].sort((a, b) => (b.votes || 0) - (a.votes || 0));
   }, [result]);
 
+  const candidateIndexMap = useMemo(() => {
+    const map = {};
+    sortedResult.forEach((item, index) => {
+      if (item?.candidate?._id) {
+        map[item.candidate._id] = index;
+      }
+    });
+    return map;
+  }, [sortedResult]);
+
   const maxVotes = useMemo(() => {
     return sortedResult.reduce((max, item) => Math.max(max, item.votes), 1);
   }, [sortedResult]);
@@ -204,8 +225,8 @@ const ElectionResultPage = () => {
         {
           name: "Candidate",
           data: [
-            { x: now.toISOString(), y: 0 },
-            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
+            { x: now.toISOString(), y: 0.1 },
+            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0.1 },
           ],
         },
       ];
