@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { FaCalendarAlt, FaPenNib } from "react-icons/fa";
+import { FaCalendarAlt, FaPenNib, FaLock } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -18,6 +18,7 @@ const UpdateElection = () => {
     startDate: null,
     endDate: null,
     candidates: [],
+    votePassword: "",
   });
 
   const [originalForm, setOriginalForm] = useState({});
@@ -41,6 +42,7 @@ const UpdateElection = () => {
           startDate: election.startDate ? new Date(election.startDate) : null,
           endDate: election.endDate ? new Date(election.endDate) : null,
           candidates: election.candidates?.map((c) => c._id) || [],
+          votePassword: "",
         };
         setForm(nextForm);
         setOriginalForm(nextForm);
@@ -59,7 +61,7 @@ const UpdateElection = () => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const isFormChanged = JSON.stringify(form) !== JSON.stringify(originalForm);
+  const isFormChanged = JSON.stringify({ ...form, votePassword: "" }) !== JSON.stringify({ ...originalForm, votePassword: "" }) || Boolean(form.votePassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,6 +72,7 @@ const UpdateElection = () => {
       if (form.startDate) payload.startDate = form.startDate;
       if (form.endDate) payload.endDate = form.endDate;
       if (form.candidates.length) payload.candidates = form.candidates;
+      if (form.votePassword) payload.votePassword = form.votePassword;
 
       await axios.put(`/api/elections/${electionId}`, payload, {
         withCredentials: true,
@@ -97,7 +100,7 @@ const UpdateElection = () => {
           <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Update election</p>
           <h1 className="font-display mt-3 text-4xl font-semibold">Refine your election details.</h1>
           <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
-            Keep your title, description, and timeline up to date to maintain voter trust.
+            Keep your title, description, timeline, and voting password up to date.
           </p>
 
           <div className="mt-6 grid gap-4">
@@ -171,6 +174,20 @@ const UpdateElection = () => {
                 dateFormat="Pp"
                 className="mt-2 w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
               />
+            </div>
+
+            <div>
+              <label className="text-xs font-semibold text-[var(--vv-ink-2)]/70">New voting password (optional)</label>
+              <div className="mt-2 flex items-center gap-2 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3">
+                <FaLock className="text-[var(--vv-ink-2)]/60" />
+                <input
+                  type="password"
+                  placeholder="Set a new voting password"
+                  value={form.votePassword}
+                  onChange={(e) => handleChange("votePassword", e.target.value)}
+                  className="w-full bg-transparent text-sm focus:outline-none"
+                />
+              </div>
             </div>
 
             <button

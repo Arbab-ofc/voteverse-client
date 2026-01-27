@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-import { FaUser, FaVoteYea } from "react-icons/fa";
+import { FaUser, FaVoteYea, FaLock } from "react-icons/fa";
+import socket from "../lib/socket";
 import "react-toastify/dist/ReactToastify.css";
 
 const CandidateList = () => {
@@ -13,6 +14,7 @@ const CandidateList = () => {
   const [candidates, setCandidates] = useState([]);
   const [election, setElection] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [votePassword, setVotePassword] = useState("");
 
   useEffect(() => {
     if (!electionId) {
@@ -38,13 +40,36 @@ const CandidateList = () => {
     fetchElection();
   }, [electionId, navigate]);
 
+  useEffect(() => {
+    if (!electionId) return;
+
+    socket.emit("join-election", electionId);
+
+    const handleVoteUpdate = (payload) => {
+      if (payload.electionId !== electionId) return;
+      setCandidates((prev) =>
+        prev.map((candidate) =>
+          candidate._id === payload.candidateId
+            ? { ...candidate, voteCount: payload.voteCount }
+            : candidate
+        )
+      );
+    };
+
+    socket.on("vote-updated", handleVoteUpdate);
+
+    return () => {
+      socket.off("vote-updated", handleVoteUpdate);
+    };
+  }, [electionId]);
+
   const handleVote = async (selectedElectionId, candidateId) => {
     const toastId = toast.loading("Casting your vote...");
 
     try {
       const res = await axios.post(
         "/api/votes/vote-candidate",
-        { electionId: selectedElectionId, candidateId },
+        { electionId: selectedElectionId, candidateId, votePassword },
         { withCredentials: true }
       );
 
@@ -94,6 +119,25 @@ const CandidateList = () => {
           )}
         </div>
 
+        {election?.isPasswordProtected && (
+          <div className="mt-8 rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5">
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Voting password</p>
+            <div className="mt-3 flex items-center gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3">
+              <FaLock className="text-[var(--vv-ink-2)]/60" />
+              <input
+                type="password"
+                value={votePassword}
+                onChange={(e) => setVotePassword(e.target.value)}
+                placeholder="Enter election password"
+                className="w-full bg-transparent text-sm focus:outline-none"
+              />
+            </div>
+            <p className="mt-3 text-xs text-[var(--vv-ink-2)]/70">
+              Password is required to submit a vote.
+            </p>
+          </div>
+        )}
+
         <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {candidates.map((candidate) => (
             <div
@@ -114,11 +158,14 @@ const CandidateList = () => {
               <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
                 {candidate.bio || "No bio provided."}
               </p>
+              <p className="mt-4 text-xs text-[var(--vv-ink-2)]/70">
+                Live votes: <span className="font-semibold text-[var(--vv-ink)]">{candidate.voteCount ?? 0}</span>
+              </p>
               <button
                 onClick={() => handleVote(electionId, candidate._id)}
-                disabled={isBeforeStart}
+                disabled={isBeforeStart || (election?.isPasswordProtected && !votePassword)}
                 className={`mt-6 flex w-full items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  isBeforeStart
+                  isBeforeStart || (election?.isPasswordProtected && !votePassword)
                     ? "cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50"
                     : "bg-[var(--vv-ink)] text-white shadow-lg shadow-black/20 hover:-translate-y-0.5"
                 }`}

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { CalendarDays, Edit, Info, Clock } from 'lucide-react';
+import { CalendarDays, Edit, Info, Clock, Lock } from 'lucide-react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,6 +13,7 @@ const CreateElection = () => {
     description: '',
     startDate: null,
     endDate: null,
+    votePassword: ''
   });
 
   const navigate = useNavigate();
@@ -27,17 +28,17 @@ const CreateElection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, startDate, endDate } = formData;
+    const { title, startDate, endDate, votePassword } = formData;
 
-    if (!title || !startDate || !endDate) {
-      return toast.error('Title, Start Date and End Date are required!');
+    if (!title || !startDate || !endDate || !votePassword) {
+      return toast.error('Title, dates, and election password are required!');
     }
 
     try {
       const { data } = await axios.post(
         '/api/elections/create-election',
         formData,
-        { withCredentials: true } 
+        { withCredentials: true }
       );
 
       toast.success(data.message);
@@ -53,7 +54,6 @@ const CreateElection = () => {
       <ToastContainer position="top-center" theme="dark" />
       <div className="bg-white shadow-xl rounded-2xl w-full max-w-5xl p-8 grid grid-cols-1 md:grid-cols-2 gap-10 animate-fadeIn">
         
-        
         <div className="flex flex-col justify-center text-gray-800 space-y-6">
           <h2 className="text-3xl font-extrabold">Start a New Election</h2>
           <p className="text-lg flex items-center gap-2">
@@ -65,9 +65,11 @@ const CreateElection = () => {
           <p className="text-lg flex items-center gap-2">
             <Clock className="text-yellow-500" /> Candidates can be added after creation.
           </p>
+          <p className="text-lg flex items-center gap-2">
+            <Lock className="text-rose-500" /> Set a voting password to protect access.
+          </p>
         </div>
 
-        
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-semibold mb-1">Election Title</label>
@@ -122,6 +124,18 @@ const CreateElection = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold mb-1">Election Password</label>
+            <input
+              type="password"
+              name="votePassword"
+              value={formData.votePassword}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+              placeholder="Set a voting password"
+            />
           </div>
 
           <div className="pt-4">
