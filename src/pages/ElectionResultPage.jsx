@@ -163,9 +163,10 @@ const ElectionResultPage = () => {
   }
 
   if (!result.length) {
+    const hasCandidates = (election?.candidates || []).length > 0;
     return (
       <div className="min-h-screen flex items-center justify-center bg-[var(--vv-sand)] text-[var(--vv-ink)] p-6 text-center">
-        No candidates or results found for this election.
+        {hasCandidates ? "Results are hidden until the election ends." : "No candidates found for this election."}
       </div>
     );
   }
