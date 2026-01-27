@@ -55,7 +55,39 @@ const ElectionResultPage = () => {
         }
       } catch (error) {
         console.error(error);
-        toast.error(error.response?.data?.message || "Server error fetching results");
+        const message = error.response?.data?.message;
+        if (error.response?.status === 400) {
+          try {
+            const fallback = await axios.get(`/api/elections/id/${electionId}`, {
+              withCredentials: true,
+            });
+            if (fallback.data?.election) {
+              setElection(fallback.data.election);
+              setResult(
+                (fallback.data.election.candidates || []).map((candidate) => ({
+                  candidate,
+                  votes: null,
+                }))
+              );
+              setWinner(null);
+              setIsFinal(false);
+              setTotalVotes(0);
+              setTrend((prev) =>
+                prev.length
+                  ? prev
+                  : [
+                      {
+                        x: new Date().toISOString(),
+                        y: 0,
+                      },
+                    ]
+              );
+            }
+          } catch (fallbackError) {
+            console.error(fallbackError);
+          }
+        }
+        toast.error(message || "Server error fetching results");
       } finally {
         setLoading(false);
       }
