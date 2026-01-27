@@ -14,74 +14,62 @@ const ForgetPassword = () => {
     if (!email) return toast.error("Email is required");
 
     try {
-      const res = await axios.post(
-        "/api/users/forget",
-        { email }
-      );
+      const res = await axios.post("/api/users/forget", { email });
 
       toast.success(res.data.message || "OTP sent successfully");
-      navigate("/verify-forget-otp", { state: { email } }); 
+      navigate("/verify-forget-otp", { state: { email } });
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Something went wrong while sending OTP"
-      );
+      toast.error(error.response?.data?.message || "Something went wrong while sending OTP");
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white p-4 ">
-      
-      
-      <div className="flex-1 flex flex-col justify-center items-center p-8 animate-fadeIn">
-        <h1 className="text-3xl font-bold mb-4 flex items-center gap-2 pt-10">
-          <FaKey className="text-yellow-400" /> Why You Should Not Forget Password
-        </h1>
-        <p className="text-gray-300 max-w-md text-center mb-6 ">
-          Forgetting your password can lock you out of important accounts and 
-          compromise your security. Always keep it safe and unique.
-        </p>
-        <h2 className="text-2xl font-semibold mb-2">How to Reset Your Password</h2>
-        <p className="text-gray-400 max-w-md text-center">
-          Enter your registered email, we will send you a One Time Password (OTP). 
-          Use the OTP to verify and then reset your password securely.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-20 pt-28 text-[var(--vv-ink)]">
+      <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Reset access</p>
+          <h1 className="font-display mt-3 text-4xl font-semibold">Forgot your password?</h1>
+          <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
+            We’ll send a one-time password to verify it’s you. Then you can reset safely.
+          </p>
+          <div className="mt-8 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm text-[var(--vv-ink-2)]/70">
+            Use the email you registered with to receive the OTP.
+          </div>
+          <div className="mt-6 flex items-center gap-3 text-sm text-[var(--vv-ink-2)]/70">
+            <FaKey className="text-[var(--vv-ember)]" />
+            We never share your email with third parties.
+          </div>
+        </div>
 
-      
-      <div className="flex-1 flex justify-center items-center p-8">
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-6 text-center">Forget Password</h2>
-          <form onSubmit={handleSubmit} className="space-y-5">
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <h2 className="font-display text-2xl font-semibold">Send OTP</h2>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
             <div className="relative">
+              <FaEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--vv-ink-2)]/60" />
               <input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 pl-10 border border-gray-600 rounded-md bg-gray-900 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                className="w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] py-3 pl-11 pr-4 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
+                required
               />
-              <FaEnvelope className="absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400" />
             </div>
+
             <button
               type="submit"
-              className="w-full py-2 rounded-md text-white font-semibold transition-all duration-300"
-              style={{
-                background:
-                  "linear-gradient(90deg, rgba(255,255,0,1) 0%, rgba(255,165,0,1) 100%)",
-                boxShadow: "0 0 10px rgba(255,255,0,0.8), 0 0 20px rgba(255,165,0,0.6)"
-              }}
-              onMouseOver={(e) =>
-                (e.currentTarget.style.boxShadow =
-                  "0 0 20px rgba(255,255,0,1), 0 0 40px rgba(255,165,0,0.9)")
-              }
-              onMouseOut={(e) =>
-                (e.currentTarget.style.boxShadow =
-                  "0 0 10px rgba(255,255,0,0.8), 0 0 20px rgba(255,165,0,0.6)")
-              }
+              className="w-full rounded-full bg-[var(--vv-ink)] py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
             >
               Send OTP
             </button>
           </form>
+
+          <p className="mt-6 text-sm text-[var(--vv-ink-2)]/70">
+            Remembered your password?{" "}
+            <a href="/login" className="font-semibold text-[var(--vv-ink)] hover:underline">
+              Login here
+            </a>
+          </p>
         </div>
       </div>
 
