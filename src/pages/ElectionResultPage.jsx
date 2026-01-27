@@ -170,6 +170,7 @@ const ElectionResultPage = () => {
         node.remove();
       }
     });
+    root.querySelectorAll(".apexcharts-legend").forEach((node) => node.remove());
   }, []);
 
   useEffect(() => {
