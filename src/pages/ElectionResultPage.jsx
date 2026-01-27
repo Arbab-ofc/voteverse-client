@@ -19,6 +19,7 @@ const ElectionResultPage = () => {
   const [isFinal, setIsFinal] = useState(false);
   const [totalVotes, setTotalVotes] = useState(0);
   const [trend, setTrend] = useState([]);
+  const [candidateTrends, setCandidateTrends] = useState({});
 
   useEffect(() => {
     if (!electionId) {
@@ -50,6 +51,15 @@ const ElectionResultPage = () => {
                   },
                 ]
           );
+          const initialCandidateTrends = {};
+          (res.data.result || []).forEach((item, index) => {
+            if (item?.candidate?._id) {
+              initialCandidateTrends[item.candidate._id] = [
+                { x: new Date().toISOString(), y: 0 },
+              ];
+            }
+          });
+          setCandidateTrends(initialCandidateTrends);
         } else {
           toast.error(res.data.message || "Failed to fetch results");
         }
@@ -115,6 +125,17 @@ const ElectionResultPage = () => {
           { x: payload.votedAt || new Date().toISOString(), y: payload.totalVotes },
         ]);
       }
+      if (payload.candidateId && typeof payload.voteCount === "number") {
+        setCandidateTrends((prev) => {
+          const next = { ...prev };
+          const existing = next[payload.candidateId] || [];
+          next[payload.candidateId] = [
+            ...existing,
+            { x: payload.votedAt || new Date().toISOString(), y: payload.voteCount },
+          ];
+          return next;
+        });
+      }
       if (isFinal && typeof payload.voteCount === "number") {
         setResult((prev) => {
           const next = prev.map((item) =>
@@ -164,24 +185,48 @@ const ElectionResultPage = () => {
     [trend]
   );
 
+  const candidateTrendSeries = useMemo(() => {
+    const ids = Object.keys(candidateTrends);
+    return ids.map((id, index) => ({
+      name: `Candidate ${index + 1}`,
+      data: candidateTrends[id] || [],
+    }));
+  }, [candidateTrends]);
+
   const trendOptions = useMemo(
     () => ({
       chart: {
         type: "line",
         toolbar: { show: false },
         fontFamily: "Instrument Sans, sans-serif",
+        sparkline: { enabled: true },
       },
       stroke: { curve: "smooth", width: 3 },
       colors: ["#101826"],
-      xaxis: {
-        type: "datetime",
-        labels: { style: { colors: "#6B7280" } },
+      xaxis: { type: "datetime", labels: { show: false } },
+      yaxis: { labels: { show: false } },
+      grid: { show: false },
+      tooltip: { enabled: false },
+      markers: { size: 0 },
+    }),
+    []
+  );
+
+  const candidateTrendOptions = useMemo(
+    () => ({
+      chart: {
+        type: "line",
+        toolbar: { show: false },
+        sparkline: { enabled: true },
+        fontFamily: "Instrument Sans, sans-serif",
       },
-      yaxis: {
-        labels: { style: { colors: "#6B7280" } },
-      },
-      grid: { borderColor: "#E5E7EB" },
-      tooltip: { theme: "light" },
+      stroke: { curve: "smooth", width: 2 },
+      markers: { size: 0 },
+      grid: { show: false },
+      tooltip: { enabled: false },
+      xaxis: { type: "datetime", labels: { show: false } },
+      yaxis: { labels: { show: false } },
+      colors: ["#101826", "#F3C969", "#7BD5C2", "#FF6B3D", "#6B7280"],
     }),
     []
   );
@@ -341,13 +386,22 @@ const ElectionResultPage = () => {
 
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-2xl font-semibold">Voting trend</h2>
+              <h2 className="font-display text-2xl font-semibold">Voting trends</h2>
               <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold">
                 Live total votes: {totalVotes}
               </span>
             </div>
             <div className="mt-6 h-80">
               <Chart options={trendOptions} series={trendSeries} type="line" height="100%" />
+            </div>
+            <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
+              <p className="font-semibold text-[var(--vv-ink)]">Candidate activity lines</p>
+              <p className="mt-1 text-xs text-[var(--vv-ink-2)]/70">
+                Lines show relative activity only. No vote counts are revealed during live elections.
+              </p>
+              <div className="mt-4 h-28">
+                <Chart options={candidateTrendOptions} series={candidateTrendSeries} type="line" height="100%" />
+              </div>
             </div>
             <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
               <p className="font-semibold text-[var(--vv-ink)]">Winner spotlight</p>
