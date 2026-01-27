@@ -366,46 +366,10 @@ const ElectionResultPage = () => {
                 const isWinner = winner?.candidate?._id === item.candidate._id;
                 const voteShare = isFinal ? Math.round(((item.votes || 0) / maxVotes) * 100) : 0;
 
-                const sparkSeries = [
-                  {
-                    name: "Votes",
-                    data: isFinal
-                      ? [
-                          Math.max(1, Math.round((item.votes || 0) * 0.4)),
-                          Math.max(1, Math.round((item.votes || 0) * 0.6)),
-                          Math.max(1, Math.round((item.votes || 0) * 0.8)),
-                          Math.max(1, item.votes || 0),
-                        ]
-                      : [1, 1, 1, 1],
-                  },
-                ];
-
-                const sparkOptions = {
-                  chart: {
-                    type: "bar",
-                    sparkline: { enabled: true },
-                    toolbar: { show: false },
-                    events: {
-                      mounted: stripApexForeignObject,
-                      updated: stripApexForeignObject,
-                    },
-                  },
-                  legend: { show: false },
-                  dataLabels: { enabled: false },
-                  plotOptions: {
-                    bar: {
-                      borderRadius: 6,
-                      columnWidth: "55%",
-                    },
-                  },
-                  colors: [isFinal && isWinner ? "#F3C969" : "#101826"],
-                  tooltip: { enabled: false },
-                };
-
                 return (
                   <div
                     key={item.candidate._id}
-                    className={`grid gap-4 rounded-3xl border border-black/10 p-4 md:grid-cols-[48px_1fr_140px] ${
+                    className={`grid gap-4 rounded-3xl border border-black/10 p-4 md:grid-cols-[48px_1fr] ${
                       isFinal && isWinner ? "bg-[var(--vv-ink)] text-white" : "bg-[var(--vv-sand)]"
                     }`}
                   >
@@ -432,9 +396,6 @@ const ElectionResultPage = () => {
                           </span>
                         </div>
                       )}
-                    </div>
-                    <div className="h-16">
-                      <Chart options={sparkOptions} series={sparkSeries} type="bar" height="100%" />
                     </div>
                   </div>
                 );
