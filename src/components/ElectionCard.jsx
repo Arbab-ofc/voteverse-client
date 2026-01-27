@@ -1,10 +1,10 @@
 import React from 'react';
-import { FaUser, FaHourglassStart, FaHourglassEnd, FaCheckCircle, FaTimesCircle, FaPoll } from 'react-icons/fa';
+import { FaCalendarAlt, FaCheckCircle, FaTimesCircle, FaPoll } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const ElectionCard = ({ election }) => {
   const { title, startDate, endDate, createdBy } = election;
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString('en-IN', {
@@ -19,112 +19,85 @@ const ElectionCard = ({ election }) => {
   const isActive = hasStarted && !hasEnded;
 
   const handleViewCandidates = () => {
-    navigate("/candidates", {
+    navigate('/candidates', {
       state: {
-        electionId: election._id, 
+        electionId: election._id,
       },
     });
   };
 
   const handleViewResult = () => {
-    navigate("/election-result", {
+    navigate('/election-result', {
       state: {
-        electionId: election._id, 
+        electionId: election._id,
       },
     });
   };
 
   return (
-    <div className="p-4 rounded-xl shadow-lg bg-gradient-to-br from-black via-gray-800 to-gray-900 text-white w-full sm:min-w-[250px] md:min-w-[300px] lg:min-w-[350px] transition-transform hover:scale-[1.02] duration-200 flex flex-col justify-between">
-      
-      
-      <h2 className="text-lg font-semibold mb-3 truncate">{title}</h2>
-
-      
-      <div className="space-y-2 text-sm mb-4">
-        
-        
-        <div className="flex items-center gap-2">
-          <FaUser className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaUser className="inline-block mr-1" /> By
-          </span>
-          <span className="hidden md:inline">Created By:</span>
-          <span className="ml-auto truncate text-gray-300">{createdBy?.name || 'Unknown'}</span>
+    <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5 transition hover:-translate-y-1">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Election</p>
+          <h3 className="font-display mt-2 text-lg font-semibold text-[var(--vv-ink)] line-clamp-2">
+            {title}
+          </h3>
+          <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+            Created by <span className="font-semibold">{createdBy?.name || 'Unknown'}</span>
+          </p>
         </div>
+        <span
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${
+            isActive
+              ? 'bg-[var(--vv-sage)]/30 text-[var(--vv-ink)]'
+              : 'bg-black/10 text-[var(--vv-ink-2)]/70'
+          }`}
+        >
+          {isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+          {isActive ? 'Active' : 'Closed'}
+        </span>
+      </div>
 
-        
-        <div className="flex items-center gap-2">
-          <FaHourglassStart className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaHourglassStart className="inline-block mr-1" /> Start
+      <div className="mt-4 grid gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-xs text-[var(--vv-ink-2)]/70">
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt className="text-[var(--vv-ember)]" />
+            Start
           </span>
-          <span className="hidden md:inline">Start Date:</span>
-          <span className="ml-auto text-gray-300">{formatDate(startDate)}</span>
+          <span className="font-semibold text-[var(--vv-ink)]">{formatDate(startDate)}</span>
         </div>
-
-        
-        <div className="flex items-center gap-2">
-          <FaHourglassEnd className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaHourglassEnd className="inline-block mr-1" /> End
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt className="text-[var(--vv-ember)]" />
+            End
           </span>
-          <span className="hidden md:inline">End Date:</span>
-          <span className="ml-auto text-gray-300">{formatDate(endDate)}</span>
-        </div>
-
-        
-        <div className="flex items-center gap-2">
-          {isActive ? (
-            <>
-              <FaCheckCircle className="text-green-400 block sm:hidden" />
-              <span className="hidden sm:inline-block md:hidden text-green-400">
-                <FaCheckCircle className="inline-block mr-1" /> Active
-              </span>
-              <span className="hidden md:inline text-green-400 font-semibold">Status: Active</span>
-            </>
-          ) : (
-            <>
-              <FaTimesCircle className="text-red-400 block sm:hidden" />
-              <span className="hidden sm:inline-block md:hidden text-red-400">
-                <FaTimesCircle className="inline-block mr-1" /> Inactive
-              </span>
-              <span className="hidden md:inline text-red-400 font-semibold">Status: Inactive</span>
-            </>
-          )}
+          <span className="font-semibold text-[var(--vv-ink)]">{formatDate(endDate)}</span>
         </div>
       </div>
 
-      
-      <div className="flex gap-2 mt-auto">
-        
+      <div className="mt-5 flex gap-3">
         <button
-          className={`flex-1 px-4 py-2 font-medium rounded-md transition-all duration-200 ${
+          className={`flex-1 rounded-full px-4 py-2 text-sm font-semibold transition ${
             isActive
-              ? 'bg-white text-black hover:bg-gray-300'
-              : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+              ? 'bg-[var(--vv-ink)] text-white hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
           onClick={handleViewCandidates}
           disabled={!isActive}
         >
-          Vote
+          Vote now
         </button>
-
-        
         <button
-          className={`flex-1 px-4 py-2 font-medium rounded-md flex items-center justify-center gap-1 transition-all duration-200 ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
             hasEnded
-              ? 'bg-blue-500 text-white hover:bg-blue-600'
-              : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+              ? 'bg-white border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
           onClick={handleViewResult}
           disabled={!hasEnded}
         >
-          <FaPoll className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaPoll className="inline-block mr-1" /> Result
-          </span>
-          <span className="hidden md:inline">View Result</span>
+          <FaPoll />
+          Results
         </button>
       </div>
     </div>
