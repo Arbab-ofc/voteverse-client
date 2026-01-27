@@ -50,7 +50,7 @@ const CandidateList = () => {
       setCandidates((prev) =>
         prev.map((candidate) =>
           candidate._id === payload.candidateId
-            ? { ...candidate, voteCount: payload.voteCount }
+            ? { ...candidate }
             : candidate
         )
       );
@@ -157,9 +157,6 @@ const CandidateList = () => {
               </div>
               <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
                 {candidate.bio || "No bio provided."}
-              </p>
-              <p className="mt-4 text-xs text-[var(--vv-ink-2)]/70">
-                Live votes: <span className="font-semibold text-[var(--vv-ink)]">{candidate.voteCount ?? 0}</span>
               </p>
               <button
                 onClick={() => handleVote(electionId, candidate._id)}

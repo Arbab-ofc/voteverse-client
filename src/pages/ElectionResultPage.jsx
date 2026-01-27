@@ -16,6 +16,9 @@ const ElectionResultPage = () => {
   const [election, setElection] = useState(null);
   const [result, setResult] = useState([]);
   const [winner, setWinner] = useState(null);
+  const [isFinal, setIsFinal] = useState(false);
+  const [totalVotes, setTotalVotes] = useState(0);
+  const [trend, setTrend] = useState([]);
 
   useEffect(() => {
     if (!electionId) {
@@ -34,6 +37,19 @@ const ElectionResultPage = () => {
           setElection(res.data.election || {});
           setResult(res.data.result || []);
           setWinner(res.data.winner || null);
+          setIsFinal(Boolean(res.data.isFinal));
+          const initialTotal = res.data.totalVotes || 0;
+          setTotalVotes(initialTotal);
+          setTrend((prev) =>
+            prev.length
+              ? prev
+              : [
+                  {
+                    x: new Date().toISOString(),
+                    y: initialTotal,
+                  },
+                ]
+          );
         } else {
           toast.error(res.data.message || "Failed to fetch results");
         }
@@ -55,16 +71,30 @@ const ElectionResultPage = () => {
 
     const handleVoteUpdate = (payload) => {
       if (payload.electionId !== electionId) return;
-      setResult((prev) => {
-        const next = prev.map((item) =>
-          item.candidate._id === payload.candidateId
-            ? { ...item, votes: payload.voteCount }
-            : item
-        );
-        const sorted = [...next].sort((a, b) => b.votes - a.votes);
-        setWinner(sorted[0] || null);
-        return next;
-      });
+      if (payload.voterName) {
+        toast.info(`${payload.voterName} voted`);
+      } else {
+        toast.info("A new vote was cast");
+      }
+      if (typeof payload.totalVotes === "number") {
+        setTotalVotes(payload.totalVotes);
+        setTrend((prev) => [
+          ...prev,
+          { x: payload.votedAt || new Date().toISOString(), y: payload.totalVotes },
+        ]);
+      }
+      if (isFinal && typeof payload.voteCount === "number") {
+        setResult((prev) => {
+          const next = prev.map((item) =>
+            item.candidate._id === payload.candidateId
+              ? { ...item, votes: payload.voteCount }
+              : item
+          );
+          const sorted = [...next].sort((a, b) => b.votes - a.votes);
+          setWinner(sorted[0] || null);
+          return next;
+        });
+      }
     };
 
     socket.on("vote-updated", handleVoteUpdate);
@@ -85,55 +115,43 @@ const ElectionResultPage = () => {
   };
 
   const sortedResult = useMemo(() => {
-    return [...result].sort((a, b) => b.votes - a.votes);
+    return [...result].sort((a, b) => (b.votes || 0) - (a.votes || 0));
   }, [result]);
 
   const maxVotes = useMemo(() => {
     return sortedResult.reduce((max, item) => Math.max(max, item.votes), 1);
   }, [sortedResult]);
 
-  const chartData = useMemo(() => {
-    const labels = sortedResult.map((item) => item.candidate.name);
-    const data = sortedResult.map((item) => item.votes);
-    const winnerId = winner?.candidate?._id;
-    const colors = sortedResult.map((item) =>
-      item.candidate._id === winnerId ? "#F3C969" : "#101826"
-    );
-
-    return { labels, data, colors };
-  }, [sortedResult, winner]);
-
-  const heroChartOptions = useMemo(
-    () => ({
-      chart: {
-        type: "bar",
-        toolbar: { show: false },
-        fontFamily: "Instrument Sans, sans-serif",
-        sparkline: { enabled: true },
-      },
-      plotOptions: {
-        bar: {
-          horizontal: true,
-          borderRadius: 10,
-          barHeight: "65%",
-        },
-      },
-      dataLabels: { enabled: false },
-      xaxis: { categories: chartData.labels },
-      colors: chartData.colors,
-      tooltip: { enabled: false },
-    }),
-    [chartData]
-  );
-
-  const heroSeries = useMemo(
+  const trendSeries = useMemo(
     () => [
       {
-        name: "Votes",
-        data: chartData.data,
+        name: "Total votes",
+        data: trend,
       },
     ],
-    [chartData]
+    [trend]
+  );
+
+  const trendOptions = useMemo(
+    () => ({
+      chart: {
+        type: "line",
+        toolbar: { show: false },
+        fontFamily: "Instrument Sans, sans-serif",
+      },
+      stroke: { curve: "smooth", width: 3 },
+      colors: ["#101826"],
+      xaxis: {
+        type: "datetime",
+        labels: { style: { colors: "#6B7280" } },
+      },
+      yaxis: {
+        labels: { style: { colors: "#6B7280" } },
+      },
+      grid: { borderColor: "#E5E7EB" },
+      tooltip: { theme: "light" },
+    }),
+    []
   );
 
   if (loading) {
@@ -207,20 +225,28 @@ const ElectionResultPage = () => {
               </span>
             </div>
 
+            {!isFinal && (
+              <div className="mt-6 rounded-2xl border border-dashed border-black/10 bg-[var(--vv-sand)] p-5 text-sm text-[var(--vv-ink-2)]/70">
+                Results are hidden until the election ends. Live trend is shown on the right.
+              </div>
+            )}
+
             <div className="mt-6 space-y-4">
               {sortedResult.map((item, index) => {
                 const isWinner = winner?.candidate?._id === item.candidate._id;
-                const voteShare = Math.round((item.votes / maxVotes) * 100);
+                const voteShare = isFinal ? Math.round(((item.votes || 0) / maxVotes) * 100) : 0;
 
                 const sparkSeries = [
                   {
                     name: "Votes",
-                    data: [
-                      Math.max(1, Math.round(item.votes * 0.4)),
-                      Math.max(1, Math.round(item.votes * 0.6)),
-                      Math.max(1, Math.round(item.votes * 0.8)),
-                      Math.max(1, item.votes),
-                    ],
+                    data: isFinal
+                      ? [
+                          Math.max(1, Math.round((item.votes || 0) * 0.4)),
+                          Math.max(1, Math.round((item.votes || 0) * 0.6)),
+                          Math.max(1, Math.round((item.votes || 0) * 0.8)),
+                          Math.max(1, item.votes || 0),
+                        ]
+                      : [1, 1, 1, 1],
                   },
                 ];
 
@@ -236,7 +262,7 @@ const ElectionResultPage = () => {
                       columnWidth: "55%",
                     },
                   },
-                  colors: [isWinner ? "#F3C969" : "#101826"],
+                  colors: [isFinal && isWinner ? "#F3C969" : "#101826"],
                   tooltip: { enabled: false },
                 };
 
@@ -244,30 +270,32 @@ const ElectionResultPage = () => {
                   <div
                     key={item.candidate._id}
                     className={`grid gap-4 rounded-3xl border border-black/10 p-4 md:grid-cols-[48px_1fr_140px] ${
-                      isWinner ? "bg-[var(--vv-ink)] text-white" : "bg-[var(--vv-sand)]"
+                      isFinal && isWinner ? "bg-[var(--vv-ink)] text-white" : "bg-[var(--vv-sand)]"
                     }`}
                   >
                     <div className="flex items-center justify-center text-lg font-semibold">
-                      {isWinner ? <FaCrown className="text-[var(--vv-gold)]" /> : `#${index + 1}`}
+                      {isFinal && isWinner ? <FaCrown className="text-[var(--vv-gold)]" /> : `#${index + 1}`}
                     </div>
                     <div>
-                      <p className={`text-sm uppercase tracking-[0.2em] ${isWinner ? "text-white/60" : "text-[var(--vv-ember)]"}`}>
+                      <p className={`text-sm uppercase tracking-[0.2em] ${isFinal && isWinner ? "text-white/60" : "text-[var(--vv-ember)]"}`}>
                         Candidate
                       </p>
-                      <h3 className={`font-display mt-2 text-lg font-semibold ${isWinner ? "text-white" : "text-[var(--vv-ink)]"}`}>
+                      <h3 className={`font-display mt-2 text-lg font-semibold ${isFinal && isWinner ? "text-white" : "text-[var(--vv-ink)]"}`}>
                         {item.candidate.name}
                       </h3>
-                      <p className={`mt-2 text-xs ${isWinner ? "text-white/70" : "text-[var(--vv-ink-2)]/70"}`}>
+                      <p className={`mt-2 text-xs ${isFinal && isWinner ? "text-white/70" : "text-[var(--vv-ink-2)]/70"}`}>
                         {item.candidate.bio || "No bio provided."}
                       </p>
-                      <div className="mt-3 flex items-center gap-3 text-xs">
-                        <span className={`rounded-full px-3 py-1 ${isWinner ? "bg-white/10 text-white" : "bg-white text-[var(--vv-ink)]"}`}>
-                          {item.votes} votes
-                        </span>
-                        <span className={`${isWinner ? "text-white/70" : "text-[var(--vv-ink-2)]/70"}`}>
-                          {voteShare}% share
-                        </span>
-                      </div>
+                      {isFinal && (
+                        <div className="mt-3 flex items-center gap-3 text-xs">
+                          <span className={`rounded-full px-3 py-1 ${isWinner ? "bg-white/10 text-white" : "bg-white text-[var(--vv-ink)]"}`}>
+                            {item.votes} votes
+                          </span>
+                          <span className={`${isWinner ? "text-white/70" : "text-[var(--vv-ink-2)]/70"}`}>
+                            {voteShare}% share
+                          </span>
+                        </div>
+                      )}
                     </div>
                     <div className="h-16">
                       <Chart options={sparkOptions} series={sparkSeries} type="bar" height="100%" />
@@ -280,13 +308,13 @@ const ElectionResultPage = () => {
 
           <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
             <div className="flex items-center justify-between">
-              <h2 className="font-display text-2xl font-semibold">Vote distribution</h2>
+              <h2 className="font-display text-2xl font-semibold">Voting trend</h2>
               <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold">
-                Overview
+                Live total votes: {totalVotes}
               </span>
             </div>
             <div className="mt-6 h-80">
-              <Chart options={heroChartOptions} series={heroSeries} type="bar" height="100%" />
+              <Chart options={trendOptions} series={trendSeries} type="line" height="100%" />
             </div>
             <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
               <p className="font-semibold text-[var(--vv-ink)]">Winner spotlight</p>
@@ -295,9 +323,9 @@ const ElectionResultPage = () => {
                   <FaTrophy />
                 </span>
                 <div>
-                  <p className="font-semibold">{winner?.candidate?.name || "No winner"}</p>
+                  <p className="font-semibold">{isFinal ? (winner?.candidate?.name || "No winner") : "Hidden until final"}</p>
                   <p className="text-xs text-[var(--vv-ink-2)]/70">
-                    {winner ? `${winner.votes} votes` : "Waiting for results"}
+                    {isFinal && winner ? `${winner.votes} votes` : "Results available when election ends"}
                   </p>
                 </div>
               </div>
