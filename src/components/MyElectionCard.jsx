@@ -1,16 +1,16 @@
 import React from 'react';
 import {
-  FaUser,
-  FaHourglassStart,
-  FaHourglassEnd,
-  FaTrash,
-  FaEdit,
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaTimesCircle,
   FaUserPlus,
   FaUserMinus,
+  FaEdit,
+  FaTrash,
   FaVoteYea,
   FaPowerOff,
   FaChartBar,
-  FaInfoCircle, 
+  FaInfoCircle,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,7 +25,7 @@ const MyElectionCard = ({ election }) => {
   };
 
   const handleViewCandidates = () => {
-    navigate("/candidates", {
+    navigate('/candidates', {
       state: {
         electionId: election._id,
       },
@@ -39,33 +39,33 @@ const MyElectionCard = ({ election }) => {
       year: 'numeric',
     });
 
-  const handleDeleteNavigation = (election) => {
-    navigate("/delete-election", {
+  const handleDeleteNavigation = (currentElection) => {
+    navigate('/delete-election', {
       state: {
-        electionId: election._id,
-        title: election.title,
-        startDate: election.startDate,
-        endDate: election.endDate,
+        electionId: currentElection._id,
+        title: currentElection.title,
+        startDate: currentElection.startDate,
+        endDate: currentElection.endDate,
       },
     });
   };
 
   const handleClick = (electionId) => {
-    navigate("/update-election", {
+    navigate('/update-election', {
       state: { electionId },
     });
   };
 
   const handleRemoveCandidate = () => {
-    navigate("/remove-candidate", { state: { electionId: election._id, electionTitle: election.title } });
+    navigate('/remove-candidate', { state: { electionId: election._id, electionTitle: election.title } });
   };
 
   const handleEndElection = () => {
-    navigate("/end-election", { state: { electionId: election._id, electionTitle: election.title } });
+    navigate('/end-election', { state: { electionId: election._id, electionTitle: election.title } });
   };
 
   const handleViewResult = () => {
-    navigate("/election-result", { state: { electionId: election._id } });
+    navigate('/election-result', { state: { electionId: election._id } });
   };
 
   const handleInfoClick = () => {
@@ -73,151 +73,140 @@ const MyElectionCard = ({ election }) => {
   };
 
   return (
-    <div className="p-4 rounded-xl shadow-lg bg-gradient-to-br from-black via-gray-800 to-gray-900 text-white w-full sm:min-w-[250px] md:min-w-[300px] lg:min-w-[350px] transition-transform hover:scale-[1.02] duration-200 flex flex-col justify-between">
-
-      
-      <div className="flex justify-end mb-2">
+    <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">My election</p>
+          <h3 className="font-display mt-2 text-lg font-semibold text-[var(--vv-ink)] line-clamp-2">
+            {title}
+          </h3>
+          <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+            Created by <span className="font-semibold">{createdBy?.name || 'Unknown'}</span>
+          </p>
+        </div>
         <button
           onClick={handleInfoClick}
-          className="text-blue-400 hover:text-blue-600 transition-colors"
+          className="rounded-full border border-black/10 p-2 text-[var(--vv-ink)] hover:bg-black/5"
           aria-label="More info"
           title="More info"
         >
-          <FaInfoCircle size={20} />
+          <FaInfoCircle />
         </button>
       </div>
 
-      <div className={`mb-3 font-semibold text-center ${isActive ? 'text-green-400' : 'text-red-500'}`}>
-        {isActive ? (
-          <>
-            <FaPowerOff className="inline-block sm:hidden mr-1" />
-            <span className="hidden sm:inline-block md:hidden">Active</span>
-            <span className="hidden md:inline">Election Active</span>
-          </>
-        ) : (
-          <>
-            <FaPowerOff className="inline-block sm:hidden mr-1" />
-            <span className="hidden sm:inline-block md:hidden">Ended</span>
-            <span className="hidden md:inline">Election Ended</span>
-          </>
-        )}
+      <div className="mt-4 flex items-center gap-2 text-xs font-semibold">
+        <span
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 ${
+            isActive
+              ? 'bg-[var(--vv-sage)]/30 text-[var(--vv-ink)]'
+              : 'bg-black/10 text-[var(--vv-ink-2)]/70'
+          }`}
+        >
+          {isActive ? <FaCheckCircle /> : <FaTimesCircle />}
+          {isActive ? 'Active' : 'Ended'}
+        </span>
       </div>
 
-      <h2 className="text-lg font-semibold mb-3 truncate">{title}</h2>
-
-      <div className="space-y-2 text-sm mb-4">
-        <div className="flex items-center gap-2">
-          <FaUser className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaUser className="inline-block mr-1" /> By
+      <div className="mt-4 grid gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-xs text-[var(--vv-ink-2)]/70">
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt className="text-[var(--vv-ember)]" />
+            Start
           </span>
-          <span className="hidden md:inline">Created By:</span>
-          <span className="ml-auto truncate text-gray-300">{createdBy?.name || 'Unknown'}</span>
+          <span className="font-semibold text-[var(--vv-ink)]">{formatDate(startDate)}</span>
         </div>
-
-        <div className="flex items-center gap-2">
-          <FaHourglassStart className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaHourglassStart className="inline-block mr-1" /> Start
+        <div className="flex items-center justify-between">
+          <span className="flex items-center gap-2">
+            <FaCalendarAlt className="text-[var(--vv-ember)]" />
+            End
           </span>
-          <span className="hidden md:inline">Start Date:</span>
-          <span className="ml-auto text-gray-300">{formatDate(startDate)}</span>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <FaHourglassEnd className="block sm:hidden" />
-          <span className="hidden sm:inline-block md:hidden">
-            <FaHourglassEnd className="inline-block mr-1" /> End
-          </span>
-          <span className="hidden md:inline">End Date:</span>
-          <span className="ml-auto text-gray-300">{formatDate(endDate)}</span>
+          <span className="font-semibold text-[var(--vv-ink)]">{formatDate(endDate)}</span>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2 mt-auto">
-
+      <div className="mt-5 grid gap-2 sm:grid-cols-2">
         <button
           onClick={() => handleClick(election._id)}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-blue-500 hover:bg-blue-600 shadow-md hover:shadow-blue-500'
-              : 'bg-blue-700 cursor-not-allowed opacity-60'
+              ? 'bg-[var(--vv-ink)] text-white hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaEdit /> <span className="hidden md:inline">Update</span>
+          <FaEdit /> Update
         </button>
 
         <button
           onClick={() => handleDeleteNavigation(election)}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-red-600 hover:bg-red-700 shadow-md hover:shadow-red-600'
-              : 'bg-red-800 cursor-not-allowed opacity-60'
+              ? 'border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaTrash /> <span className="hidden md:inline">Delete</span>
+          <FaTrash /> Delete
         </button>
 
         <button
           onClick={handleAddCandidate}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-green-600 hover:bg-green-700 shadow-md hover:shadow-green-600'
-              : 'bg-green-800 cursor-not-allowed opacity-60'
+              ? 'bg-[var(--vv-ember)] text-white hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaUserPlus /> <span className="hidden md:inline">Add</span>
+          <FaUserPlus /> Add
         </button>
 
         <button
           onClick={handleRemoveCandidate}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-yellow-600 hover:bg-yellow-700 shadow-md hover:shadow-yellow-600'
-              : 'bg-yellow-800 cursor-not-allowed opacity-60'
+              ? 'border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaUserMinus /> <span className="hidden md:inline">Remove</span>
+          <FaUserMinus /> Remove
         </button>
 
         <button
           onClick={handleViewCandidates}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-white text-black hover:bg-gray-300 shadow-md hover:shadow-gray-400'
-              : 'bg-gray-500 text-gray-300 cursor-not-allowed opacity-60'
+              ? 'bg-white border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaVoteYea /> <span className="hidden md:inline">Vote</span>
+          <FaVoteYea /> Vote
         </button>
 
         <button
           onClick={handleEndElection}
           disabled={!isActive}
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition ${
             isActive
-              ? 'bg-gray-700 hover:bg-gray-600 shadow-md hover:shadow-gray-600'
-              : 'bg-gray-900 cursor-not-allowed opacity-60'
+              ? 'border border-black/10 text-[var(--vv-ink)] hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaPowerOff /> <span className="hidden md:inline">End</span>
+          <FaPowerOff /> End
         </button>
 
         <button
           onClick={handleViewResult}
-          disabled={isActive} 
-          className={`flex-1 flex items-center justify-center gap-1 px-3 py-1 text-sm rounded-md transition-shadow ${
+          disabled={isActive}
+          className={`flex items-center justify-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition sm:col-span-2 ${
             !isActive
-              ? 'bg-indigo-600 hover:bg-indigo-700 shadow-md hover:shadow-indigo-600'
-              : 'bg-indigo-900 cursor-not-allowed opacity-60'
+              ? 'bg-[var(--vv-ink)] text-white hover:-translate-y-0.5'
+              : 'cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50'
           }`}
         >
-          <FaChartBar /> <span className="hidden md:inline">Result</span>
+          <FaChartBar /> Results
         </button>
       </div>
     </div>
