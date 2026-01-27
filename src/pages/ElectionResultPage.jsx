@@ -152,6 +152,16 @@ const ElectionResultPage = () => {
     return map;
   }, [sortedResult]);
 
+  const candidateNameMap = useMemo(() => {
+    const map = {};
+    result.forEach((item) => {
+      if (item?.candidate?._id) {
+        map[item.candidate._id] = item.candidate.name || "Candidate";
+      }
+    });
+    return map;
+  }, [result]);
+
   useEffect(() => {
     if (!electionId) return;
 
@@ -225,10 +235,10 @@ const ElectionResultPage = () => {
       ];
     }
     return ids.map((id, index) => ({
-      name: `Candidate ${index + 1}`,
+      name: candidateNameMap[id] || `Candidate ${index + 1}`,
       data: candidateTrends[id] || [],
     }));
-  }, [candidateTrends]);
+  }, [candidateTrends, candidateNameMap]);
 
   const trendOptions = useMemo(
     () => ({
@@ -257,6 +267,27 @@ const ElectionResultPage = () => {
       yaxis: { labels: { show: true }, min: 0 },
       grid: { show: true },
       tooltip: { enabled: true },
+    }),
+    []
+  );
+
+  const candidateTrendOptions = useMemo(
+    () => ({
+      chart: {
+        type: "line",
+        toolbar: { show: false },
+        sparkline: { enabled: true },
+        fontFamily: "Instrument Sans, sans-serif",
+      },
+      legend: { show: false },
+      dataLabels: { enabled: false },
+      stroke: { curve: "smooth", width: 2.5 },
+      markers: { size: 0 },
+      grid: { show: false },
+      tooltip: { enabled: false },
+      xaxis: { type: "datetime", labels: { show: false } },
+      yaxis: { labels: { show: false }, min: 0 },
+      colors: ["#101826"],
     }),
     []
   );
@@ -423,8 +454,20 @@ const ElectionResultPage = () => {
                 Live total votes: {totalVotes}
               </span>
             </div>
-            <div className="mt-6 h-80">
-              <Chart options={trendOptions} series={candidateTrendSeries} type="line" height="100%" />
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {candidateTrendSeries.map((series, index) => (
+                <div key={`${series.name}-${index}`} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-[var(--vv-ink-2)]/70">{series.name}</p>
+                  <div className="mt-3 h-28">
+                    <Chart
+                      options={{ ...candidateTrendOptions, colors: [trendOptions.colors[index % trendOptions.colors.length]] }}
+                      series={[series]}
+                      type="line"
+                      height="100%"
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
             <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
               <p className="font-semibold text-[var(--vv-ink)]">Winner spotlight</p>
