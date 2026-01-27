@@ -7,7 +7,13 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    accountType: "user",
+    adminSecret: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
@@ -20,15 +26,18 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password } = formData;
+    const { name, email, password, accountType, adminSecret } = formData;
 
     if (name.length < 6) return toast.error("Name must be at least 6 characters long");
     if (password.length < 8) return toast.error("Password must be at least 8 characters long");
+    if (accountType === "admin" && !adminSecret.trim()) {
+      return toast.error("Admin secret is required for admin accounts");
+    }
 
     try {
       await axios.post(
         "/api/users/register",
-        { name, email, password },
+        { name, email, password, accountType, adminSecret },
         { withCredentials: true }
       );
       toast.success("Registration successful! Redirecting...");
@@ -57,6 +66,28 @@ const Register = () => {
         <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
           <h2 className="font-display text-2xl font-semibold">Register</h2>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/60">
+                Account type
+              </p>
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {["user", "admin"].map((type) => (
+                  <button
+                    key={type}
+                    type="button"
+                    onClick={() => setFormData({ ...formData, accountType: type })}
+                    className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition ${
+                      formData.accountType === type
+                        ? "bg-[var(--vv-ink)] text-white"
+                        : "bg-white text-[var(--vv-ink)]"
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="relative">
               <FaUser className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--vv-ink-2)]/60" />
               <input
@@ -101,6 +132,20 @@ const Register = () => {
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+
+            {formData.accountType === "admin" && (
+              <div className="relative">
+                <input
+                  type="password"
+                  name="adminSecret"
+                  placeholder="Admin secret"
+                  value={formData.adminSecret}
+                  onChange={handleChange}
+                  className="w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] py-3 pl-4 pr-4 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
+                  required
+                />
+              </div>
+            )}
 
             <button
               type="submit"

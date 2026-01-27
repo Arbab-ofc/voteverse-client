@@ -9,7 +9,7 @@ const Header = ({ isAuthenticated }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { setUser, user } = useAuth();
 
   useEffect(() => {
     const handleResize = () => {
@@ -38,6 +38,9 @@ const Header = ({ isAuthenticated }) => {
       : { name: "Login", path: "/login", icon: <LogIn className="h-4 w-4" /> },
     isAuthenticated
       ? { name: "My Profile", path: "/my-profile", icon: <User className="h-4 w-4" /> }
+      : null,
+    user?.isAdmin
+      ? { name: "Admin", path: "/admin", icon: <LayoutDashboard className="h-4 w-4" /> }
       : null,
   ].filter(Boolean);
 

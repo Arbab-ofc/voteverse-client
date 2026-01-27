@@ -21,6 +21,7 @@ import ForgetPassword from './pages/ForgetPassword';
 import ResetPassword from './pages/ResetPassword';
 import ElectionDetailedCard from './components/ElectionDetailedCard';
 import ResendOtp from './pages/ResendOtp';
+import AdminPortal from './pages/AdminPortal';
 
 function App() {
   const { user } = useAuth();
@@ -49,6 +50,7 @@ function App() {
             <Route path="/verify-forget-otp" element={<ResetPassword />} />
             <Route path="/election-details/:electionId" element={<ElectionDetailedCard />} />
             <Route path="/resend-otp" element={<ResendOtp />} />
+            <Route path="/admin" element={<AdminPortal />} />
             <Route path="*" element={<NotFound />} /> 
           </Routes>
         </main>
