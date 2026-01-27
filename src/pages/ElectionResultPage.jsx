@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { FaCalendarAlt, FaIdBadge, FaTrophy, FaCrown } from "react-icons/fa";
@@ -162,6 +162,16 @@ const ElectionResultPage = () => {
     return map;
   }, [result]);
 
+  const stripApexForeignObject = useCallback((chartContext) => {
+    const root = chartContext?.el;
+    if (!root) return;
+    root.querySelectorAll("foreignObject").forEach((node) => {
+      if (node.querySelector("style")) {
+        node.remove();
+      }
+    });
+  }, []);
+
   useEffect(() => {
     if (!electionId) return;
 
@@ -247,6 +257,10 @@ const ElectionResultPage = () => {
         toolbar: { show: false },
         fontFamily: "Instrument Sans, sans-serif",
         sparkline: { enabled: false },
+        events: {
+          mounted: stripApexForeignObject,
+          updated: stripApexForeignObject,
+        },
       },
       legend: { show: false },
       dataLabels: { enabled: false },
@@ -258,7 +272,7 @@ const ElectionResultPage = () => {
       grid: { show: true },
       tooltip: { enabled: true, shared: true, intersect: false },
     }),
-    []
+    [stripApexForeignObject]
   );
 
   if (loading) {
@@ -363,6 +377,10 @@ const ElectionResultPage = () => {
                     type: "bar",
                     sparkline: { enabled: true },
                     toolbar: { show: false },
+                    events: {
+                      mounted: stripApexForeignObject,
+                      updated: stripApexForeignObject,
+                    },
                   },
                   legend: { show: false },
                   dataLabels: { enabled: false },
