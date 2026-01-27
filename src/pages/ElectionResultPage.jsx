@@ -243,23 +243,15 @@ const ElectionResultPage = () => {
   const trendOptions = useMemo(
     () => ({
       chart: {
-        type: "area",
+        type: "line",
+        stacked: true,
         toolbar: { show: false },
         fontFamily: "Instrument Sans, sans-serif",
         sparkline: { enabled: true },
       },
       legend: { show: false },
       dataLabels: { enabled: false },
-      stroke: { curve: "smooth", width: 2.5 },
-      fill: {
-        type: "gradient",
-        gradient: {
-          shadeIntensity: 0.2,
-          opacityFrom: 0.45,
-          opacityTo: 0.05,
-          stops: [0, 90, 100],
-        },
-      },
+      stroke: { curve: "smooth", width: 3 },
       colors: ["#101826"],
       xaxis: { type: "datetime", labels: { show: false } },
       yaxis: { labels: { show: false } },
@@ -454,7 +446,7 @@ const ElectionResultPage = () => {
               </span>
             </div>
             <div className="mt-6 h-80">
-              <Chart options={trendOptions} series={trendSeries} type="area" height="100%" />
+              <Chart options={trendOptions} series={trendSeries} type="line" height="100%" />
             </div>
             <div className="mt-6 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm">
               <p className="font-semibold text-[var(--vv-ink)]">Candidate activity lines</p>
