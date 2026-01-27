@@ -49,12 +49,17 @@ const ElectionResultPage = () => {
               { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: initialTotal },
             ];
           });
+          const now = new Date();
+          const seed = [
+            { x: now.toISOString(), y: 0 },
+            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
+          ];
           const initialCandidateTrends = {};
-          (res.data.result || []).forEach((item, index) => {
+          const candidatesSource = (res.data.election?.candidates || []).map((c) => ({ candidate: c }));
+          const trendSource = (res.data.result || []).length ? res.data.result : candidatesSource;
+          trendSource.forEach((item) => {
             if (item?.candidate?._id) {
-              initialCandidateTrends[item.candidate._id] = [
-                { x: new Date().toISOString(), y: 0 },
-              ];
+              initialCandidateTrends[item.candidate._id] = seed;
             }
           });
           setCandidateTrends(initialCandidateTrends);
@@ -71,8 +76,9 @@ const ElectionResultPage = () => {
             });
             if (fallback.data?.election) {
               setElection(fallback.data.election);
+              const fallbackCandidates = fallback.data.election.candidates || [];
               setResult(
-                (fallback.data.election.candidates || []).map((candidate) => ({
+                fallbackCandidates.map((candidate) => ({
                   candidate,
                   votes: null,
                 }))
@@ -88,6 +94,15 @@ const ElectionResultPage = () => {
                   { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
                 ];
               });
+              const seed = [
+                { x: new Date().toISOString(), y: 0 },
+                { x: new Date(Date.now() + 60 * 1000).toISOString(), y: 0 },
+              ];
+              const fallbackTrends = {};
+              fallbackCandidates.forEach((candidate) => {
+                if (candidate?._id) fallbackTrends[candidate._id] = seed;
+              });
+              setCandidateTrends(fallbackTrends);
             }
           } catch (fallbackError) {
             console.error(fallbackError);
@@ -183,6 +198,18 @@ const ElectionResultPage = () => {
 
   const candidateTrendSeries = useMemo(() => {
     const ids = Object.keys(candidateTrends);
+    if (!ids.length) {
+      const now = new Date();
+      return [
+        {
+          name: "Candidate",
+          data: [
+            { x: now.toISOString(), y: 0 },
+            { x: new Date(now.getTime() + 60 * 1000).toISOString(), y: 0 },
+          ],
+        },
+      ];
+    }
     return ids.map((id, index) => ({
       name: `Candidate ${index + 1}`,
       data: candidateTrends[id] || [],
