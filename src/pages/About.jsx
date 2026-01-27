@@ -19,146 +19,158 @@ const About = () => {
     "Tailwind CSS",
   ];
 
+  const stats = [
+    { label: "Launch Year", value: "2025" },
+    { label: "Votes Cast", value: "+10K" },
+    { label: "Uptime", value: "99.9%" },
+    { label: "Organizations", value: "50+" },
+  ];
+
   const sectionVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-black via-gray-900 to-black text-white px-6 py-12 space-y-20">
-      <section className="max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-4 pt-12">Who We Are</h2>
-        <p className="text-lg text-gray-300">
-          VoteVerse is a visionary platform committed to redefining the democratic experience
-          through secure, transparent, and accessible digital voting solutions.
+    <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
+      <section className="mx-auto max-w-6xl">
+        <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">About VoteVerse</p>
+        <h1 className="font-display mt-3 text-4xl font-semibold md:text-5xl">
+          The modern standard for transparent elections.
+        </h1>
+        <p className="mt-5 max-w-3xl text-base text-[var(--vv-ink-2)]/75">
+          VoteVerse is built to make every election feel calm, secure, and easy to trust. We combine strong verification,
+          real-time results, and accessible interfaces for teams and communities that want confidence over chaos.
         </p>
-      </section>
 
-      <section className="max-w-5xl mx-auto text-center">
-        <h2 className="text-4xl font-bold mb-4">Our Mission</h2>
-        <p className="text-lg text-gray-300">
-          Our mission is to empower every individual with the ability to cast their vote safely and confidently
-          from anywhere in the world. We aim to restore trust in elections by combining transparency with modern technology.
-        </p>
-      </section>
-
-      <motion.section
-        className="max-w-5xl mx-auto"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={sectionVariants}
-      >
-        <h2 className="text-4xl font-bold text-center mb-8">Why VoteVerse?</h2>
-        <ul className="grid md:grid-cols-2 gap-6 text-gray-200 text-lg">
-          <li>🔐 End-to-end encrypted voting system</li>
-          <li>📊 Real-time results with full transparency</li>
-          <li>📱 Accessible from any device, anywhere</li>
-          <li>👥 Designed with inclusivity and usability in mind</li>
-        </ul>
-      </motion.section>
-
-      <motion.section
-        className="max-w-5xl mx-auto"
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-        variants={sectionVariants}
-      >
-        <h2 className="text-4xl font-bold text-center mb-8">Our Core Values</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
-          {coreValues.map((value, index) => (
-            <motion.div
-              key={index}
-              whileHover={{ scale: 1.1, boxShadow: "0 0 20px #facc15" }}
-              className="bg-gray-800 p-4 rounded-xl text-center text-lg font-semibold hover:text-yellow-300 transition"
-            >
-              {value}
-            </motion.div>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="rounded-3xl border border-black/10 bg-white px-6 py-5 shadow-xl shadow-black/5">
+              <div className="font-display text-2xl font-semibold">{stat.value}</div>
+              <p className="mt-2 text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">{stat.label}</p>
+            </div>
           ))}
         </div>
-      </motion.section>
+      </section>
 
       <motion.section
-        className="max-w-5xl mx-auto"
+        className="mx-auto mt-16 max-w-6xl"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <h2 className="text-4xl font-bold text-center mb-8">Behind the Tech</h2>
-        <div className="flex flex-wrap justify-center gap-8">
-          {techStack.map((tech, index) => (
-            <motion.span
-              key={index}
-              whileHover={{ scale: 1.1, boxShadow: "0 0 20px #60a5fa" }}
-              className="px-4 py-2 bg-gray-800 rounded-full text-sm font-medium hover:text-blue-400 transition"
-            >
-              {tech}
-            </motion.span>
-          ))}
+        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10">
+            <h2 className="font-display text-3xl font-semibold">Our mission</h2>
+            <p className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
+              We empower every voter to participate confidently from anywhere. Our platform prioritizes transparency
+              without sacrificing usability, so elections stay credible and human.
+            </p>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {[
+                "End-to-end encrypted voting",
+                "Real-time results with audit trails",
+                "Inclusive design for every device",
+                "Instant communication with voters",
+              ].map((item) => (
+                <div key={item} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Our principles</p>
+            <div className="mt-6 grid gap-3">
+              {coreValues.map((value) => (
+                <div key={value} className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm">
+                  {value}
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </motion.section>
 
-      <section className="max-w-5xl mx-auto text-center space-y-8">
-        <h2 className="text-4xl font-bold">Fun Facts</h2>
-        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-gray-200">
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-3xl font-bold text-yellow-400">2025</p>
-            <p>Launch Year</p>
+      <motion.section
+        className="mx-auto mt-16 max-w-6xl"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariants}
+      >
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Technology</p>
+              <h2 className="font-display mt-3 text-3xl font-semibold">Built on a trusted stack</h2>
+            </div>
+            <p className="max-w-lg text-sm text-[var(--vv-ink-2)]/75">
+              We rely on proven tools to keep VoteVerse fast, reliable, and secure while scaling for large elections.
+            </p>
           </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-3xl font-bold text-yellow-400">+10K</p>
-            <p>Votes Cast</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-3xl font-bold text-yellow-400">99.9%</p>
-            <p>Uptime</p>
-          </div>
-          <div className="bg-gray-800 p-6 rounded-xl">
-            <p className="text-3xl font-bold text-yellow-400">50+</p>
-            <p>Organizations Onboard</p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            {techStack.map((tech) => (
+              <span
+                key={tech}
+                className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold text-[var(--vv-ink)]"
+              >
+                {tech}
+              </span>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="max-w-4xl mx-auto text-center space-y-6">
-        <blockquote className="italic text-gray-300 text-lg">
-          “We believe voting should be as secure as your bank and as easy as your favorite app.”
-        </blockquote>
-        <p className="text-yellow-300 font-semibold">— Arbab Arshad , VoteVerse</p>
-      </section>
-
-      <section className="max-w-4xl mx-auto text-center space-y-6">
-        <h2 className="text-3xl font-bold">Join the Community</h2>
-        <div className="flex justify-center gap-6">
-          <motion.a
-            href="https://github.com"
-            whileHover={{ scale: 1.2, color: "#facc15" }}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-3xl text-white hover:text-yellow-400 transition duration-300"
-          >
-            <FaGithub />
-          </motion.a>
-          <motion.a
-            href="mailto:contact@voteverse.com"
-            whileHover={{ scale: 1.2, color: "#facc15" }}
-            className="text-3xl text-white hover:text-yellow-400 transition duration-300"
-          >
-            <FaEnvelope />
-          </motion.a>
-          <motion.a
-            href="https://linkedin.com"
-            whileHover={{ scale: 1.2, color: "#facc15" }}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-3xl text-white hover:text-yellow-400 transition duration-300"
-          >
-            <FaLinkedin />
-          </motion.a>
+      <motion.section
+        className="mx-auto mt-16 max-w-6xl"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={sectionVariants}
+      >
+        <div className="grid gap-8 md:grid-cols-[1fr_0.9fr]">
+          <div className="rounded-3xl border border-black/10 bg-white p-8">
+            <h2 className="font-display text-3xl font-semibold">A note from the founder</h2>
+            <blockquote className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
+              “We believe voting should be as secure as your bank and as easy as your favorite app.”
+            </blockquote>
+            <p className="mt-4 text-sm font-semibold text-[var(--vv-ink)]">— Arbab Arshad</p>
+          </div>
+          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+            <h3 className="font-display text-2xl font-semibold">Join the community</h3>
+            <p className="mt-3 text-sm text-white/70">
+              Follow the journey, contribute ideas, and help us keep democracy transparent.
+            </p>
+            <div className="mt-6 flex items-center gap-4 text-2xl">
+              <a
+                href="https://github.com/Arbab-ofc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+              >
+                <FaGithub />
+              </a>
+              <a
+                href="mailto:arbababby111@gmail.com"
+                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+              >
+                <FaEnvelope />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/arbab-arshad-0b2961326/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-white/20 p-3 hover:bg-white/10"
+              >
+                <FaLinkedin />
+              </a>
+            </div>
+          </div>
         </div>
-      </section>
+      </motion.section>
     </div>
   );
 };
