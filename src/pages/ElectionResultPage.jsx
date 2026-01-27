@@ -125,7 +125,32 @@ const ElectionResultPage = () => {
     };
 
     fetchResult();
-  }, [electionId, candidateIndexMap]);
+  }, [electionId]);
+
+  const formatDate = (dateStr) => {
+    if (!dateStr) return "N/A";
+    const date = new Date(dateStr);
+    if (isNaN(date)) return "Invalid Date";
+    return date.toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
+
+  const sortedResult = useMemo(() => {
+    return [...result].sort((a, b) => (b.votes || 0) - (a.votes || 0));
+  }, [result]);
+
+  const candidateIndexMap = useMemo(() => {
+    const map = {};
+    sortedResult.forEach((item, index) => {
+      if (item?.candidate?._id) {
+        map[item.candidate._id] = index;
+      }
+    });
+    return map;
+  }, [sortedResult]);
 
   useEffect(() => {
     if (!electionId) return;
@@ -176,32 +201,7 @@ const ElectionResultPage = () => {
     return () => {
       socket.off("vote-updated", handleVoteUpdate);
     };
-  }, [electionId]);
-
-  const formatDate = (dateStr) => {
-    if (!dateStr) return "N/A";
-    const date = new Date(dateStr);
-    if (isNaN(date)) return "Invalid Date";
-    return date.toLocaleDateString("en-IN", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    });
-  };
-
-  const sortedResult = useMemo(() => {
-    return [...result].sort((a, b) => (b.votes || 0) - (a.votes || 0));
-  }, [result]);
-
-  const candidateIndexMap = useMemo(() => {
-    const map = {};
-    sortedResult.forEach((item, index) => {
-      if (item?.candidate?._id) {
-        map[item.candidate._id] = index;
-      }
-    });
-    return map;
-  }, [sortedResult]);
+  }, [electionId, candidateIndexMap, isFinal]);
 
   const maxVotes = useMemo(() => {
     return sortedResult.reduce((max, item) => Math.max(max, item.votes), 1);
