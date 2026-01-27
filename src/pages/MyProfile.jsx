@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { toast, ToastContainer, Slide } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { User, CheckCircle, Calendar, Mail, Key, Hash } from "lucide-react";
+import { CheckCircle, Calendar, Mail, Key, IdCard } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
-import "./MyProfile.css"; 
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
-  const [flipped, setFlipped] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,7 +16,6 @@ const MyProfile = () => {
           withCredentials: true,
         });
         setUser(res.data);
-        toast.success("Profile loaded");
       } catch (error) {
         toast.error("Failed to load profile");
       }
@@ -28,86 +25,90 @@ const MyProfile = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center text-white">
+      <div className="min-h-screen flex items-center justify-center bg-[var(--vv-sand)] text-[var(--vv-ink)]">
         Loading profile...
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-950 via-black to-gray-900 flex items-center justify-center p-4">
-      
-      <ToastContainer
-        position="top-right"
-        autoClose={500} 
-        hideProgressBar
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-        transition={Slide}
-      />
-
-      <div
-        className="flip-card w-80 h-96 cursor-pointer"
-        onClick={() => setFlipped(!flipped)}
-      >
-        <div className={`flip-card-inner ${flipped ? "flipped" : ""}`}>
-          
-          
-          <div className="flip-card-front bg-gradient-to-r from-black via-gray-900 to-black rounded-2xl shadow-xl flex flex-col items-center justify-center p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <User className="w-6 h-6 text-yellow-400" />
-              <h2 className="text-xl font-bold text-white">{user.name}</h2>
+    <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
+      <div className="mx-auto max-w-5xl space-y-8">
+        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Profile</p>
+              <h1 className="font-display mt-3 text-4xl font-semibold md:text-5xl">
+                {user.name}
+              </h1>
+              <p className="mt-3 text-sm text-[var(--vv-ink-2)]/75">
+                Manage your account details and security preferences.
+              </p>
             </div>
-            <div className="flex items-center gap-2 mt-3">
-              <Calendar className="w-5 h-5 text-blue-400" />
-              <span className="text-sm text-gray-300">
-                Joined: {new Date(user.createdAt).toLocaleDateString()}
-              </span>
-            </div>
+            <span
+              className={`inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold ${
+                user.isVerified
+                  ? "bg-[var(--vv-sage)]/30 text-[var(--vv-ink)]"
+                  : "bg-black/10 text-[var(--vv-ink-2)]/70"
+              }`}
+            >
+              <CheckCircle className={user.isVerified ? "text-[var(--vv-ink)]" : "text-[var(--vv-ink-2)]/60"} />
+              {user.isVerified ? "Verified account" : "Not verified"}
+            </span>
           </div>
 
-          
-          <div className="flip-card-back bg-gradient-to-r from-black via-gray-900 to-black rounded-2xl shadow-xl flex flex-col items-center justify-center p-6">
-            <div className="flex items-center gap-2 mb-2">
-              <User className="w-5 h-5 text-yellow-400" />
-              <h2 className="text-lg font-bold text-white">{user.name}</h2>
+          <div className="mt-8 grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">Email</p>
+              <div className="mt-2 flex items-center gap-2 font-semibold">
+                <Mail className="h-4 w-4 text-[var(--vv-ember)]" />
+                <span className="truncate">{user.email}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <Hash className="w-5 h-5 text-green-400" />
-              <span className="text-sm text-gray-300">ID: {user.id}</span>
+            <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">Member since</p>
+              <div className="mt-2 flex items-center gap-2 font-semibold">
+                <Calendar className="h-4 w-4 text-[var(--vv-ember)]" />
+                {new Date(user.createdAt).toLocaleDateString()}
+              </div>
             </div>
-            <div className="flex items-center gap-2 mb-2">
-              <CheckCircle
-                className={`w-5 h-5 ${
-                  user.isVerified ? "text-green-400" : "text-red-400"
-                }`}
-              />
-              <span className="text-sm text-gray-300">
-                {user.isVerified ? "Verified" : "Not Verified"}
-              </span>
+            <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">User ID</p>
+              <div className="mt-2 flex items-center gap-2 font-semibold">
+                <IdCard className="h-4 w-4 text-[var(--vv-ember)]" />
+                <span className="truncate">{user.id}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 mb-6">
-              <Mail className="w-5 h-5 text-blue-400" />
-              <span className="text-sm text-gray-300">{user.email}</span>
-            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
+          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+            <h2 className="font-display text-2xl font-semibold">Security</h2>
+            <p className="mt-3 text-sm text-[var(--vv-ink-2)]/75">
+              Keep your account protected with a strong, unique password.
+            </p>
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                navigate("/change-password");
-              }}
-              className="bg-gray-700 px-5 py-2 rounded-lg text-white hover:shadow-[0_0_20px_4px_rgba(0,255,255,0.9)] hover:bg-gray-600 transition-all duration-300 flex items-center gap-2"
+              onClick={() => navigate("/change-password")}
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--vv-ink)] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
             >
-              <Key className="w-5 h-5" />
-              <span>Change Password</span>
+              <Key className="h-4 w-4" />
+              Change password
             </button>
           </div>
 
+          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white shadow-2xl shadow-black/10">
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Status</p>
+            <p className="mt-4 text-sm text-white/70">
+              {user.isVerified
+                ? "Your account is verified and ready to vote."
+                : "Verify your email to unlock voting and election management."}
+            </p>
+          </div>
         </div>
       </div>
+
+      <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
     </div>
   );
 };
