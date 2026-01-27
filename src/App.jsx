@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -25,6 +25,7 @@ import AdminPortal from './pages/AdminPortal';
 
 function App() {
   const { user } = useAuth();
+  const redirectIfAuthed = (element) => (user ? <Navigate to="/dashboard" replace /> : element);
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
@@ -34,8 +35,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={redirectIfAuthed(<Login />)} />
+            <Route path="/register" element={redirectIfAuthed(<Register />)} />
             <Route path="verify-otp" element={<OtpVerification />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<About />} />
