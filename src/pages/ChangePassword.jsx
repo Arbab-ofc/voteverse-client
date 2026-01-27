@@ -18,7 +18,7 @@ const ChangePassword = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "/api/users/change-password",
+        "/api/v2/users/change-password",
         { oldPassword, newPassword, confirmPassword },
         { withCredentials: true }
       );

@@ -21,7 +21,7 @@ const Header = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/users/logout", {}, { withCredentials: true });
+      await axios.post("/api/v2/users/logout", {}, { withCredentials: true });
       setUser(null);
       toast.success("Logged out successfully");
       navigate("/login");

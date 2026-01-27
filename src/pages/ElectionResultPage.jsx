@@ -30,7 +30,7 @@ const ElectionResultPage = () => {
 
     const fetchResult = async () => {
       try {
-        const res = await axios.get(`/api/elections/result/${electionId}`, {
+        const res = await axios.get(`/api/v2/elections/result/${electionId}`, {
           withCredentials: true,
         });
 
@@ -75,7 +75,7 @@ const ElectionResultPage = () => {
         const message = error.response?.data?.message;
         if (error.response?.status === 400) {
           try {
-            const fallback = await axios.get(`/api/elections/id/${electionId}`, {
+            const fallback = await axios.get(`/api/v2/elections/id/${electionId}`, {
               withCredentials: true,
             });
             if (fallback.data?.election) {

@@ -18,7 +18,7 @@ const ElectionDetailedCard = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`/api/elections/id/${electionId}`, { withCredentials: true });
+        const res = await axios.get(`/api/v2/elections/id/${electionId}`, { withCredentials: true });
         if (res.data.success) {
           setElection(res.data.election);
         } else {

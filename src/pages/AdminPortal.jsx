@@ -34,7 +34,7 @@ const AdminPortal = () => {
     const loadUsers = async () => {
       try {
         setLoadingUsers(true);
-        const res = await axios.get("/api/admin/users", {
+        const res = await axios.get("/api/v2/admin/users", {
           withCredentials: true,
           params: { page: userPage, limit: pageSize, search: userSearch || undefined },
         });
@@ -56,7 +56,7 @@ const AdminPortal = () => {
     const loadElections = async () => {
       try {
         setLoadingElections(true);
-        const res = await axios.get("/api/admin/elections", {
+        const res = await axios.get("/api/v2/admin/elections", {
           withCredentials: true,
           params: { page: electionPage, limit: pageSize, search: electionSearch || undefined },
         });
@@ -78,7 +78,7 @@ const AdminPortal = () => {
     const loadMessages = async () => {
       try {
         setLoadingMessages(true);
-        const res = await axios.get("/api/admin/contact-messages", {
+        const res = await axios.get("/api/v2/admin/contact-messages", {
           withCredentials: true,
           params: { page: messagePage, limit: pageSize, search: messageSearch || undefined },
         });
@@ -98,7 +98,7 @@ const AdminPortal = () => {
   const handleVerify = async (userId) => {
     try {
       setActionKey(`verify-${userId}`);
-      const res = await axios.patch(`/api/admin/users/${userId}/verify`, {}, { withCredentials: true });
+      const res = await axios.patch(`/api/v2/admin/users/${userId}/verify`, {}, { withCredentials: true });
       setUsers((prev) => prev.map((item) => (item._id === userId ? res.data.user : item)));
       toast.success("User verified");
     } catch (error) {
@@ -111,7 +111,7 @@ const AdminPortal = () => {
   const handlePromote = async (userId) => {
     try {
       setActionKey(`promote-${userId}`);
-      const res = await axios.patch(`/api/admin/users/${userId}/promote`, {}, { withCredentials: true });
+      const res = await axios.patch(`/api/v2/admin/users/${userId}/promote`, {}, { withCredentials: true });
       setUsers((prev) => prev.map((item) => (item._id === userId ? res.data.user : item)));
       toast.success("User promoted to admin");
     } catch (error) {
@@ -124,7 +124,7 @@ const AdminPortal = () => {
   const handleDeleteElection = async (electionId) => {
     try {
       setActionKey(`delete-${electionId}`);
-      await axios.delete(`/api/admin/elections/${electionId}`, { withCredentials: true });
+      await axios.delete(`/api/v2/admin/elections/${electionId}`, { withCredentials: true });
       setElections((prev) => prev.filter((item) => item._id !== electionId));
       setElectionTotal((prev) => Math.max(prev - 1, 0));
       toast.success("Election deleted");
@@ -139,7 +139,7 @@ const AdminPortal = () => {
     if (!window.confirm("Delete this user? This cannot be undone.")) return;
     try {
       setActionKey(`delete-user-${userId}`);
-      await axios.delete(`/api/admin/users/${userId}`, { withCredentials: true });
+      await axios.delete(`/api/v2/admin/users/${userId}`, { withCredentials: true });
       setUsers((prev) => prev.filter((item) => item._id !== userId));
       setUserTotal((prev) => Math.max(prev - 1, 0));
       toast.success("User deleted");
@@ -154,7 +154,7 @@ const AdminPortal = () => {
     if (!window.confirm("Delete this message?")) return;
     try {
       setActionKey(`delete-message-${messageId}`);
-      await axios.delete(`/api/admin/contact-messages/${messageId}`, { withCredentials: true });
+      await axios.delete(`/api/v2/admin/contact-messages/${messageId}`, { withCredentials: true });
       setMessages((prev) => prev.filter((item) => item._id !== messageId));
       setMessageTotal((prev) => Math.max(prev - 1, 0));
       toast.success("Message deleted");

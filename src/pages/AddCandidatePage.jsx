@@ -21,7 +21,7 @@ export default function AddCandidatePage() {
     setIsSubmitting(true);
     try {
       const res = await axios.post(
-        '/api/candidates/add-candidate',
+        '/api/v2/candidates/add-candidate',
         { ...formData, electionId },
         { withCredentials: true }
       );

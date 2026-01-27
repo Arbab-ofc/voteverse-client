@@ -32,7 +32,7 @@ const UpdateElection = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`/api/elections/id/${electionId}`, {
+        const res = await axios.get(`/api/v2/elections/id/${electionId}`, {
           withCredentials: true,
         });
         const election = res.data.election;
@@ -74,7 +74,7 @@ const UpdateElection = () => {
       if (form.candidates.length) payload.candidates = form.candidates;
       if (form.votePassword) payload.votePassword = form.votePassword;
 
-      await axios.put(`/api/elections/${electionId}`, payload, {
+      await axios.put(`/api/v2/elections/${electionId}`, payload, {
         withCredentials: true,
       });
 

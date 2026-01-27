@@ -29,7 +29,7 @@ const ResetPassword = () => {
 
     try {
       const res = await axios.post(
-        "/api/users/reset-password",
+        "/api/v2/users/reset-password",
         {
           email,
           otp: formData.otp,

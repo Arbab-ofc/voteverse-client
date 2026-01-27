@@ -24,7 +24,7 @@ const CandidateList = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`/api/elections/id/${electionId}`, {
+        const res = await axios.get(`/api/v2/elections/id/${electionId}`, {
           withCredentials: true,
         });
         setElection(res.data.election);
@@ -68,7 +68,7 @@ const CandidateList = () => {
 
     try {
       const res = await axios.post(
-        "/api/votes/vote-candidate",
+        "/api/v2/votes/vote-candidate",
         { electionId: selectedElectionId, candidateId, votePassword },
         { withCredentials: true }
       );

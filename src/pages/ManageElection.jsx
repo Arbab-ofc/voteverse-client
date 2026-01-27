@@ -37,7 +37,7 @@ const ManageElection = () => {
 
     const fetchElection = async () => {
       try {
-        const res = await axios.get(`/api/elections/id/${electionId}`, {
+        const res = await axios.get(`/api/v2/elections/id/${electionId}`, {
           withCredentials: true,
         });
         setElection(res.data.election);
@@ -71,7 +71,7 @@ const ManageElection = () => {
     setAdding(true);
     try {
       const res = await axios.post(
-        "/api/candidates/add-candidate",
+        "/api/v2/candidates/add-candidate",
         { ...formData, electionId },
         { withCredentials: true }
       );
@@ -80,7 +80,7 @@ const ManageElection = () => {
       if (newCandidate) {
         setCandidates((prev) => [newCandidate, ...prev]);
       } else {
-        const refreshed = await axios.get(`/api/elections/id/${electionId}`, {
+        const refreshed = await axios.get(`/api/v2/elections/id/${electionId}`, {
           withCredentials: true,
         });
         setCandidates(refreshed.data.election.candidates || []);
@@ -95,7 +95,7 @@ const ManageElection = () => {
 
   const handleRemoveCandidate = async (candidateId) => {
     try {
-      const res = await axios.delete(`/api/elections/${electionId}/candidates/${candidateId}`, {
+      const res = await axios.delete(`/api/v2/elections/${electionId}/candidates/${candidateId}`, {
         data: { candidateId, electionId },
         withCredentials: true,
       });
@@ -110,7 +110,7 @@ const ManageElection = () => {
     if (!electionId) return;
     setEnding(true);
     try {
-      const res = await axios.put(`/api/elections/end/${electionId}`, {}, { withCredentials: true });
+      const res = await axios.put(`/api/v2/elections/end/${electionId}`, {}, { withCredentials: true });
       toast.success(res.data.message || "Election ended successfully.");
       setElection(res.data.election || election);
     } catch (error) {
@@ -124,7 +124,7 @@ const ManageElection = () => {
     if (!electionId) return;
     setDeleting(true);
     try {
-      const res = await axios.delete(`/api/elections/${electionId}`, { withCredentials: true });
+      const res = await axios.delete(`/api/v2/elections/${electionId}`, { withCredentials: true });
       toast.success(res.data.message || "Election deleted successfully.");
       setTimeout(() => navigate("/dashboard"), 1200);
     } catch (error) {

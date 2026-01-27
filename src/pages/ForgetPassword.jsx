@@ -14,7 +14,7 @@ const ForgetPassword = () => {
     if (!email) return toast.error("Email is required");
 
     try {
-      const res = await axios.post("/api/users/forget", { email });
+      const res = await axios.post("/api/v2/users/forget", { email });
 
       toast.success(res.data.message || "OTP sent successfully");
       navigate("/verify-forget-otp", { state: { email } });

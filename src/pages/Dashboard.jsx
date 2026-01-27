@@ -14,8 +14,8 @@ const Dashboard = () => {
     const fetchElections = async () => {
       try {
         const [myRes, allRes] = await Promise.all([
-          axios.get('/api/elections/my', { withCredentials: true }),
-          axios.get('/api/elections/all', { withCredentials: true }),
+          axios.get('/api/v2/elections/my', { withCredentials: true }),
+          axios.get('/api/v2/elections/all', { withCredentials: true }),
         ]);
         const withVotes = (elections) =>
           (elections || []).map((election) => ({

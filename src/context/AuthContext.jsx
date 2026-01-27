@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
 
-      const { data } = await axios.get('/api/users/profile', {
+      const { data } = await axios.get('/api/v2/users/profile', {
         withCredentials: true, 
       });
 

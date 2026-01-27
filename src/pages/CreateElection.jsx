@@ -36,7 +36,7 @@ const CreateElection = () => {
 
     try {
       const { data } = await axios.post(
-        '/api/elections/create-election',
+        '/api/v2/elections/create-election',
         formData,
         { withCredentials: true }
       );

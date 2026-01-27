@@ -27,7 +27,7 @@ const OtpVerification = () => {
 
     try {
       const response = await axios.post(
-        '/api/users/verify-otp',
+        '/api/v2/users/verify-otp',
         { email, otp },
         { withCredentials: true }
       );

@@ -20,7 +20,7 @@ const DeleteElectionCard = () => {
 
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`/api/elections/${electionId}`, {
+      const res = await axios.delete(`/api/v2/elections/${electionId}`, {
         withCredentials: true,
       });
       toast.success(res.data.message || "Election deleted successfully!");

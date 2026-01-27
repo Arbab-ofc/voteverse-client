@@ -29,7 +29,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "/api/users/login",
+        "/api/v2/users/login",
         { email, password },
         { withCredentials: true }
       );

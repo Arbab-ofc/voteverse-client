@@ -24,7 +24,7 @@ const Contact = () => {
     }
 
     try {
-      const { data } = await axios.post("/api/contact", formData);
+      const { data } = await axios.post("/api/v2/contact", formData);
       if (data?.success) {
         toast.success("Message submitted successfully");
         setFormData({ name: "", email: "", message: "" });

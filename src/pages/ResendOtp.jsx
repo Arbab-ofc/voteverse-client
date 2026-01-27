@@ -19,7 +19,7 @@ const ResendOtp = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "/api/users/resend-otp",
+        "/api/v2/users/resend-otp",
         { email },
         { withCredentials: true }
       );
