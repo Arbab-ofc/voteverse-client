@@ -63,7 +63,7 @@ const TestimonialsSlider = () => {
   const prevSlide = () => setIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
 
   useEffect(() => {
-    timeoutRef.current = setInterval(nextSlide, 5000);
+    timeoutRef.current = setInterval(nextSlide, 6000);
     return () => clearInterval(timeoutRef.current);
   }, [index]);
 
@@ -74,59 +74,119 @@ const TestimonialsSlider = () => {
     trackMouse: true,
   });
 
-  return (
-    <div className="relative w-full overflow-hidden py-10 px-4" {...swipeHandlers}>
-      <h2 className="text-3xl font-bold text-center mb-8">What People Are Saying</h2>
-      <div className="flex items-center justify-center space-x-4">
-        <button onClick={prevSlide} className="text-gray-700 hover:text-black">
-          <FaChevronLeft size={24} />
-        </button>
+  const sideCards = [0, 1, 2].map((offset) => testimonials[(index + offset) % testimonials.length]);
 
-        <div className="w-full max-w-lg">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: 100 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="bg-white rounded-lg shadow-lg p-6 text-center"
-            >
-              <img
-                src={testimonials[index].image}
-                alt={testimonials[index].name}
-                className="w-16 h-16 rounded-full mx-auto mb-3"
-              />
-              <h3 className="text-xl font-semibold text-gray-800">
-                {testimonials[index].name}
-                <span className="ml-2 text-blue-500 text-sm inline-flex items-center">
-                  <FaCheckCircle className="mr-1" /> Verified Voter
-                </span>
-              </h3>
-              <p className="text-sm text-gray-500 mb-2">{testimonials[index].role}</p>
-              <div className="flex justify-center text-yellow-400 mb-2">
-                {[...Array(testimonials[index].rating)].map((_, i) => (
-                  <FaStar key={i} />
-                ))}
-              </div>
-              <motion.p
-                key={testimonials[index].message}
-                className="text-gray-700 italic"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-              >
-                \"{testimonials[index].message}\"
-              </motion.p>
-            </motion.div>
-          </AnimatePresence>
+  return (
+    <section className="relative overflow-hidden px-6 py-20" {...swipeHandlers}>
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute left-10 top-10 h-40 w-40 rounded-full bg-[var(--vv-sage)]/40 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-56 w-56 rounded-full bg-[var(--vv-ember)]/20 blur-3xl" />
+      </div>
+
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Testimonials</p>
+            <h2 className="font-display mt-3 text-3xl font-semibold text-[var(--vv-ink)] md:text-4xl">
+              Trusted by voters who expect transparency.
+            </h2>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-[var(--vv-ink-2)]/70">
+            <span className="rounded-full border border-black/10 bg-white px-3 py-1">{index + 1} / {testimonials.length}</span>
+            <div className="flex gap-1">
+              {testimonials.map((_, i) => (
+                <span
+                  key={i}
+                  className={`h-1.5 w-6 rounded-full transition ${i === index ? 'bg-[var(--vv-ink)]' : 'bg-black/10'}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
 
-        <button onClick={nextSlide} className="text-gray-700 hover:text-black">
-          <FaChevronRight size={24} />
-        </button>
+        <div className="mt-10 grid gap-8 lg:grid-cols-[minmax(0,1fr)_240px]">
+          <div className="relative">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{ duration: 0.5 }}
+                className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10"
+              >
+                <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={testimonials[index].image}
+                      alt={testimonials[index].name}
+                      className="h-16 w-16 rounded-2xl object-cover"
+                    />
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h3 className="font-display text-xl font-semibold">{testimonials[index].name}</h3>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--vv-sand)] px-2 py-1 text-[11px] font-semibold text-[var(--vv-ink)]">
+                          <FaCheckCircle className="text-[var(--vv-ember)]" />
+                          Verified
+                        </span>
+                      </div>
+                      <p className="text-sm text-[var(--vv-ink-2)]/70">{testimonials[index].role}</p>
+                      <div className="mt-2 flex text-[var(--vv-gold)]">
+                        {[...Array(testimonials[index].rating)].map((_, i) => (
+                          <FaStar key={i} />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="md:flex-1 md:pl-6">
+                    <p className="text-base text-[var(--vv-ink-2)]/80">
+                      “{testimonials[index].message}”
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            <div className="mt-6 flex items-center justify-between">
+              <button
+                type="button"
+                onClick={prevSlide}
+                className="flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-[var(--vv-ink)] hover:-translate-y-0.5"
+              >
+                <FaChevronLeft />
+                Previous
+              </button>
+              <button
+                type="button"
+                onClick={nextSlide}
+                className="flex items-center gap-2 rounded-full bg-[var(--vv-ink)] px-4 py-2 text-sm font-semibold text-white hover:-translate-y-0.5"
+              >
+                Next
+                <FaChevronRight />
+              </button>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {sideCards.map((item) => (
+              <div
+                key={item.name}
+                className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm"
+              >
+                <div className="flex items-center gap-3">
+                  <img src={item.image} alt={item.name} className="h-10 w-10 rounded-xl object-cover" />
+                  <div>
+                    <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
+                    <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs text-[var(--vv-ink-2)]/70">“{item.message}”</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
