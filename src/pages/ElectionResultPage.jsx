@@ -248,6 +248,8 @@ const ElectionResultPage = () => {
         fontFamily: "Instrument Sans, sans-serif",
         sparkline: { enabled: true },
       },
+      legend: { show: false },
+      dataLabels: { enabled: false },
       stroke: { curve: "smooth", width: 3 },
       colors: ["#101826"],
       xaxis: { type: "datetime", labels: { show: false } },
@@ -267,6 +269,8 @@ const ElectionResultPage = () => {
         sparkline: { enabled: true },
         fontFamily: "Instrument Sans, sans-serif",
       },
+      legend: { show: false },
+      dataLabels: { enabled: false },
       stroke: { curve: "smooth", width: 2 },
       markers: { size: 0 },
       grid: { show: false },
@@ -381,6 +385,8 @@ const ElectionResultPage = () => {
                     sparkline: { enabled: true },
                     toolbar: { show: false },
                   },
+                  legend: { show: false },
+                  dataLabels: { enabled: false },
                   plotOptions: {
                     bar: {
                       borderRadius: 6,
