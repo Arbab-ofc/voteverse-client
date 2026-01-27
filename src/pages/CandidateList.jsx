@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { FaUser, FaVoteYea, FaLock } from "react-icons/fa";
 import socket from "../lib/socket";
+import { useAuth } from "../context/AuthContext";
 import "react-toastify/dist/ReactToastify.css";
 
 const CandidateList = () => {
@@ -11,6 +12,7 @@ const CandidateList = () => {
   const navigate = useNavigate();
   const { electionId: paramElectionId } = useParams();
   const electionId = paramElectionId || state?.electionId;
+  const { user } = useAuth();
 
   const [candidates, setCandidates] = useState([]);
   const [election, setElection] = useState(null);
@@ -63,6 +65,12 @@ const CandidateList = () => {
   }, [electionId]);
 
   const handleVote = async (selectedElectionId, candidateId) => {
+    if (!user) {
+      toast.error("Please login to vote");
+      navigate("/login");
+      return;
+    }
+
     const toastId = toast.loading("Casting your vote...");
 
     try {
@@ -186,14 +194,14 @@ const CandidateList = () => {
               </div>
               <button
                 onClick={() => handleVote(electionId, candidate._id)}
-                disabled={isBeforeStart || (election?.isPasswordProtected && !votePassword)}
+                disabled={!user || isBeforeStart || (election?.isPasswordProtected && !votePassword)}
                 className={`mt-6 flex w-full items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
-                  isBeforeStart || (election?.isPasswordProtected && !votePassword)
+                  !user || isBeforeStart || (election?.isPasswordProtected && !votePassword)
                     ? "cursor-not-allowed bg-black/10 text-[var(--vv-ink-2)]/50"
                     : "bg-[var(--vv-ink)] text-white shadow-lg shadow-black/20 hover:-translate-y-0.5 group-hover:shadow-black/30"
                 }`}
               >
-                <FaVoteYea /> {isBeforeStart ? "Voting not started" : "Cast vote"}
+                <FaVoteYea /> {!user ? "Login to vote" : isBeforeStart ? "Voting not started" : "Cast vote"}
               </button>
             </div>
           );
