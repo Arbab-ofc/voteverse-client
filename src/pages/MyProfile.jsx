@@ -34,7 +34,7 @@ const MyProfile = () => {
   return (
     <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
       <div className="mx-auto max-w-5xl space-y-8">
-        <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+        <div className="rounded-3xl border border-black/10 bg-white p-7 shadow-2xl shadow-black/5">
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Profile</p>
@@ -42,7 +42,7 @@ const MyProfile = () => {
                 {user.name}
               </h1>
               <p className="mt-3 text-sm text-[var(--vv-ink-2)]/75">
-                Manage your account details and security preferences.
+                Your account overview and security status.
               </p>
             </div>
             <span
@@ -57,24 +57,24 @@ const MyProfile = () => {
             </span>
           </div>
 
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-7 grid gap-3 md:grid-cols-3">
             <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">Email</p>
-              <div className="mt-2 flex items-center gap-2 font-semibold">
+              <div className="mt-2 flex items-center gap-2 text-[15px] font-semibold">
                 <Mail className="h-4 w-4 text-[var(--vv-ember)]" />
                 <span className="truncate">{user.email}</span>
               </div>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">Member since</p>
-              <div className="mt-2 flex items-center gap-2 font-semibold">
+              <div className="mt-2 flex items-center gap-2 text-[15px] font-semibold">
                 <Calendar className="h-4 w-4 text-[var(--vv-ember)]" />
                 {new Date(user.createdAt).toLocaleDateString()}
               </div>
             </div>
             <div className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4 text-sm">
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">User ID</p>
-              <div className="mt-2 flex items-center gap-2 font-semibold">
+              <div className="mt-2 flex items-center gap-2 text-[15px] font-semibold">
                 <IdCard className="h-4 w-4 text-[var(--vv-ember)]" />
                 <span className="truncate">{user.id}</span>
               </div>
@@ -83,23 +83,23 @@ const MyProfile = () => {
         </div>
 
         <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
-          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+          <div className="rounded-3xl border border-black/10 bg-white p-7 shadow-2xl shadow-black/5">
             <h2 className="font-display text-2xl font-semibold">Security</h2>
             <p className="mt-3 text-sm text-[var(--vv-ink-2)]/75">
               Keep your account protected with a strong, unique password.
             </p>
             <button
               onClick={() => navigate("/change-password")}
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--vv-ink)] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+              className="mt-5 inline-flex items-center gap-2 rounded-full bg-[var(--vv-ink)] px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
             >
               <Key className="h-4 w-4" />
               Change password
             </button>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white shadow-2xl shadow-black/10">
+          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-7 text-white shadow-2xl shadow-black/10">
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Status</p>
-            <p className="mt-4 text-sm text-white/70">
+            <p className="mt-4 text-sm text-white/75">
               {user.isVerified
                 ? "Your account is verified and ready to vote."
                 : "Verify your email to unlock voting and election management."}
