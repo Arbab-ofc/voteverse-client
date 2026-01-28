@@ -7,44 +7,52 @@
 ![Socket.IO](https://img.shields.io/badge/Socket.IO-Client-010101?logo=socket.io&logoColor=white)
 ![Firebase](https://img.shields.io/badge/Firebase-Auth-FFCA28?logo=firebase&logoColor=black)
 
-> VoteVerse Client v2 (second version) delivers the full user experience for online elections: onboarding, verification, voting, analytics, and admin flows.
+> VoteVerse Client v2 (second version) is the modern, animated frontend for secure online elections.
 
-## What this app does
+---
 
-- Authentication UI (email + OTP, Google sign-in)
-- Election creation and management
-- Candidate and ballot views
-- Voting flow with confirmation and feedback
+## Highlights
+
+- Polished, responsive UI with bold card layouts and motion
+- Email + OTP onboarding and Google sign-in
+- Election creation, management, and live participation
 - Real-time updates via Socket.IO
-- Dashboard charts and analytics
-- Responsive, animated UI with consistent styling
+- Analytics visuals and admin tooling
+
+---
 
 ## Tech Stack
 
 - React 19 + Vite
 - Tailwind CSS 4
 - Framer Motion
-- React Router
+- React Router DOM
 - Axios
 - Firebase (Google auth)
 - Socket.IO Client
 - Chart.js + ApexCharts
 
-## Getting Started
+---
+
+## Quick Start
 
 ```bash
 npm install
 npm run dev
 ```
 
+---
+
 ## Environment Variables
 
 Create `client/.env`:
 
 ```
-VITE_API_URL=http://localhost:5000
-VITE_SOCKET_URL=http://localhost:5000
+VITE_API_URL=https://api.voteverse.pw
+VITE_SOCKET_URL=https://api.voteverse.pw
 ```
+
+---
 
 ## Scripts
 
@@ -54,6 +62,8 @@ npm run build
 npm run preview
 npm run lint
 ```
+
+---
 
 ## Project Structure
 
@@ -70,6 +80,8 @@ client/
     main.jsx
 ```
 
+---
+
 ## Key Pages
 
 - Home
@@ -81,8 +93,12 @@ client/
 - Voting
 - My Profile
 - Change Password
+- Admin Portal
+
+---
 
 ## Notes
 
-- API base is set via `VITE_API_URL`.
-- Socket updates use `VITE_SOCKET_URL`.
+- `VITE_API_URL` controls the REST API base.
+- `VITE_SOCKET_URL` controls the Socket.IO connection.
+- Keep Firebase client config in `src/lib/firebase.js`.
