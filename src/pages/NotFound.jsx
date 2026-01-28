@@ -1,128 +1,97 @@
-import React, { useEffect } from 'react';
-import { FaSearch, FaSmile, FaCheckCircle, FaRocket } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { FaArrowLeft, FaCompass, FaHome, FaMapMarkedAlt } from "react-icons/fa";
 
 const NotFound = () => {
-  useEffect(() => {
-    toast.info("Oops! The page you're looking for isn't here.");
-  }, []);
+  const navigate = useNavigate();
 
   return (
-    <div className="relative min-h-screen bg-gradient-to-br from-indigo-100 via-blue-100 to-purple-100 overflow-hidden flex flex-col items-center justify-center px-4 text-gray-700 pt-25">
-      
-      <div aria-hidden="true" className="absolute inset-0 -z-10 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <span
-            key={i}
-            className="absolute rounded-full bg-indigo-200 opacity-20 animate-bubble"
-            style={{
-              width: `${20 + Math.random() * 60}px`,
-              height: `${20 + Math.random() * 60}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${10 + Math.random() * 15}s`,
-            }}
-          />
-        ))}
+    <div className="relative min-h-screen overflow-hidden bg-[var(--vv-sand)] px-6 pb-20 pt-20 text-[var(--vv-ink)]">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute -top-24 right-10 h-56 w-56 rounded-full bg-[var(--vv-sage)]/40 blur-3xl" />
+        <div className="absolute bottom-6 left-0 h-72 w-72 rounded-full bg-[var(--vv-ember)]/30 blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/60 to-transparent" />
+        <div className="absolute left-10 top-28 hidden h-28 w-28 rotate-12 rounded-2xl border-2 border-black/80 bg-white/70 shadow-[8px_8px_0_#111827] lg:block" />
+        <div className="absolute right-24 bottom-16 hidden h-20 w-20 -rotate-12 rounded-xl border-2 border-black/80 bg-white/80 shadow-[6px_6px_0_#111827] lg:block" />
       </div>
 
-      
-      <div className="mb-6 flex flex-col items-center animate-bounce-slow">
-        <FaSearch size={96} className="text-indigo-400 mb-2" />
-        <h1 className="text-5xl font-extrabold tracking-wide select-none">
-          404 - Not Found
-        </h1>
-      </div>
-
-      
-      <blockquote className="max-w-xl text-center text-lg italic text-indigo-700 mb-10 px-4">
-        "Sometimes the best way to find yourself is to lose your way."
-      </blockquote>
-
-      
-      <section className="max-w-4xl w-full bg-white bg-opacity-50 rounded-xl p-8 shadow-lg space-y-10 text-gray-800">
-        <div>
-          <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
-            <FaRocket className="text-indigo-500" /> About This Website
-          </h2>
-          <p className="leading-relaxed">
-            This website is designed to provide you with a seamless and intuitive experience in managing elections. Whether you're organizing a small community vote or a large-scale election, our platform offers the tools and insights you need to succeed.
+      <div className="mx-auto grid max-w-6xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="inline-flex items-center gap-3 rounded-full border border-black/10 bg-white px-4 py-2 text-sm font-semibold text-[var(--vv-ink)]">
+            <span className="h-2 w-2 rounded-full bg-[var(--vv-ember)]" />
+            Detour detected
+          </div>
+          <h1 className="font-display mt-6 text-5xl font-semibold leading-tight md:text-6xl">404</h1>
+          <p className="mt-3 text-xl font-semibold text-[var(--vv-ink)]">Page not found</p>
+          <p className="mt-4 max-w-xl text-base text-[var(--vv-ink-2)]/80 md:text-lg">
+            The route you followed doesn’t exist. Let’s get you back to the main flow.
           </p>
-        </div>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={() => navigate("/")}
+              className="inline-flex items-center gap-2 rounded-full bg-[var(--vv-ink)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+            >
+              <FaHome />
+              Back to home
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 rounded-full border border-black/15 bg-white px-6 py-3 text-sm font-semibold text-[var(--vv-ink)] transition hover:-translate-y-0.5"
+            >
+              <FaArrowLeft />
+              Go back
+            </button>
+          </div>
+        </motion.div>
 
-        <div>
-          <h2 className="text-3xl font-bold mb-4 flex items-center gap-3">
-            <FaCheckCircle className="text-green-500" /> Why Choose Us?
-          </h2>
-          <ul className="list-disc list-inside space-y-2 leading-relaxed">
-            <li>Easy to use with an intuitive interface.</li>
-            <li>Secure and reliable voting system.</li>
-            <li>Real-time results and analytics.</li>
-            <li>Responsive design that works on any device.</li>
-            <li>Dedicated support team to assist you anytime.</li>
-          </ul>
-        </div>
-      </section>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.05 }}
+          className="relative"
+        >
+          <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
+          <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-6 sm:shadow-[12px_12px_0_#111827]">
+            <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Lost route</p>
+                <h2 className="font-display mt-2 text-2xl font-semibold">Suggested paths</h2>
+              </div>
+              <FaCompass className="text-2xl text-[var(--vv-ember)]" />
+            </div>
 
-      
-      <footer className="mt-12 w-full max-w-4xl flex justify-center items-center gap-6 px-4">
-        
-        <div className="flex items-center gap-3 sm:flex md:hidden">
-          <FaSmile size={28} className="text-indigo-600 mb-14" />
-          <span className="font-semibold text-indigo-700 text-lg pb-14">Your Trusted Election Platform</span>
-        </div>
+            <div className="mt-6 space-y-3">
+              {[
+                { label: "Explore elections", action: () => navigate("/elections") },
+                { label: "Go to dashboard", action: () => navigate("/dashboard") },
+                { label: "View profile", action: () => navigate("/my-profile") },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={item.action}
+                  className="flex w-full items-center justify-between rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm font-semibold text-[var(--vv-ink)] transition hover:-translate-y-0.5"
+                >
+                  <span>{item.label}</span>
+                  <FaMapMarkedAlt className="text-[var(--vv-ember)]" />
+                </button>
+              ))}
+            </div>
 
-        
-        
-      </footer>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={3500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-
-      
-      <style>{`
-        @keyframes bubble {
-          0% {
-            transform: translateY(100%) scale(0.5);
-            opacity: 0;
-          }
-          50% {
-            opacity: 0.6;
-          }
-          100% {
-            transform: translateY(-150%) scale(1);
-            opacity: 0;
-          }
-        }
-        .animate-bubble {
-          animation-name: bubble;
-          animation-timing-function: ease-in-out;
-          animation-iteration-count: infinite;
-        }
-        @keyframes bounce-slow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-15px);
-          }
-        }
-        .animate-bounce-slow {
-          animation: bounce-slow 3s ease-in-out infinite;
-        }
-      `}</style>
+            <div className="mt-6 rounded-2xl border-2 border-black/80 bg-white px-5 py-4 text-xs uppercase tracking-[0.25em] text-[var(--vv-ink-2)]/70 shadow-[6px_6px_0_#111827]">
+              You’re still inside VoteVerse \u2014 nothing is lost.
+            </div>
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };
