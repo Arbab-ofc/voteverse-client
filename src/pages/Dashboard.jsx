@@ -90,13 +90,13 @@ const Dashboard = () => {
           <div className="flex flex-wrap gap-3">
             <button
               onClick={() => navigate('/create-election')}
-              className="rounded-full bg-[var(--vv-ink)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+              className="rounded-full border-2 border-black/80 bg-[var(--vv-ink)] px-6 py-3 text-sm font-semibold text-white shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
             >
               Create election
             </button>
             <button
               onClick={() => navigate('/contact')}
-              className="rounded-full border border-black/10 bg-white px-6 py-3 text-sm font-semibold text-[var(--vv-ink)]"
+              className="rounded-full border-2 border-black/80 bg-white px-6 py-3 text-sm font-semibold text-[var(--vv-ink)] shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
             >
               Talk to support
             </button>
@@ -105,7 +105,10 @@ const Dashboard = () => {
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat) => (
-            <div key={stat.label} className="rounded-3xl border border-black/10 bg-white px-6 py-5 shadow-xl shadow-black/5">
+            <div
+              key={stat.label}
+              className="rounded-[24px] border-2 border-black/80 bg-white px-6 py-5 shadow-[10px_10px_0_#111827]"
+            >
               <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">{stat.label}</p>
               <p className="font-display mt-3 text-3xl font-semibold text-[var(--vv-ink)]">{stat.value}</p>
             </div>
@@ -113,13 +116,13 @@ const Dashboard = () => {
         </div>
 
         <div className="grid gap-8 lg:grid-cols-2">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+          <section className="rounded-[28px] border-2 border-black/80 bg-white p-6 shadow-[12px_12px_0_#111827]">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="font-display text-2xl font-semibold">My elections</h2>
                 <p className="text-sm text-[var(--vv-ink-2)]/70">Elections you created or manage.</p>
               </div>
-              <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold">
+              <span className="rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold shadow-[4px_4px_0_#111827]">
                 {myElections.length} total
               </span>
             </div>
@@ -130,20 +133,20 @@ const Dashboard = () => {
                   <MyElectionCard key={election._id} election={election} />
                 ))
               ) : (
-                <div className="rounded-2xl border border-dashed border-black/10 bg-[var(--vv-sand)] p-6 text-sm text-[var(--vv-ink-2)]/70">
+                <div className="rounded-2xl border-2 border-dashed border-black/40 bg-[var(--vv-sand)] p-6 text-sm text-[var(--vv-ink-2)]/70">
                   You haven't created any elections yet. Start with a new ballot and invite voters.
                 </div>
               )}
             </div>
           </section>
 
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+          <section className="rounded-[28px] border-2 border-black/80 bg-white p-6 shadow-[12px_12px_0_#111827]">
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="font-display text-2xl font-semibold">All elections</h2>
                 <p className="text-sm text-[var(--vv-ink-2)]/70">Browse ongoing and public elections.</p>
               </div>
-              <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold">
+              <span className="rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-2 text-xs font-semibold shadow-[4px_4px_0_#111827]">
                 {allElections.length} live
               </span>
             </div>
@@ -154,7 +157,7 @@ const Dashboard = () => {
                   <ElectionCard key={election._id} election={election} />
                 ))
               ) : (
-                <div className="rounded-2xl border border-dashed border-black/10 bg-[var(--vv-sand)] p-6 text-sm text-[var(--vv-ink-2)]/70">
+                <div className="rounded-2xl border-2 border-dashed border-black/40 bg-[var(--vv-sand)] p-6 text-sm text-[var(--vv-ink-2)]/70">
                   No elections are live right now. Check back soon.
                 </div>
               )}

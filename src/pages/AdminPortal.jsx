@@ -176,7 +176,7 @@ const AdminPortal = () => {
   if (!user?.isAdmin) {
     return (
       <div className="min-h-screen bg-[var(--vv-sand)] px-6 pb-24 pt-28 text-[var(--vv-ink)]">
-        <div className="mx-auto max-w-3xl rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/5">
+        <div className="mx-auto max-w-3xl rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]">
           <div className="flex items-center gap-3 text-[var(--vv-ember)]">
             <Shield className="h-6 w-6" />
             <p className="text-xs uppercase tracking-[0.2em]">Admin only</p>
@@ -187,7 +187,7 @@ const AdminPortal = () => {
           </p>
           <Link
             to="/dashboard"
-            className="mt-6 inline-flex items-center justify-center rounded-full bg-[var(--vv-ink)] px-5 py-2 text-xs font-semibold text-white"
+            className="mt-6 inline-flex items-center justify-center rounded-full border-2 border-black/80 bg-[var(--vv-ink)] px-5 py-2 text-xs font-semibold text-white shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5"
           >
             Back to dashboard
           </Link>
@@ -209,13 +209,13 @@ const AdminPortal = () => {
               Keep elections compliant, transparent, and secure.
             </p>
           </div>
-          <span className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink-2)]/70">
+          <span className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink-2)]/70 shadow-[4px_4px_0_#111827]">
             Logged in as admin
           </span>
         </div>
 
         <div className="mt-10 space-y-8">
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+          <section className="rounded-[28px] border-2 border-black/80 bg-white p-6 shadow-[12px_12px_0_#111827]">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--vv-ink)] text-white">
@@ -228,7 +228,7 @@ const AdminPortal = () => {
                   </p>
                 </div>
               </div>
-              <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70">
+              <span className="rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70 shadow-[4px_4px_0_#111827]">
                 {userTotal} users
               </span>
             </div>
@@ -242,14 +242,14 @@ const AdminPortal = () => {
                   setUserPage(1);
                 }}
                 placeholder="Search users by name or email"
-                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+                className="w-full rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-2 text-sm shadow-[4px_4px_0_#111827] focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
               />
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setUserPage((prev) => Math.max(prev - 1, 1))}
                   disabled={userPage <= 1}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Prev
                 </button>
@@ -260,7 +260,7 @@ const AdminPortal = () => {
                   type="button"
                   onClick={() => setUserPage((prev) => Math.min(prev + 1, userPages))}
                   disabled={userPage >= userPages}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Next
                 </button>
@@ -329,7 +329,7 @@ const AdminPortal = () => {
             </div>
           </section>
 
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+          <section className="rounded-[28px] border-2 border-black/80 bg-white p-6 shadow-[12px_12px_0_#111827]">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--vv-ink)] text-white">
@@ -345,11 +345,11 @@ const AdminPortal = () => {
               <div className="flex flex-wrap gap-2">
                 <Link
                   to="/create-election"
-                  className="rounded-full bg-[var(--vv-ink)] px-4 py-2 text-xs font-semibold text-white"
+                  className="rounded-full border-2 border-black/80 bg-[var(--vv-ink)] px-4 py-2 text-xs font-semibold text-white shadow-[4px_4px_0_#111827] transition hover:-translate-y-0.5"
                 >
                   Add election
                 </Link>
-                <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-2 text-xs font-semibold text-[var(--vv-ink-2)]/70">
+                <span className="rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-3 py-2 text-xs font-semibold text-[var(--vv-ink-2)]/70 shadow-[4px_4px_0_#111827]">
                   {electionTotal} elections
                 </span>
               </div>
@@ -364,14 +364,14 @@ const AdminPortal = () => {
                   setElectionPage(1);
                 }}
                 placeholder="Search elections by title"
-                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+                className="w-full rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-2 text-sm shadow-[4px_4px_0_#111827] focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
               />
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setElectionPage((prev) => Math.max(prev - 1, 1))}
                   disabled={electionPage <= 1}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Prev
                 </button>
@@ -382,7 +382,7 @@ const AdminPortal = () => {
                   type="button"
                   onClick={() => setElectionPage((prev) => Math.min(prev + 1, electionPages))}
                   disabled={electionPage >= electionPages}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Next
                 </button>
@@ -425,7 +425,7 @@ const AdminPortal = () => {
             </div>
           </section>
 
-          <section className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/5">
+          <section className="rounded-[28px] border-2 border-black/80 bg-white p-6 shadow-[12px_12px_0_#111827]">
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[var(--vv-ink)] text-white">
@@ -438,7 +438,7 @@ const AdminPortal = () => {
                   </p>
                 </div>
               </div>
-              <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70">
+              <span className="rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-3 py-1 text-xs font-semibold text-[var(--vv-ink-2)]/70 shadow-[4px_4px_0_#111827]">
                 {messageTotal} messages
               </span>
             </div>
@@ -452,14 +452,14 @@ const AdminPortal = () => {
                   setMessagePage(1);
                 }}
                 placeholder="Search messages"
-                className="w-full rounded-full border border-black/10 bg-[var(--vv-sand)] px-4 py-2 text-sm focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
+                className="w-full rounded-full border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-2 text-sm shadow-[4px_4px_0_#111827] focus:border-[var(--vv-ink)] focus:outline-none md:max-w-sm"
               />
               <div className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setMessagePage((prev) => Math.max(prev - 1, 1))}
                   disabled={messagePage <= 1}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Prev
                 </button>
@@ -470,7 +470,7 @@ const AdminPortal = () => {
                   type="button"
                   onClick={() => setMessagePage((prev) => Math.min(prev + 1, messagePages))}
                   disabled={messagePage >= messagePages}
-                  className="rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
+                  className="rounded-full border-2 border-black/80 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] disabled:opacity-50"
                 >
                   Next
                 </button>

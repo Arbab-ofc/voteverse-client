@@ -50,7 +50,7 @@ const Contact = () => {
             </p>
 
             <div className="mt-10 space-y-4">
-              <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5">
+              <div className="rounded-[24px] border-2 border-black/80 bg-white p-5 shadow-[10px_10px_0_#111827]">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--vv-sand)] text-[var(--vv-ember)]">
                     <Mail />
@@ -64,7 +64,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5">
+              <div className="rounded-[24px] border-2 border-black/80 bg-white p-5 shadow-[10px_10px_0_#111827]">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--vv-sand)] text-[var(--vv-ember)]">
                     <Phone />
@@ -76,7 +76,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="rounded-3xl border border-black/10 bg-white p-5 shadow-xl shadow-black/5">
+              <div className="rounded-[24px] border-2 border-black/80 bg-white p-5 shadow-[10px_10px_0_#111827]">
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[var(--vv-sand)] text-[var(--vv-ember)]">
                     <MapPin />
@@ -92,7 +92,7 @@ const Contact = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10"
+            className="rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Send a message</p>
             <h2 className="font-display mt-3 text-2xl font-semibold text-[var(--vv-ink)]">
@@ -139,7 +139,7 @@ const Contact = () => {
 
             <button
               type="submit"
-              className="mt-8 w-full rounded-full bg-[var(--vv-ink)] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5"
+              className="mt-8 w-full rounded-full border-2 border-black/80 bg-[var(--vv-ink)] px-6 py-3 text-sm font-semibold text-white shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
             >
               Send message
             </button>

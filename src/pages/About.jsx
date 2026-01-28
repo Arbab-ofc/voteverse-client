@@ -50,7 +50,7 @@ const About = () => {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10">
+          <div className="rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]">
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Impact snapshot</p>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {[
@@ -59,7 +59,10 @@ const About = () => {
                 { label: "Org Partners", value: "50+" },
                 { label: "Avg Vote Time", value: "38s" },
               ].map((stat) => (
-                <div key={stat.label} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-4">
+                <div
+                  key={stat.label}
+                  className="rounded-2xl border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-4 shadow-[6px_6px_0_#111827]"
+                >
                   <p className="font-display text-xl font-semibold">{stat.value}</p>
                   <p className="mt-1 text-xs uppercase tracking-[0.2em] text-[var(--vv-ink-2)]/70">
                     {stat.label}
@@ -82,7 +85,7 @@ const About = () => {
           {values.map((value) => (
             <div
               key={value.title}
-              className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl shadow-black/5"
+              className="rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827]"
             >
               <h3 className="font-display text-xl font-semibold">{value.title}</h3>
               <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">{value.body}</p>
@@ -98,12 +101,15 @@ const About = () => {
         viewport={{ once: true }}
         variants={sectionVariants}
       >
-        <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+        <div className="rounded-[28px] border-2 border-black/80 bg-[var(--vv-ink)] p-8 text-white shadow-[12px_12px_0_#111827]">
           <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Our journey</p>
           <h2 className="font-display mt-3 text-3xl font-semibold">From concept to trusted platform.</h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
             {milestones.map((milestone) => (
-              <div key={milestone.year} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4">
+              <div
+                key={milestone.year}
+                className="rounded-2xl border-2 border-white/60 bg-white/5 px-5 py-4 shadow-[6px_6px_0_rgba(255,255,255,0.2)]"
+              >
                 <p className="text-sm font-semibold text-[var(--vv-gold)]">{milestone.year}</p>
                 <p className="mt-2 text-sm text-white/70">{milestone.label}</p>
               </div>
@@ -120,14 +126,14 @@ const About = () => {
         variants={sectionVariants}
       >
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-black/10 bg-white p-8">
+          <div className="rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]">
             <h2 className="font-display text-3xl font-semibold">A note from the founder</h2>
             <blockquote className="mt-4 text-sm text-[var(--vv-ink-2)]/75">
               “We believe voting should be as secure as your bank and as easy as your favorite app.”
             </blockquote>
             <p className="mt-4 text-sm font-semibold">— Arbab Arshad</p>
           </div>
-          <div className="rounded-3xl border border-black/10 bg-white p-8">
+          <div className="rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]">
             <h3 className="font-display text-2xl font-semibold">Join the community</h3>
             <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">
               Follow the journey, contribute ideas, and help us keep democracy transparent.
@@ -137,13 +143,13 @@ const About = () => {
                 href="https://github.com/Arbab-ofc"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
+                className="rounded-full border-2 border-black/80 bg-white p-3 shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
               >
                 <FaGithub />
               </a>
               <a
                 href="mailto:arbababby111@gmail.com"
-                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
+                className="rounded-full border-2 border-black/80 bg-white p-3 shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
               >
                 <FaEnvelope />
               </a>
@@ -151,7 +157,7 @@ const About = () => {
                 href="https://www.linkedin.com/in/arbab-arshad-0b2961326/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-full border border-black/10 p-3 hover:bg-black/5"
+                className="rounded-full border-2 border-black/80 bg-white p-3 shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
               >
                 <FaLinkedin />
               </a>
