@@ -88,10 +88,10 @@ const Register = () => {
         <div className="absolute left-10 top-24 hidden h-28 w-28 rotate-12 rounded-2xl border-2 border-black/80 bg-white/70 shadow-[8px_8px_0_#111827] lg:block" />
         <div className="absolute right-24 bottom-16 hidden h-20 w-20 -rotate-12 rounded-xl border-2 border-black/80 bg-white/80 shadow-[6px_6px_0_#111827] lg:block" />
       </div>
-      <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="relative self-start">
+      <div className="mx-auto grid max-w-5xl items-stretch gap-8 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="relative">
           <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
-          <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
+          <div className="relative h-full rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
             <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Create account</p>
             <h1 className="font-display mt-3 text-3xl font-semibold sm:text-4xl">Join VoteVerse today</h1>
@@ -141,7 +141,7 @@ const Register = () => {
 
         <div className="relative">
           <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
-          <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
+          <div className="relative h-full rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
             <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
             <h2 className="font-display text-2xl font-semibold">Register</h2>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
