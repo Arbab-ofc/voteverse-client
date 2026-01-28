@@ -106,34 +106,38 @@ const TestimonialsSlider = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -18 }}
                 transition={{ duration: 0.5 }}
-                className="relative rounded-3xl border border-black/10 bg-white p-8 shadow-[0_22px_50px_rgba(15,23,42,0.12)]"
+                className="relative"
               >
-                <div className="absolute left-8 top-0 h-1.5 w-20 rounded-b-full bg-[linear-gradient(90deg,var(--vv-ember),var(--vv-gold))]" />
-                <div className="flex flex-col gap-6 md:flex-row md:items-center">
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-display text-xl font-semibold">{testimonials[index].name}</h3>
-                        <span className="inline-flex items-center gap-1 rounded-full border border-[var(--vv-ember)]/30 bg-[var(--vv-sand)] px-2 py-1 text-[11px] font-semibold text-[var(--vv-ink)]">
-                          <FaCheckCircle className="text-[var(--vv-ember)]" />
-                          Verified
-                        </span>
-                      </div>
-                      <p className="text-sm text-[var(--vv-ink-2)]/70">{testimonials[index].role}</p>
-                      <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-[11px] font-semibold text-[var(--vv-ink-2)]">
-                        <div className="flex text-[var(--vv-gold)]">
-                          {[...Array(testimonials[index].rating)].map((_, i) => (
-                            <FaStar key={i} />
-                          ))}
+                <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
+                <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-8 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:shadow-[12px_12px_0_#111827]">
+                  <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
+                  <div className="absolute left-8 top-0 h-1.5 w-20 rounded-b-full bg-[linear-gradient(90deg,var(--vv-ember),var(--vv-gold))]" />
+                  <div className="flex flex-col gap-6 md:flex-row md:items-center">
+                    <div className="flex items-center gap-4">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <h3 className="font-display text-xl font-semibold">{testimonials[index].name}</h3>
+                          <span className="inline-flex items-center gap-1 rounded-full border border-[var(--vv-ember)]/30 bg-[var(--vv-sand)] px-2 py-1 text-[11px] font-semibold text-[var(--vv-ink)]">
+                            <FaCheckCircle className="text-[var(--vv-ember)]" />
+                            Verified
+                          </span>
                         </div>
-                        Rated by verified users
+                        <p className="text-sm text-[var(--vv-ink-2)]/70">{testimonials[index].role}</p>
+                        <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-[11px] font-semibold text-[var(--vv-ink-2)]">
+                          <div className="flex text-[var(--vv-gold)]">
+                            {[...Array(testimonials[index].rating)].map((_, i) => (
+                              <FaStar key={i} />
+                            ))}
+                          </div>
+                          Rated by verified users
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="md:flex-1 md:pl-6">
-                    <p className="text-base text-[var(--vv-ink-2)]/80">
-                      “{testimonials[index].message}”
-                    </p>
+                    <div className="md:flex-1 md:pl-6">
+                      <p className="text-base text-[var(--vv-ink-2)]/80">
+                        “{testimonials[index].message}”
+                      </p>
+                    </div>
                   </div>
                 </div>
               </motion.div>
@@ -163,14 +167,14 @@ const TestimonialsSlider = () => {
             {sideCards.map((item) => (
               <div
                 key={item.name}
-                className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
+                className="rounded-2xl border-2 border-black/80 bg-white px-4 py-3 text-sm shadow-[6px_6px_0_#111827]"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
                     <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
                   </div>
-                  <span className="rounded-full bg-[var(--vv-sand)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--vv-ink-2)]/70">Live</span>
+                  <span className="rounded-full border border-black/10 bg-[var(--vv-sand)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--vv-ink-2)]/70">Live</span>
                 </div>
                 <p className="mt-3 text-xs text-[var(--vv-ink-2)]/70">“{item.message}”</p>
               </div>

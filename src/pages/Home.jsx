@@ -118,7 +118,10 @@ const Home = () => {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="md:w-1/2"
           >
-            <div className="rounded-3xl border border-black/10 bg-white p-6 shadow-2xl shadow-black/10">
+            <div className="relative">
+              <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
+              <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-6 sm:shadow-[12px_12px_0_#111827]">
+                <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Live election</p>
@@ -130,7 +133,7 @@ const Home = () => {
               </div>
               <div className="mt-6 space-y-3">
                 {['District 1', 'District 2', 'District 3'].map((label, index) => (
-                  <div key={label} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3">
+                  <div key={label} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 shadow-[4px_4px_0_rgba(17,24,39,0.08)]">
                     <div className="flex items-center justify-between text-sm font-semibold">
                       <span>{label}</span>
                       <span>{64 + index * 6}%</span>
@@ -142,21 +145,22 @@ const Home = () => {
                       />
                     </div>
                   </div>
-                ))}
+                  ))}
               </div>
               <div className="mt-6 grid grid-cols-3 gap-3 text-center text-xs font-semibold text-[var(--vv-ink-2)]/70">
-                <div className="rounded-xl border border-black/5 bg-white px-2 py-3">
+                <div className="rounded-xl border-2 border-black/80 bg-white px-2 py-3 shadow-[6px_6px_0_#111827]">
                   <FaVoteYea className="mx-auto mb-2 text-[var(--vv-ember)]" />
                   Live ballots
                 </div>
-                <div className="rounded-xl border border-black/5 bg-white px-2 py-3">
+                <div className="rounded-xl border-2 border-black/80 bg-white px-2 py-3 shadow-[6px_6px_0_#111827]">
                   <FaShieldAlt className="mx-auto mb-2 text-[var(--vv-ember)]" />
                   Encrypted
                 </div>
-                <div className="rounded-xl border border-black/5 bg-white px-2 py-3">
+                <div className="rounded-xl border-2 border-black/80 bg-white px-2 py-3 shadow-[6px_6px_0_#111827]">
                   <FaUserCheck className="mx-auto mb-2 text-[var(--vv-ember)]" />
                   Verified
                 </div>
+              </div>
               </div>
             </div>
           </motion.div>
@@ -164,13 +168,20 @@ const Home = () => {
       </section>
 
       <section className="px-6 pb-10">
-        <div className="mx-auto grid max-w-6xl gap-4 rounded-3xl border border-black/10 bg-white px-6 py-6 text-center text-sm font-semibold text-[var(--vv-ink-2)]/70 sm:grid-cols-4">
-          {stats.map((stat) => (
-            <div key={stat.label} className="rounded-2xl bg-[var(--vv-sand)] px-4 py-5">
-              <div className="font-display text-2xl text-[var(--vv-ink)]">{stat.value}</div>
-              <div className="mt-1 uppercase tracking-[0.2em] text-[11px]">{stat.label}</div>
-            </div>
-          ))}
+        <div className="relative mx-auto max-w-6xl">
+          <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
+          <div className="relative grid gap-4 rounded-[24px] border-2 border-black/80 bg-white px-6 py-6 text-center text-sm font-semibold text-[var(--vv-ink-2)]/70 shadow-[10px_10px_0_#111827] sm:grid-cols-4 sm:rounded-[28px] sm:shadow-[12px_12px_0_#111827]">
+            <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
+            {stats.map((stat) => (
+              <div
+                key={stat.label}
+                className="rounded-2xl border-2 border-black/80 bg-[var(--vv-sand)] px-4 py-5 shadow-[6px_6px_0_#111827]"
+              >
+                <div className="font-display text-2xl text-[var(--vv-ink)]">{stat.value}</div>
+                <div className="mt-1 uppercase tracking-[0.2em] text-[11px]">{stat.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -196,7 +207,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5 }}
-                className="rounded-3xl border border-black/10 bg-white p-6 shadow-xl shadow-black/5"
+                className="rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827]"
               >
                 <FaCheckCircle className="text-2xl text-[var(--vv-ember)]" />
                 <h3 className="font-display mt-4 text-xl font-semibold">{feature.title}</h3>
@@ -208,7 +219,7 @@ const Home = () => {
       </section>
 
       <section className="px-6 py-16">
-        <div className="mx-auto flex max-w-6xl flex-col gap-8 rounded-3xl bg-[var(--vv-ink)] px-8 py-12 text-white md:flex-row md:items-center">
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 rounded-[28px] border-2 border-black/80 bg-[var(--vv-ink)] px-8 py-12 text-white shadow-[12px_12px_0_#111827] md:flex-row md:items-center">
           <div className="md:w-2/3">
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Election flow</p>
             <h2 className="font-display mt-3 text-3xl font-semibold md:text-4xl">
@@ -222,7 +233,7 @@ const Home = () => {
             <button
               type="button"
               onClick={handleGetStarted}
-              className="w-full rounded-full bg-[var(--vv-gold)] px-6 py-3 text-sm font-semibold text-[var(--vv-ink)]"
+              className="w-full rounded-full border-2 border-black/80 bg-[var(--vv-gold)] px-6 py-3 text-sm font-semibold text-[var(--vv-ink)] shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
             >
               Launch your first election
             </button>
@@ -240,7 +251,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="rounded-3xl border border-black/10 bg-white p-6"
+                className="rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827]"
               >
                 <div className="font-display text-3xl text-[var(--vv-ember)]">0{index + 1}</div>
                 <h3 className="mt-3 text-lg font-semibold">{step.title}</h3>
@@ -255,18 +266,21 @@ const Home = () => {
 
       <section className="px-6 py-20">
         <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1.1fr_0.9fr]">
-          <div className="rounded-3xl border border-black/10 bg-white p-8">
+          <div className="rounded-[28px] border-2 border-black/80 bg-white p-8 shadow-[12px_12px_0_#111827]">
             <h2 className="font-display text-3xl font-semibold">Frequently asked questions</h2>
             <div className="mt-6 space-y-5">
               {faqs.map((faq) => (
-                <div key={faq.question} className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-5 py-4">
+                <div
+                  key={faq.question}
+                  className="rounded-2xl border-2 border-black/80 bg-[var(--vv-sand)] px-5 py-4 shadow-[6px_6px_0_#111827]"
+                >
                   <h3 className="text-sm font-semibold text-[var(--vv-ink)]">{faq.question}</h3>
                   <p className="mt-2 text-sm text-[var(--vv-ink-2)]/70">{faq.answer}</p>
                 </div>
               ))}
             </div>
           </div>
-          <div className="rounded-3xl border border-black/10 bg-[var(--vv-ink)] p-8 text-white">
+          <div className="rounded-[28px] border-2 border-black/80 bg-[var(--vv-ink)] p-8 text-white shadow-[12px_12px_0_#111827]">
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-gold)]">Next steps</p>
             <h3 className="font-display mt-4 text-3xl font-semibold">Ready to modernize your elections?</h3>
             <p className="mt-4 text-sm text-white/70">
@@ -276,14 +290,14 @@ const Home = () => {
               <button
                 type="button"
                 onClick={handleGetStarted}
-                className="w-full rounded-full bg-white px-6 py-3 text-sm font-semibold text-[var(--vv-ink)]"
+                className="w-full rounded-full border-2 border-black/80 bg-white px-6 py-3 text-sm font-semibold text-[var(--vv-ink)] shadow-[6px_6px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#111827]"
               >
                 Create account
               </button>
               <button
                 type="button"
                 onClick={() => navigate('/contact')}
-                className="w-full rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white"
+                className="w-full rounded-full border-2 border-white/60 px-6 py-3 text-sm font-semibold text-white shadow-[6px_6px_0_rgba(255,255,255,0.2)] transition hover:-translate-y-0.5"
               >
                 Talk to support
               </button>
