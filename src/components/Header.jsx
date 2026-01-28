@@ -13,7 +13,7 @@ const Header = ({ isAuthenticated }) => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) setMenuOpen(false);
+      if (window.innerWidth >= 1024) setMenuOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -55,7 +55,7 @@ const Header = ({ isAuthenticated }) => {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-2 md:flex">
+          <nav className="hidden items-center gap-2 lg:flex">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -90,7 +90,7 @@ const Header = ({ isAuthenticated }) => {
           <button
             type="button"
             onClick={() => setMenuOpen(true)}
-            className="md:hidden rounded-full border-2 border-black/80 bg-white p-2 text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#111827]"
+            className="lg:hidden rounded-full border-2 border-black/80 bg-white p-2 text-[var(--vv-ink)] shadow-[4px_4px_0_#111827] transition hover:-translate-y-0.5 hover:shadow-[6px_6px_0_#111827]"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -98,7 +98,7 @@ const Header = ({ isAuthenticated }) => {
       </div>
 
       <div
-        className={`fixed inset-0 z-50 md:hidden transition-opacity duration-300 ${
+        className={`fixed inset-0 z-50 lg:hidden transition-opacity duration-300 ${
           menuOpen ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
