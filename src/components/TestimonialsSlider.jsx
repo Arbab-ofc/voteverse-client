@@ -106,23 +106,27 @@ const TestimonialsSlider = () => {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -18 }}
                 transition={{ duration: 0.5 }}
-                className="rounded-3xl border border-black/10 bg-white p-8 shadow-2xl shadow-black/10"
+                className="relative rounded-3xl border border-black/10 bg-white p-8 shadow-[0_22px_50px_rgba(15,23,42,0.12)]"
               >
+                <div className="absolute left-8 top-0 h-1.5 w-20 rounded-b-full bg-[linear-gradient(90deg,var(--vv-ember),var(--vv-gold))]" />
                 <div className="flex flex-col gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-4">
                     <div>
                       <div className="flex items-center gap-2">
                         <h3 className="font-display text-xl font-semibold">{testimonials[index].name}</h3>
-                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--vv-sand)] px-2 py-1 text-[11px] font-semibold text-[var(--vv-ink)]">
+                        <span className="inline-flex items-center gap-1 rounded-full border border-[var(--vv-ember)]/30 bg-[var(--vv-sand)] px-2 py-1 text-[11px] font-semibold text-[var(--vv-ink)]">
                           <FaCheckCircle className="text-[var(--vv-ember)]" />
                           Verified
                         </span>
                       </div>
                       <p className="text-sm text-[var(--vv-ink-2)]/70">{testimonials[index].role}</p>
-                      <div className="mt-2 flex text-[var(--vv-gold)]">
-                        {[...Array(testimonials[index].rating)].map((_, i) => (
-                          <FaStar key={i} />
-                        ))}
+                      <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-[11px] font-semibold text-[var(--vv-ink-2)]">
+                        <div className="flex text-[var(--vv-gold)]">
+                          {[...Array(testimonials[index].rating)].map((_, i) => (
+                            <FaStar key={i} />
+                          ))}
+                        </div>
+                        Rated by verified users
                       </div>
                     </div>
                   </div>
@@ -159,11 +163,14 @@ const TestimonialsSlider = () => {
             {sideCards.map((item) => (
               <div
                 key={item.name}
-                className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm"
+                className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm shadow-[0_10px_24px_rgba(15,23,42,0.08)]"
               >
-                <div>
-                  <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
-                  <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
+                    <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
+                  </div>
+                  <span className="rounded-full bg-[var(--vv-sand)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] text-[var(--vv-ink-2)]/70">Live</span>
                 </div>
                 <p className="mt-3 text-xs text-[var(--vv-ink-2)]/70">“{item.message}”</p>
               </div>
