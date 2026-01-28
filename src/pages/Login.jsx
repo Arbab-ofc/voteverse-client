@@ -43,13 +43,14 @@ const Login = () => {
       if (message === "Token generation failed") return toast.error("Token generation failed");
 
       await fetchUser();
-      toast.success("Login successful");
+      toast.success(message || "Login successful");
 
       setTimeout(() => {
         navigate("/");
       }, 1000);
     } catch (error) {
-      toast.error("Server error");
+      const apiMessage = error?.response?.data?.message;
+      toast.error(apiMessage || "Login failed. Please try again.");
     }
   };
 
