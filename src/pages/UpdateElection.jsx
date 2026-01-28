@@ -4,8 +4,8 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaCalendarAlt, FaPenNib, FaLock } from "react-icons/fa";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import Flatpickr from "react-flatpickr";
+import "flatpickr/dist/themes/airbnb.css";
 
 const UpdateElection = () => {
   const { state } = useLocation();
@@ -150,28 +150,28 @@ const UpdateElection = () => {
 
             <div>
               <label className="text-xs font-semibold text-[var(--vv-ink-2)]/70">Start date</label>
-              <DatePicker
-                selected={form.startDate}
-                onChange={(date) => handleChange("startDate", date)}
-                placeholderText="Select start date & time"
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="Pp"
+              <Flatpickr
+                value={form.startDate}
+                onChange={(dates) => handleChange("startDate", dates[0] || null)}
+                options={{
+                  enableTime: true,
+                  time_24hr: false,
+                  dateFormat: "F j, Y h:i K",
+                }}
                 className="mt-2 w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
               />
             </div>
 
             <div>
               <label className="text-xs font-semibold text-[var(--vv-ink-2)]/70">End date</label>
-              <DatePicker
-                selected={form.endDate}
-                onChange={(date) => handleChange("endDate", date)}
-                placeholderText="Select end date & time"
-                showTimeSelect
-                timeFormat="HH:mm"
-                timeIntervals={15}
-                dateFormat="Pp"
+              <Flatpickr
+                value={form.endDate}
+                onChange={(dates) => handleChange("endDate", dates[0] || null)}
+                options={{
+                  enableTime: true,
+                  time_24hr: false,
+                  dateFormat: "F j, Y h:i K",
+                }}
                 className="mt-2 w-full rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm focus:border-[var(--vv-ink)] focus:outline-none"
               />
             </div>

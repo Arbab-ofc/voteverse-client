@@ -4,8 +4,8 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { CalendarDays, Edit, Info, Clock, Lock } from 'lucide-react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import Flatpickr from 'react-flatpickr';
+import 'flatpickr/dist/themes/airbnb.css';
 
 const CreateElection = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +13,12 @@ const CreateElection = () => {
     description: '',
     startDate: null,
     endDate: null,
-    votePassword: ''
+    votePassword: '',
+    allowedEmails: '',
+    allowedEmailDomains: ''
   });
+  const [showAllowedEmails, setShowAllowedEmails] = useState(false);
+  const [showAllowedDomains, setShowAllowedDomains] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,10 +32,14 @@ const CreateElection = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { title, startDate, endDate, votePassword } = formData;
+    const { title, startDate, endDate, votePassword, allowedEmails, allowedEmailDomains } = formData;
+    const hasRestrictions = Boolean(allowedEmails.trim()) || Boolean(allowedEmailDomains.trim());
 
-    if (!title || !startDate || !endDate || !votePassword) {
-      return toast.error('Title, dates, and election password are required!');
+    if (!title || !startDate || !endDate) {
+      return toast.error('Title and dates are required!');
+    }
+    if (!hasRestrictions && !votePassword) {
+      return toast.error('Set a voting password or add allowed emails/domains.');
     }
 
     try {
@@ -176,26 +184,28 @@ const CreateElection = () => {
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   <div>
                     <label className="block text-sm font-semibold text-[var(--vv-ink)]">Start Date</label>
-                    <DatePicker
-                      selected={formData.startDate}
-                      onChange={(date) => handleDateChange(date, 'startDate')}
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      timeIntervals={15}
-                      dateFormat="MMMM d, yyyy h:mm aa"
+                    <Flatpickr
+                      value={formData.startDate}
+                      onChange={(dates) => handleDateChange(dates[0] || null, 'startDate')}
+                      options={{
+                        enableTime: true,
+                        time_24hr: false,
+                        dateFormat: "F j, Y h:i K",
+                      }}
                       className="mt-2 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-[var(--vv-ink)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] focus:border-[var(--vv-ember)] focus:outline-none"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-semibold text-[var(--vv-ink)]">End Date</label>
-                    <DatePicker
-                      selected={formData.endDate}
-                      onChange={(date) => handleDateChange(date, 'endDate')}
-                      showTimeSelect
-                      timeFormat="HH:mm"
-                      timeIntervals={15}
-                      dateFormat="MMMM d, yyyy h:mm aa"
+                    <Flatpickr
+                      value={formData.endDate}
+                      onChange={(dates) => handleDateChange(dates[0] || null, 'endDate')}
+                      options={{
+                        enableTime: true,
+                        time_24hr: false,
+                        dateFormat: "F j, Y h:i K",
+                      }}
                       className="mt-2 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-[var(--vv-ink)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] focus:border-[var(--vv-ember)] focus:outline-none"
                     />
                   </div>
@@ -217,6 +227,75 @@ const CreateElection = () => {
                     className="mt-2 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-[var(--vv-ink)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] placeholder:text-[var(--vv-ink-2)]/50 focus:border-[var(--vv-ember)] focus:outline-none"
                     placeholder="Set a voting password"
                   />
+                  <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+                    Optional if you restrict voting by email or domain.
+                  </p>
+                </div>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={showAllowedEmails}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setShowAllowedEmails(checked);
+                        if (!checked) {
+                          setFormData((prev) => ({ ...prev, allowedEmails: "" }));
+                        }
+                      }}
+                      className="h-4 w-4 accent-[var(--vv-ink)]"
+                    />
+                    Restrict voting to specific email addresses
+                  </label>
+                  {showAllowedEmails && (
+                    <div>
+                      <label className="block text-sm font-semibold text-[var(--vv-ink)]">Allowed Emails</label>
+                      <textarea
+                        name="allowedEmails"
+                        value={formData.allowedEmails}
+                        onChange={handleChange}
+                        rows="3"
+                        className="mt-2 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-[var(--vv-ink)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] placeholder:text-[var(--vv-ink-2)]/50 focus:border-[var(--vv-ember)] focus:outline-none"
+                        placeholder="user1@example.com, user2@example.com"
+                      />
+                      <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+                        Only these emails can vote. Separate multiple emails with commas.
+                      </p>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-3">
+                  <label className="flex items-center gap-3 rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={showAllowedDomains}
+                      onChange={(e) => {
+                        const checked = e.target.checked;
+                        setShowAllowedDomains(checked);
+                        if (!checked) {
+                          setFormData((prev) => ({ ...prev, allowedEmailDomains: "" }));
+                        }
+                      }}
+                      className="h-4 w-4 accent-[var(--vv-ink)]"
+                    />
+                    Restrict voting to email domains
+                  </label>
+                  {showAllowedDomains && (
+                    <div>
+                      <label className="block text-sm font-semibold text-[var(--vv-ink)]">Allowed Email Domains</label>
+                      <input
+                        type="text"
+                        name="allowedEmailDomains"
+                        value={formData.allowedEmailDomains}
+                        onChange={handleChange}
+                        className="mt-2 w-full rounded-2xl border border-black/10 px-4 py-3 text-sm text-[var(--vv-ink)] shadow-[0_10px_24px_rgba(15,23,42,0.05)] placeholder:text-[var(--vv-ink-2)]/50 focus:border-[var(--vv-ember)] focus:outline-none"
+                        placeholder="@company.com"
+                      />
+                      <p className="mt-2 text-xs text-[var(--vv-ink-2)]/70">
+                        Allow anyone with these domains. Separate multiple domains with commas.
+                      </p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
