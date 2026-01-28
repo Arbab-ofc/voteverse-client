@@ -46,7 +46,7 @@ const Login = () => {
       toast.success(message || "Login successful");
 
       setTimeout(() => {
-        navigate("/");
+        navigate("/dashboard");
       }, 1000);
     } catch (error) {
       const apiMessage = error?.response?.data?.message;
@@ -70,7 +70,7 @@ const Login = () => {
         isLoading: false,
         autoClose: 2000,
       });
-      setTimeout(() => navigate("/"), 800);
+      setTimeout(() => navigate("/dashboard"), 800);
     } catch (error) {
       toast.update(toastId, {
         render: error.response?.data?.message || "Google login failed",

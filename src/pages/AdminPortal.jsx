@@ -27,6 +27,7 @@ const AdminPortal = () => {
   const [messagePage, setMessagePage] = useState(1);
   const [messagePages, setMessagePages] = useState(1);
   const [messageTotal, setMessageTotal] = useState(0);
+  const [confirmAction, setConfirmAction] = useState(null);
   const pageSize = 6;
 
   useEffect(() => {
@@ -136,7 +137,6 @@ const AdminPortal = () => {
   };
 
   const handleDeleteUser = async (userId) => {
-    if (!window.confirm("Delete this user? This cannot be undone.")) return;
     try {
       setActionKey(`delete-user-${userId}`);
       const res = await axios.delete(`/api/v2/admin/users/${userId}`, { withCredentials: true });
@@ -151,7 +151,6 @@ const AdminPortal = () => {
   };
 
   const handleDeleteMessage = async (messageId) => {
-    if (!window.confirm("Delete this message?")) return;
     try {
       setActionKey(`delete-message-${messageId}`);
       const res = await axios.delete(`/api/v2/admin/contact-messages/${messageId}`, { withCredentials: true });
@@ -163,6 +162,17 @@ const AdminPortal = () => {
     } finally {
       setActionKey("");
     }
+  };
+
+  const openConfirm = (type, id) => setConfirmAction({ type, id });
+  const closeConfirm = () => setConfirmAction(null);
+  const handleConfirm = () => {
+    if (!confirmAction) return;
+    const { type, id } = confirmAction;
+    if (type === "user") handleDeleteUser(id);
+    if (type === "election") handleDeleteElection(id);
+    if (type === "message") handleDeleteMessage(id);
+    setConfirmAction(null);
   };
 
   if (loading) {
@@ -316,7 +326,7 @@ const AdminPortal = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDeleteUser(item._id)}
+                      onClick={() => openConfirm("user", item._id)}
                       disabled={actionKey === `delete-user-${item._id}`}
                       className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] disabled:opacity-50"
                     >
@@ -413,7 +423,7 @@ const AdminPortal = () => {
                   </div>
                   <button
                     type="button"
-                    onClick={() => handleDeleteElection(item._id)}
+                    onClick={() => openConfirm("election", item._id)}
                     disabled={actionKey === `delete-${item._id}`}
                     className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-4 py-2 text-xs font-semibold text-[var(--vv-ink)] hover:bg-black/5 disabled:opacity-50"
                   >
@@ -501,7 +511,7 @@ const AdminPortal = () => {
                       </span>
                       <button
                         type="button"
-                        onClick={() => handleDeleteMessage(item._id)}
+                        onClick={() => openConfirm("message", item._id)}
                         disabled={actionKey === `delete-message-${item._id}`}
                         className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-1 text-[10px] font-semibold text-[var(--vv-ink)] disabled:opacity-50"
                       >
@@ -517,6 +527,38 @@ const AdminPortal = () => {
           </section>
         </div>
       </div>
+
+      {confirmAction && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4">
+          <div className="w-full max-w-md rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827]">
+            <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Confirm delete</p>
+            <h3 className="font-display mt-3 text-2xl font-semibold text-[var(--vv-ink)]">
+              Are you sure?
+            </h3>
+            <p className="mt-3 text-sm text-[var(--vv-ink-2)]/70">
+              {confirmAction.type === "user" && "This will permanently remove the user."}
+              {confirmAction.type === "election" && "This will permanently remove the election."}
+              {confirmAction.type === "message" && "This will permanently remove the message."}
+            </p>
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={closeConfirm}
+                className="rounded-full border border-black/10 px-4 py-2 text-sm font-semibold text-[var(--vv-ink)]"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirm}
+                className="rounded-full border-2 border-black/80 bg-[var(--vv-ink)] px-4 py-2 text-sm font-semibold text-white shadow-[4px_4px_0_#111827] transition hover:-translate-y-0.5"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <ToastContainer position="top-right" />
     </div>
