@@ -18,7 +18,7 @@ const MyProfile = () => {
         });
         setUser(res.data);
       } catch (error) {
-        toast.error("Failed to load profile");
+        toast.error(error?.response?.data?.message || "Failed to load profile");
       }
     };
     fetchProfile();

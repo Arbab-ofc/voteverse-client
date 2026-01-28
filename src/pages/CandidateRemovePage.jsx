@@ -43,7 +43,7 @@ const CandidateRemovePage = () => {
         setCandidates(election.candidates || []);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to load candidates.");
+        toast.error(error.response?.data?.message || "Failed to load candidates.");
       } finally {
         setLoading(false);
       }

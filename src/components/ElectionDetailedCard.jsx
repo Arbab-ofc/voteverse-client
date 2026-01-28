@@ -25,7 +25,7 @@ const ElectionDetailedCard = () => {
           toast.error(res.data.message || "Failed to fetch election details");
         }
       } catch (error) {
-        toast.error("Server error while fetching election details");
+        toast.error(error?.response?.data?.message || "Failed to fetch election details");
         console.error(error);
       }
     };

@@ -25,7 +25,7 @@ export default function AddCandidatePage() {
         { ...formData, electionId },
         { withCredentials: true }
       );
-      toast.success('Candidate created successfully');
+      toast.success(res.data?.message || 'Candidate created successfully');
       setFormData({ name: '', bio: '' });
     } catch (error) {
       console.error(error);

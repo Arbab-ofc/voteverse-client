@@ -48,7 +48,7 @@ const UpdateElection = () => {
         setOriginalForm(nextForm);
       } catch (err) {
         console.error(err);
-        toast.error("Failed to fetch election details.");
+        toast.error(err.response?.data?.message || "Failed to fetch election details.");
       } finally {
         setLoading(false);
       }
@@ -74,11 +74,11 @@ const UpdateElection = () => {
       if (form.candidates.length) payload.candidates = form.candidates;
       if (form.votePassword) payload.votePassword = form.votePassword;
 
-      await axios.put(`/api/v2/elections/${electionId}`, payload, {
+      const res = await axios.put(`/api/v2/elections/${electionId}`, payload, {
         withCredentials: true,
       });
 
-      toast.success("Election updated successfully!");
+      toast.success(res.data?.message || "Election updated successfully!");
       navigate("/dashboard");
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to update election.");

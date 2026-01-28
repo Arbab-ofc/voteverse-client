@@ -38,7 +38,7 @@ const ElectionEndPage = () => {
         setElection(res.data.election);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to load election details.");
+        toast.error(error.response?.data?.message || "Failed to load election details.");
       } finally {
         setLoading(false);
       }

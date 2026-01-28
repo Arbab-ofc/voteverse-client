@@ -100,7 +100,7 @@ const AdminPortal = () => {
       setActionKey(`verify-${userId}`);
       const res = await axios.patch(`/api/v2/admin/users/${userId}/verify`, {}, { withCredentials: true });
       setUsers((prev) => prev.map((item) => (item._id === userId ? res.data.user : item)));
-      toast.success("User verified");
+      toast.success(res?.data?.message || "User verified");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to verify user");
     } finally {
@@ -113,7 +113,7 @@ const AdminPortal = () => {
       setActionKey(`promote-${userId}`);
       const res = await axios.patch(`/api/v2/admin/users/${userId}/promote`, {}, { withCredentials: true });
       setUsers((prev) => prev.map((item) => (item._id === userId ? res.data.user : item)));
-      toast.success("User promoted to admin");
+      toast.success(res?.data?.message || "User promoted to admin");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to promote user");
     } finally {
@@ -124,10 +124,10 @@ const AdminPortal = () => {
   const handleDeleteElection = async (electionId) => {
     try {
       setActionKey(`delete-${electionId}`);
-      await axios.delete(`/api/v2/admin/elections/${electionId}`, { withCredentials: true });
+      const res = await axios.delete(`/api/v2/admin/elections/${electionId}`, { withCredentials: true });
       setElections((prev) => prev.filter((item) => item._id !== electionId));
       setElectionTotal((prev) => Math.max(prev - 1, 0));
-      toast.success("Election deleted");
+      toast.success(res?.data?.message || "Election deleted");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to delete election");
     } finally {
@@ -139,10 +139,10 @@ const AdminPortal = () => {
     if (!window.confirm("Delete this user? This cannot be undone.")) return;
     try {
       setActionKey(`delete-user-${userId}`);
-      await axios.delete(`/api/v2/admin/users/${userId}`, { withCredentials: true });
+      const res = await axios.delete(`/api/v2/admin/users/${userId}`, { withCredentials: true });
       setUsers((prev) => prev.filter((item) => item._id !== userId));
       setUserTotal((prev) => Math.max(prev - 1, 0));
-      toast.success("User deleted");
+      toast.success(res?.data?.message || "User deleted");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to delete user");
     } finally {
@@ -154,10 +154,10 @@ const AdminPortal = () => {
     if (!window.confirm("Delete this message?")) return;
     try {
       setActionKey(`delete-message-${messageId}`);
-      await axios.delete(`/api/v2/admin/contact-messages/${messageId}`, { withCredentials: true });
+      const res = await axios.delete(`/api/v2/admin/contact-messages/${messageId}`, { withCredentials: true });
       setMessages((prev) => prev.filter((item) => item._id !== messageId));
       setMessageTotal((prev) => Math.max(prev - 1, 0));
-      toast.success("Message deleted");
+      toast.success(res?.data?.message || "Message deleted");
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to delete message");
     } finally {

@@ -38,12 +38,12 @@ const Register = () => {
     }
 
     try {
-      await axios.post(
+      const res = await axios.post(
         "/api/v2/users/register",
         { name, email, password, accountType, adminSecret },
         { withCredentials: true }
       );
-      toast.success("Registration successful! Redirecting...");
+      toast.success(res.data?.message || "Registration successful! Redirecting...");
       setTimeout(() => {
         navigate("/verify-otp", { state: { email: formData.email } });
       }, 2000);

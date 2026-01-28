@@ -32,13 +32,13 @@ const OtpVerification = () => {
         { withCredentials: true }
       );
 
-      toast.success('OTP verified successfully. You can now login.');
+      toast.success(response?.data?.message || 'OTP verified successfully. You can now login.');
 
       setTimeout(() => {
         navigate('/login');
       }, 2000);
     } catch (err) {
-      const message = err.response?.data?.message || 'Server error';
+      const message = err.response?.data?.message || 'OTP verification failed';
       toast.error(message);
     }
   };

@@ -44,7 +44,7 @@ const ManageElection = () => {
         setCandidates(res.data.election.candidates || []);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to load election details.");
+        toast.error(error.response?.data?.message || "Failed to load election details.");
       } finally {
         setLoading(false);
       }
@@ -76,7 +76,7 @@ const ManageElection = () => {
         { withCredentials: true }
       );
       const newCandidate = res.data?.candidate;
-      toast.success("Candidate added successfully.");
+      toast.success(res.data?.message || "Candidate added successfully.");
       if (newCandidate) {
         setCandidates((prev) => [newCandidate, ...prev]);
       } else {

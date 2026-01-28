@@ -21,12 +21,12 @@ const Header = ({ isAuthenticated }) => {
 
   const handleLogout = async () => {
     try {
-      await axios.post("/api/v2/users/logout", {}, { withCredentials: true });
+      const res = await axios.post("/api/v2/users/logout", {}, { withCredentials: true });
       setUser(null);
-      toast.success("Logged out successfully");
+      toast.success(res?.data?.message || "Logged out successfully");
       navigate("/login");
     } catch (error) {
-      toast.error("Logout failed");
+      toast.error(error?.response?.data?.message || "Logout failed");
     }
   };
 

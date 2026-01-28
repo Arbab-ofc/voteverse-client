@@ -32,7 +32,7 @@ const CandidateList = () => {
         setCandidates(res.data.election.candidates || []);
       } catch (error) {
         console.error(error);
-        toast.error("Failed to fetch election.");
+        toast.error(error.response?.data?.message || "Failed to fetch election.");
       } finally {
         setLoading(false);
       }

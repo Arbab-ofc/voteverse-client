@@ -26,13 +26,13 @@ const Contact = () => {
     try {
       const { data } = await axios.post("/api/v2/contact", formData);
       if (data?.success) {
-        toast.success("Message submitted successfully");
+        toast.success(data?.message || "Message submitted successfully");
         setFormData({ name: "", email: "", message: "" });
       } else {
-        toast.error("❌ Error in submitContactMessage");
+        toast.error(data?.message || "Failed to submit message");
       }
     } catch (error) {
-      toast.error("Internal Server Error");
+      toast.error(error?.response?.data?.message || "Failed to submit message");
     }
   };
 

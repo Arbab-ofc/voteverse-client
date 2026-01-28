@@ -25,15 +25,15 @@ const ResendOtp = () => {
       );
 
       if (res.data.message) {
-        toast.success(res.data.message);
+        toast.success(res.data.message || "OTP sent successfully");
         setTimeout(() => {
           navigate("/verify-otp", { state: { email } });
         }, 2000);
       } else {
-        toast.error("Failed to resend OTP");
+        toast.error(res.data?.message || "Failed to resend OTP");
       }
     } catch (err) {
-      toast.error(err?.response?.data?.message || "Server error");
+      toast.error(err?.response?.data?.message || "Failed to resend OTP");
     } finally {
       setLoading(false);
     }
