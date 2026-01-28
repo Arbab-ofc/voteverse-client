@@ -90,9 +90,9 @@ const Login = () => {
         <div className="absolute right-24 bottom-16 hidden h-20 w-20 -rotate-12 rounded-xl border-2 border-black/80 bg-white/80 shadow-[6px_6px_0_#111827] lg:block" />
       </div>
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-        <div className="relative">
+        <div className="relative h-full">
           <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
-          <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
+          <div className="relative h-full rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
             <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
             <p className="text-xs uppercase tracking-[0.2em] text-[var(--vv-ember)]">Welcome back</p>
             <h1 className="font-display mt-3 text-3xl font-semibold sm:text-4xl">Sign in to VoteVerse</h1>
@@ -102,29 +102,29 @@ const Login = () => {
             <div className="mt-8 rounded-2xl border border-black/10 bg-[var(--vv-sand)] p-4 text-sm text-[var(--vv-ink-2)]/70">
               Tip: Keep your account secure and avoid sharing your credentials.
             </div>
-          <div className="mt-6 rounded-2xl border-2 border-black/80 bg-white px-5 py-4 shadow-[6px_6px_0_#111827]">
-            <p className="text-xs uppercase tracking-[0.3em] text-[var(--vv-ink-2)]/70">Why it matters</p>
-            <ul className="mt-3 space-y-2 text-sm text-[var(--vv-ink-2)]/80">
-              <li className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-ember)]" />
-                Verified sessions for confident voting.
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-sage)]" />
-                Real-time updates and instant results.
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-gold)]" />
-                Built for mobile, desktop, and kiosks.
-              </li>
-            </ul>
-          </div>
+            <div className="mt-6 rounded-2xl border-2 border-black/80 bg-white px-5 py-4 shadow-[6px_6px_0_#111827]">
+              <p className="text-xs uppercase tracking-[0.3em] text-[var(--vv-ink-2)]/70">Why it matters</p>
+              <ul className="mt-3 space-y-2 text-sm text-[var(--vv-ink-2)]/80">
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-ember)]" />
+                  Verified sessions for confident voting.
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-sage)]" />
+                  Real-time updates and instant results.
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-gold)]" />
+                  Built for mobile, desktop, and kiosks.
+                </li>
+              </ul>
+            </div>
         </div>
         </div>
 
-        <div className="relative">
+        <div className="relative h-full">
           <div className="absolute -left-3 top-3 hidden h-full w-full rounded-[24px] border-2 border-black/80 bg-[var(--vv-sand)] shadow-[10px_10px_0_#111827] sm:block" />
-          <div className="relative rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
+          <div className="relative h-full rounded-[24px] border-2 border-black/80 bg-white p-6 shadow-[10px_10px_0_#111827] transition duration-300 hover:-translate-y-1 hover:shadow-[14px_14px_0_#111827] sm:rounded-[28px] sm:p-8 sm:shadow-[14px_14px_0_#111827]">
             <div className="pointer-events-none absolute inset-0 rounded-[26px] border border-black/10" />
             <h2 className="font-display text-2xl font-semibold">Login</h2>
           <form onSubmit={handleSubmit} className="mt-6 space-y-4">
