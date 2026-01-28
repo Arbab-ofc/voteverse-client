@@ -126,6 +126,32 @@ const CreateElection = () => {
                 </div>
               </div>
             </div>
+
+            <div className="rounded-3xl border border-black/10 bg-white p-6 text-[var(--vv-ink)] shadow-[0_18px_40px_rgba(15,23,42,0.08)]">
+              <p className="text-xs uppercase tracking-[0.3em] text-[var(--vv-ink-2)]/70">Platform highlights</p>
+              <div className="mt-4 space-y-3 text-sm text-[var(--vv-ink-2)]/80">
+                <div className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-ember)]" />
+                  Real-time vote tracking with live updates.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-sage)]" />
+                  Encrypted ballots and audited results.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-gold)]" />
+                  Mobile-friendly voting flows for all devices.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-ember)]" />
+                  Export-ready results and transparent logs.
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-[var(--vv-sage)]" />
+                  Flexible access controls for private elections.
+                </div>
+              </div>
+            </div>
           </div>
 
           <form
