@@ -9,49 +9,42 @@ const testimonials = [
     role: 'Student',
     rating: 5,
     message: 'VoteVerse made my first voting experience seamless and secure!',
-    image: 'https://randomuser.me/api/v2/portraits/men/32.jpg',
   },
   {
     name: 'Neha Verma',
     role: 'Software Engineer',
     rating: 4,
     message: 'A revolutionary way to bring trust and transparency to elections.',
-    image: 'https://randomuser.me/api/v2/portraits/women/65.jpg',
   },
   {
     name: 'Rohan Singh',
     role: 'Teacher',
     rating: 5,
     message: 'Impressed by the security and simplicity of the platform.',
-    image: 'https://randomuser.me/api/v2/portraits/men/45.jpg',
   },
   {
     name: 'Sanya Kapoor',
     role: 'Designer',
     rating: 4,
     message: 'Clean UI and trustworthy system. Loved it!',
-    image: 'https://randomuser.me/api/v2/portraits/women/47.jpg',
   },
   {
     name: 'Vikram Malhotra',
     role: 'Entrepreneur',
     rating: 5,
     message: 'Finally a voting system I can trust!',
-    image: 'https://randomuser.me/api/v2/portraits/men/91.jpg',
   },
   {
     name: 'Priya Nair',
     role: 'Doctor',
     rating: 4,
     message: 'Very intuitive and secure. Great job!',
-    image: 'https://randomuser.me/api/v2/portraits/women/23.jpg',
   },
   {
     name: 'Kunal Joshi',
     role: 'Student',
     rating: 5,
     message: 'Voting made so simple and reliable. Highly recommend.',
-    image: 'https://randomuser.me/api/v2/portraits/men/12.jpg',
   },
 ];
 
@@ -117,11 +110,6 @@ const TestimonialsSlider = () => {
               >
                 <div className="flex flex-col gap-6 md:flex-row md:items-center">
                   <div className="flex items-center gap-4">
-                    <img
-                      src={testimonials[index].image}
-                      alt={testimonials[index].name}
-                      className="h-16 w-16 rounded-2xl object-cover"
-                    />
                     <div>
                       <div className="flex items-center gap-2">
                         <h3 className="font-display text-xl font-semibold">{testimonials[index].name}</h3>
@@ -173,12 +161,9 @@ const TestimonialsSlider = () => {
                 key={item.name}
                 className="rounded-2xl border border-black/10 bg-[var(--vv-sand)] px-4 py-3 text-sm"
               >
-                <div className="flex items-center gap-3">
-                  <img src={item.image} alt={item.name} className="h-10 w-10 rounded-xl object-cover" />
-                  <div>
-                    <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
-                    <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
-                  </div>
+                <div>
+                  <p className="font-semibold text-[var(--vv-ink)]">{item.name}</p>
+                  <p className="text-xs text-[var(--vv-ink-2)]/70">{item.role}</p>
                 </div>
                 <p className="mt-3 text-xs text-[var(--vv-ink-2)]/70">“{item.message}”</p>
               </div>
